@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="../../../../../layout/custom_preview.xml" value="0.2463768115942029" />
+        <entry key="app/src/main/res/drawable/background_dawn.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/background_morning.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/background_night.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/background_noon.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_broken_cloud.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_clear_sky_evening.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_clear_sky_morning.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_clear_sky_night.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_few_cloud_night.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_mist.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_shower_raint.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_snow.xml" value="0.272" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.25238800048828125" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.153125" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23052536231884058" />
+        <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.23052536231884058" />
+        <entry key="app/src/main/res/layout/item_days.xml" value="0.23052536231884058" />
+        <entry key="app/src/main/res/layout/item_times.xml" value="0.55" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
