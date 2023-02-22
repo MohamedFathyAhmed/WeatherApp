@@ -2,8 +2,10 @@ package com.eram.weather.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
@@ -13,23 +15,17 @@ import com.example.weatherapp.databinding.ItemTimesBinding
 import com.example.weatherapp.model.*
 
 import java.text.SimpleDateFormat
+import java.time.LocalTime
 import java.util.*
 import kotlin.collections.ArrayList
 
 class TimesAdapter(private val context: Context,var hourly: List<Current>) : RecyclerView.Adapter<TimesAdapter.ViewHolder>() {
     lateinit var binding: ItemTimesBinding
+    @RequiresApi(Build.VERSION_CODES.O)
+    val hoursFromNow = (1..26).map { LocalTime.now().plusHours(it.toLong()).hour }
+    @RequiresApi(Build.VERSION_CODES.O)
+    val hours = hoursFromNow.map { if (it == 0) "12 AM" else if (it < 12) "$it AM" else if (it == 12) "12 PM" else "${it - 12} PM" }
 
-    private val days = arrayListOf<String>()
-
-//    init {
-//        val sdf = SimpleDateFormat("EEEE", Locale.US)
-//        days.add("Tomorrow")
-//        for (i in 2..7) {
-//            val calendar: Calendar = GregorianCalendar()
-//            calendar.add(Calendar.DATE, i)
-//            days.add(sdf.format(calendar.time))
-//        }
-//    }
 
     inner class ViewHolder(var binding: ItemTimesBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -46,10 +42,11 @@ class TimesAdapter(private val context: Context,var hourly: List<Current>) : Rec
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var item= hourly[position]
-       // holder.binding.txtTime.text = item
+        holder.binding.txtTime.text = hours[position]
         holder.binding.txtDegree
             .text = "${item.temp}°"
 

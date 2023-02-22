@@ -22,17 +22,21 @@ import kotlin.collections.ArrayList
 class DaysAdapter(var daily: List<Daily>, val context: Context, private val itemClick: (weather: Weather) -> Unit) :
     RecyclerView.Adapter<DaysAdapter.ViewHolder>() {
     lateinit var binding: ItemDaysBinding
-    private val days = arrayListOf<String>()
+     var days = arrayOf<String>()
 
-//    init {
-//        val sdf = SimpleDateFormat("EEEE", Locale.US)
-//        days.add(context.getString(R.string.tomorrow))
-//        for (i in 2..6) {
-//            val calendar: Calendar = GregorianCalendar()
-//            calendar.add(Calendar.DATE, i)
-//            days.add(sdf.format(calendar.time))
-//        }
-//    }
+    init {
+ days = arrayOf(
+    // Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
+    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 1) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
+    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 2) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
+    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 3) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
+    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 4) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
+    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 5) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
+    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 6) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
+    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 7) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
+        Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 8) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()))
+
+    }
 
     inner class ViewHolder(var binding: ItemDaysBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -52,7 +56,7 @@ class DaysAdapter(var daily: List<Daily>, val context: Context, private val item
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = daily[position]
-     //  holder.binding.txtDay.text = days[position]
+      holder.binding.txtDay.text = days[position]
         holder.binding.txtDegreeRange.text = "${item.temp.min}°/${item.temp.max}°"
         val iconUrl= "https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png"
         Glide.with(context).load(iconUrl)
