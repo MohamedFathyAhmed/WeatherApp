@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 
 import android.content.Context
 import androidx.lifecycle.*
+import com.example.weatherapp.CONST
 import com.example.weatherapp.model.Current
 import com.example.weatherapp.model.Daily
 import com.example.weatherapp.model.Repositary
@@ -29,15 +30,13 @@ class HomeDataViewModel(val context: Context): ViewModel(){
         dailyList= _dailyList
         _welcome= MutableLiveData()
         welcome= _welcome
-        getCurrentWeatherApi()
-
 
     }
 
-
-    fun getCurrentWeatherApi() {
+   // "33.44","-94.04","minutely"metric
+    fun getCurrentWeatherApi(lat: String?, lon: String?, exclude: String?, appId: String= CONST.API_KEY, units: String="") {
         viewModelScope.launch {
-            var Welcome =   repo.getCurrentWeatherApi("33.44","-94.04","minutely")
+            var Welcome =   repo.getCurrentWeatherApi(lat,lon,exclude,appId,units)
             _current.value=Welcome.current
             current=_current
 
@@ -53,14 +52,4 @@ class HomeDataViewModel(val context: Context): ViewModel(){
 
 }
 
-class DataViewModelFactory(val context: Context): ViewModelProvider.Factory{
-    override fun <T : ViewModel> create(modelClass: Class<T>) : T{
-        return if (modelClass.isAssignableFrom(HomeDataViewModel::class.java))
-        {
-            HomeDataViewModel(context) as T
-        }
-        else{
-            throw java.lang.IllegalArgumentException("View modle class not found")
-        }
-    }
-}
+

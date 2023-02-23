@@ -19,7 +19,7 @@ object CONST {
     const val  lat= "lat"
     const val  lon= "lon"
     const val  appid= "appid"
-
+    const val units =" units"
     const val onecall = "onecall"
     const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
     const val UNITS = "metric"

@@ -22,8 +22,8 @@ class  Repositary private constructor(context: Context) {
         }
     }
 
-    suspend fun getCurrentWeatherApi( lat: String?, lon: String?,exclude: String?, appId: String= CONST.API_KEY): Welcome {
-        return API.retrofitService.getCurrentWeather(lat,lon,exclude,appId)
+    suspend fun getCurrentWeatherApi( lat: String?, lon: String?,exclude: String?, appId: String= CONST.API_KEY, units: String): Welcome {
+        return API.retrofitService.getCurrentWeather(lat,lon,exclude,appId,  units)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)

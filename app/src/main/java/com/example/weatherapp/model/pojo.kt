@@ -3,9 +3,6 @@ package com.example.weatherapp.model
 import com.example.weatherapp.R
 
 
-
-
-
 data class Welcome (
     val lat: Double,
     val lon: Double,

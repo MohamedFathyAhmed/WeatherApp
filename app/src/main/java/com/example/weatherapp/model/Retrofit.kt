@@ -18,8 +18,8 @@ interface SimpleService{
         @Query(CONST.lat) lat: String?,
         @Query(CONST.lon) lon: String?,
         @Query(CONST.exclude) exclude: String?="hourly",
-        @Query(CONST.appid) appId: String?
-
+        @Query(CONST.appid) appId: String?,
+        @Query(CONST.units) units: String?
     ):Welcome
 
     @GET(CONST.onecall)

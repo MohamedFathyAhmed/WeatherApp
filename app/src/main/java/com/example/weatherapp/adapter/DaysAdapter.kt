@@ -24,15 +24,6 @@ class DaysAdapter(var daily: List<Daily>, val context: Context, private val item
     lateinit var binding: ItemDaysBinding
     private val days = arrayListOf<String>()
 
-//    init {
-//        val sdf = SimpleDateFormat("EEEE", Locale.US)
-//        days.add(context.getString(R.string.tomorrow))
-//        for (i in 2..6) {
-//            val calendar: Calendar = GregorianCalendar()
-//            calendar.add(Calendar.DATE, i)
-//            days.add(sdf.format(calendar.time))
-//        }
-//    }
 
     inner class ViewHolder(var binding: ItemDaysBinding):RecyclerView.ViewHolder(binding.root)
 

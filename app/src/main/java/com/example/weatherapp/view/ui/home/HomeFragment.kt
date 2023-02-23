@@ -32,6 +32,7 @@ import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.getWeatherIcon
 import com.example.weatherapp.model.TimeState
 import com.example.weatherapp.model.Weather
+import com.example.weatherapp.model.Welcome
 import com.google.android.gms.location.*
 import android.content.Context.LOCATION_SERVICE as ContextLOCATION_SERVICE
 const val PERMISSION_ID = 44
@@ -43,6 +44,11 @@ class HomeFragment : Fragment() {
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     private val binding get() = _binding
 
+
+  /*============================================================================================================*/
+
+
+
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,52 +57,48 @@ class HomeFragment : Fragment() {
     ): View {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, DataViewModelFactory(requireContext())).get(HomeDataViewModel::class.java)
-
-        viewModel.welcome.observe(viewLifecycleOwner) {
-
-            binding.rvDays.adapter= DaysAdapter(it.daily,requireContext()){
-                //to do
-            }
-            binding.rvDays.apply {
-                adapter = binding.rvDays.adapter
-                layoutManager = LinearLayoutManager(requireContext())
-                    .apply { orientation = RecyclerView.VERTICAL }
-            }
-
-            binding.rvTimes.adapter= TimesAdapter(requireContext(),it.hourly)
-            binding.rvTimes.apply {
-                adapter = binding.rvTimes.adapter
-                layoutManager = LinearLayoutManager(requireContext())
-                    .apply { orientation = RecyclerView.HORIZONTAL }
-            }
-
-
-        var iconUrl= "https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"
-            Glide.with(requireContext()).load(iconUrl)
-                .apply(
-                    RequestOptions().override(400, 300).placeholder(R.drawable.ic_launcher_background)
-                        .error(R.drawable.ic_launcher_foreground)
-                ).into(  _binding.imgIcon)
-
-            _binding.txtDegree.text = "${it.current.temp}°"
-            if (it.daily[0].temp.min != it.daily[0].temp.max)
-                _binding.txtDegreeRange.text = "${it.daily[0].temp.min}°/${it.daily.get(0).temp.max}°"
-            else
-                _binding.txtDegreeRange.text = ""
-           // setWeatherIcon(it)
-           _binding.city.text= it.timezone
-            _binding.txtDegree.text= "${it.current.temp}°"
-            //get current
-            Log.i("it", it.toString())
-        }
-
-
+        viewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(HomeDataViewModel::class.java)
         getLastLocation()
-
         return binding.root
     }
 
+    /*============================================================================================================*/
+    private fun initUi(it:Welcome) {
+
+        binding.rvDays.apply {
+            adapter = binding.rvDays.adapter
+            layoutManager = LinearLayoutManager(requireContext())
+                .apply { orientation = RecyclerView.VERTICAL }
+        }
+
+        binding.rvTimes.adapter= TimesAdapter(requireContext(),it.hourly)
+        binding.rvTimes.apply {
+            adapter = binding.rvTimes.adapter
+            layoutManager = LinearLayoutManager(requireContext())
+                .apply { orientation = RecyclerView.HORIZONTAL }
+        }
+
+
+        var iconUrl= "https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"
+        Glide.with(requireContext()).load(iconUrl)
+            .apply(
+                RequestOptions().override(400, 300).placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_foreground)
+            ).into(  _binding.imgIcon)
+
+        _binding.txtDegree.text = "${it.current.temp}°"
+        if (it.daily[0].temp.min != it.daily[0].temp.max)
+            _binding.txtDegreeRange.text = "${it.daily[0].temp.min}°/${it.daily.get(0).temp.max}°"
+        else
+            _binding.txtDegreeRange.text = ""
+        // setWeatherIcon(it)
+        _binding.city.text= it.timezone
+        _binding.txtDegree.text= "${it.current.temp}°"
+
+    }
+
+
+    /*============================================================================================================*/
     private fun setBackgroundContainer(timeState: TimeState?) {
      _binding.container.setBackgroundResource(
             when (timeState) {
@@ -115,10 +117,11 @@ class HomeFragment : Fragment() {
             }
         )
     }
-
+    /*============================================================================================================*/
     private fun setWeatherIcon(weather: Weather) {
     //   _binding.imgIcon.setImageResource(getWeatherIcon(weather.state, currentTimeState!!))
     }
+    /*========================================GPS====================================================================*/
     private fun checkPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(
             requireContext(),
@@ -141,6 +144,7 @@ class HomeFragment : Fragment() {
 
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<out String>, grantResults: IntArray
     ) {
@@ -185,6 +189,7 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
+
         val mLocationRequest = LocationRequest()
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         mLocationRequest.setInterval(0)
@@ -201,7 +206,17 @@ class HomeFragment : Fragment() {
             val mLastLocation: Location = locationResult.lastLocation
             latitude  = mLastLocation. latitude
             longitude = mLastLocation. longitude
-  
+            Log.i("test","hello")
+            viewModel.getCurrentWeatherApi(latitude.toString(),longitude.toString(),"minutely")
+            viewModel.welcome.observe(viewLifecycleOwner) {
+                binding.rvDays.adapter= DaysAdapter(it.daily,requireContext()){}
+                initUi(it)
+                println(it)
+            }
+
+            mFusedLocationClient.removeLocationUpdates(this)
         }
+
     }
+    /*============================================================================================================*/
 }

@@ -21,19 +21,8 @@ class TimesAdapter(private val context: Context,var hourly: List<Current>) : Rec
 
     private val days = arrayListOf<String>()
 
-//    init {
-//        val sdf = SimpleDateFormat("EEEE", Locale.US)
-//        days.add("Tomorrow")
-//        for (i in 2..7) {
-//            val calendar: Calendar = GregorianCalendar()
-//            calendar.add(Calendar.DATE, i)
-//            days.add(sdf.format(calendar.time))
-//        }
-//    }
 
     inner class ViewHolder(var binding: ItemTimesBinding):RecyclerView.ViewHolder(binding.root)
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater: LayoutInflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
