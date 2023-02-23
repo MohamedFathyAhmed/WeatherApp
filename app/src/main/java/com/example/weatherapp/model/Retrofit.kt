@@ -30,14 +30,6 @@ interface SimpleService{
         @Query("appid") appId: String
     ): Welcome
 
-    @GET(CONST.onecall)
-    fun getCurrentWeatherByLocation(
-        @Query("lat") latitude: Double,
-        @Query("lon") longitude: Double,
-        @Query("units") units: String = "metric",
-        @Query("lang") lang: String = "en",
-        @Query("appid") appId: String,
-    ): Welcome
 
 }
 object RetrofitHelper {

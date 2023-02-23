@@ -27,15 +27,14 @@ class DaysAdapter(var daily: List<Daily>, val context: Context, private val item
 
     init {
  days = arrayOf(
-    // Calendar.getInstance().getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
-    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 1) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
+   Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 1) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
     Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 2) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
     Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 3) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
     Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 4) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
     Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 5) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
     Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 6) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
     Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 7) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
-        Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 8) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()))
+     Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 8) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()))
 
     }
 

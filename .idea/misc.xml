@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.2463768115942029" />
+        <entry key="app/src/main/res/drawable-v24/gradient.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable-v24/ic_close_black_24dp.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/background_dawn.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/background_morning.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/background_night.xml" value="0.272" />
@@ -12,15 +14,26 @@
         <entry key="app/src/main/res/drawable/ic_clear_sky_evening.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_clear_sky_morning.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_clear_sky_night.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_cloudy.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_few_cloud_night.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_humidity.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_mist.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_pressure.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_shower_raint.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_snow.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_sunrise.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_visibility.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_visibility_newdp.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_weather.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_windspeed.xml" value="0.272" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25238800048828125" />
-        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.153125" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.23052536231884058" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2246376811594203" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.37899475097656254" />
+        <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.2246376811594203" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.23052536231884058" />
         <entry key="app/src/main/res/layout/item_days.xml" value="0.23052536231884058" />
+        <entry key="app/src/main/res/layout/item_des.xml" value="0.2246376811594203" />
         <entry key="app/src/main/res/layout/item_times.xml" value="0.55" />
       </map>
     </option>

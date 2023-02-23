@@ -119,7 +119,6 @@
         android:paddingTop="8dp"
         android:paddingEnd="8dp"
         android:paddingBottom="8dp"
-        android:text="TextView"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@+id/glLeft"

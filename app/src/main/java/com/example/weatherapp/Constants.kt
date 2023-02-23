@@ -1,9 +1,16 @@
 package com.example.weatherapp
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import com.example.weatherapp.model.TimeState
 import com.example.weatherapp.model.WeatherState
 import com.example.weatherapp.model.WeatherStateMap
 import retrofit2.http.Query
+import java.text.SimpleDateFormat
+import java.util.*
 
 fun getWeatherIcon(state: WeatherState, currentTimeState: TimeState): Int {
     return WeatherStateMap.icon[Pair(
@@ -99,4 +106,8 @@ object CONST {
     const val LANGUAGE = "language"
     const val DARK_THEME = "dark-theme"
     const val FIVE_DAY_WEATHER_ITEM = "five-day-weather-item"
+
+
+
+
 }

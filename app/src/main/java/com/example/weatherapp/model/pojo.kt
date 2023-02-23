@@ -13,6 +13,12 @@ data class Welcome (
     val daily: List<Daily>
 )
 
+data class Condition(
+    var img: Int,
+    var des: String,
+    var name: String
+)
+
 data class Current (
     val dt: Long,
     val sunrise: Long? = null,
@@ -25,9 +31,9 @@ data class Current (
     val uvi: Double,
     val clouds: Long,
     val visibility: Long,
-    val windSpeed: Double,
-    val windDeg: Long,
-    val windGust: Double,
+    val wind_speed: Double,
+    val wind_Deg: Long,
+    val wind_Gust: Double,
     val weather: List<Weather>,
     val pop: Double? = null,
     val rain: Rain? = null
@@ -43,6 +49,8 @@ data class Weather (
     val description: String,
     val icon: String
 )
+
+
 
 enum class Main {
     Clear,

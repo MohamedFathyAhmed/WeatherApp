@@ -5,6 +5,32 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="tomorrow">Tomorrow</string>
+    <string name="app_settings">settings</string>
+    <string name="language">language</string>
+    <string name="english">english</string>
+    <string name="arabic">arabic</string>
+    <string name="temperature">temperature</string>
+    <string name="location">location</string>
+    <string name="gps">gps</string>
+    <string name="map">map</string>
+    <string name="kelvin">kelvin</string>
+    <string name="celsius">celsius</string>
+    <string name="fehrenheit">fehrenheit</string>
+    <string name="wind_speed">wind_speed</string>
+    <string name="meter_sec">meter_sec</string>
+    <string name="miles_hour">miles_hour</string>
+    <string name="save">save</string>
+    save
+    <string name="Pressure">Pressure</string>
+    <string name="Humidity">Humidity</string>
+    <string name="Sun_Rise">Sun_Rise</string>
+    <string name="Visibility">Visibility</string>
+    <string name="WindSpeed">WindSpeed</string>
+    <string name="Cloud">Cloud</string>
+    <string name="Pascal">Pascal</string>
+    <string name="MiliPerHour">mm/h</string>
+
+
 
 
 

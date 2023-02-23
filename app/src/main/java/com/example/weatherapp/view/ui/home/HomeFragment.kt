@@ -27,14 +27,13 @@ import com.bumptech.glide.request.RequestOptions
 import com.eram.weather.adapter.DaysAdapter
 import com.eram.weather.adapter.TimesAdapter
 import com.example.weatherapp.R
-
+import com.example.weatherapp.convertToTime
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.getWeatherIcon
-import com.example.weatherapp.model.TimeState
-import com.example.weatherapp.model.Weather
-import com.example.weatherapp.model.Welcome
+import com.example.weatherapp.model.*
 import com.google.android.gms.location.*
 import android.content.Context.LOCATION_SERVICE as ContextLOCATION_SERVICE
+
 const val PERMISSION_ID = 44
 class HomeFragment : Fragment() {
     lateinit var viewModel: HomeDataViewModel
@@ -64,7 +63,7 @@ class HomeFragment : Fragment() {
 
     /*============================================================================================================*/
     private fun initUi(it:Welcome) {
-
+        binding.rvDays.adapter= DaysAdapter(it.daily,requireContext()){}
         binding.rvDays.apply {
             adapter = binding.rvDays.adapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -77,6 +76,7 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
                 .apply { orientation = RecyclerView.HORIZONTAL }
         }
+
 
 
         var iconUrl= "https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"
@@ -209,14 +209,61 @@ class HomeFragment : Fragment() {
             Log.i("test","hello")
             viewModel.getCurrentWeatherApi(latitude.toString(),longitude.toString(),"minutely")
             viewModel.welcome.observe(viewLifecycleOwner) {
-                binding.rvDays.adapter= DaysAdapter(it.daily,requireContext()){}
-                initUi(it)
-                println(it)
-            }
 
+                initUi(it)
+
+            }
             mFusedLocationClient.removeLocationUpdates(this)
         }
 
     }
+
+
+    /*============================================================================================================*/
+   fun init_rv (current:Current)  = listOf<Condition>(
+            Condition(
+                R.drawable.ic_pressure,
+                ("${current.pressure} ${getString(R.string.Pascal)}"),
+                getString(
+                    R.string.Pressure
+                )
+            ),
+            Condition(
+                R.drawable.ic_humidity,
+                ("${current.humidity} %") as String,
+                getString(
+                    R.string.Humidity
+                )
+            ),
+            Condition(
+                R.drawable.ic_cloudy,
+                ("${current.clouds} "),
+                getString(
+                    R.string.Cloud
+                )
+            ),
+            Condition(
+                R.drawable.ic_sunrise,
+                convertToTime(current.sunrise!!.toLong(), requireContext()),
+                getString(
+                    R.string.Sun_Rise
+                )
+            ),
+            Condition(
+                R.drawable.ic_visibility,
+                ("${current.visibility}"),
+                getString(
+                    R.string.Visibility
+                )
+            ),
+            Condition(
+                R.drawable.ic_windspeed,
+                ("${current.wind_speed} ${R.string.MiliPerHour} "),
+                getString(
+                    R.string.WindSpeed
+                )
+            )
+
+        )
     /*============================================================================================================*/
 }

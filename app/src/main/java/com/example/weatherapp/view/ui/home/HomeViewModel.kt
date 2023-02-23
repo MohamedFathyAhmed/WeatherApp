@@ -18,10 +18,10 @@ class HomeDataViewModel(val context: Context): ViewModel(){
     private var repo: Repositary
     private  var _current: MutableLiveData<Current>
     var current: LiveData<Current>
-    private lateinit var _dailyList: MutableLiveData<List<Daily>>
-    lateinit var dailyList: LiveData<List<Daily>>
-    private lateinit var _welcome: MutableLiveData<Welcome>
-    lateinit var welcome: LiveData<Welcome>
+    private  var _dailyList: MutableLiveData<List<Daily>>
+     var dailyList: LiveData<List<Daily>>
+    private  var _welcome: MutableLiveData<Welcome>
+     var welcome: LiveData<Welcome>
     init {
         repo=Repositary.getInstance(context)
         _current= MutableLiveData()
@@ -33,8 +33,7 @@ class HomeDataViewModel(val context: Context): ViewModel(){
 
     }
 
-   // "33.44","-94.04","minutely"metric
-    fun getCurrentWeatherApi(lat: String?, lon: String?, exclude: String?, appId: String= CONST.API_KEY, units: String="") {
+    fun getCurrentWeatherApi(lat: String?, lon: String?, exclude: String?, appId: String= CONST.API_KEY, units: String="metric") {
         viewModelScope.launch {
             var Welcome =   repo.getCurrentWeatherApi(lat,lon,exclude,appId,units)
             _current.value=Welcome.current
