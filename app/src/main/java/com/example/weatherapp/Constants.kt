@@ -26,88 +26,32 @@ object CONST {
     const val  lat= "lat"
     const val  lon= "lon"
     const val  appid= "appid"
-    const val units =" units"
+
     const val onecall = "onecall"
+
     const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
     const val UNITS = "metric"
-    val DAYS_OF_WEEK = arrayOf(
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-    )
-    val MONTH_NAME = arrayOf(
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December"
-    )
-    val DAYS_OF_WEEK_PERSIAN = arrayOf(
-        "یکشنبه",
-        "دوشنبه",
-        "سه‌شنبه",
-        "چهارشنبه",
-        "پنج‌شنبه",
-        "جمعه",
-        "شنبه"
-    )
-    val MONTH_NAME_PERSIAN = arrayOf(
-        "فروردین",
-        "اردیبهشت",
-        "خرداد",
-        "تیر",
-        "مرداد",
-        "شهریور",
-        "مهر",
-        "آبان",
-        "آذر",
-        "دی",
-        "بهمن",
-        "اسفند"
-    )
-    val WEATHER_STATUS = arrayOf(
-        "Thunderstorm",
-        "Drizzle",
-        "Rain",
-        "Snow",
-        "Atmosphere",
-        "Clear",
-        "Few Clouds",
-        "Broken Clouds",
-        "Cloud"
-    )
-    val WEATHER_STATUS_PERSIAN = arrayOf(
-        "رعد و برق",
-        "نمنم باران",
-        "باران",
-        "برف",
-        "جو ناپایدار",
-        "صاف",
-        "کمی ابری",
-        "ابرهای پراکنده",
-        "ابری"
-    )
-    const val CITY_INFO = "city-info"
-    const val TIME_TO_PASS = (6 * 600000).toLong()
-    const val LAST_STORED_CURRENT = "last-stored-current"
-    const val LAST_STORED_MULTIPLE_DAYS = "last-stored-multiple-days"
    const val API_KEY = "bec88e8dd2446515300a492c3862a10e"
-    const val LANGUAGE = "language"
-    const val DARK_THEME = "dark-theme"
-    const val FIVE_DAY_WEATHER_ITEM = "five-day-weather-item"
 
 
+//get SharedPreferences
+//    val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+//    sharedPreference.edit().putString("username","Anupam").commit()
+//set SharedPreferences
+//val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+//   sharedPreference.getString("username","defaultName")
+
+    const val LOCATION = "LOCATION"
+    enum class Enum_LOCATION(){map,gps}
+    const val GpsLong = "GpsLong"
+    const val GpsLat = "GpsLat"
+    const val MapLong = "MapLong"
+    const val MapLat = "MapLat"
+    const val units =" units"
+    enum class Enum_units(){standard,metric,imperial}
+    const val lang ="lang"
+    enum class Enum_language(){ar,en}
 
 
 }
+

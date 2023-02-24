@@ -1,14 +1,18 @@
 package com.example.weatherapp.view.ui
 
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentMapsBinding
+import com.example.weatherapp.view.HomeActivity
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -75,11 +79,19 @@ class MapsFragment : Fragment() {
     }
 
     private fun handleSaveClickable(lat: Float, lon: Float) {
+if(false){
+    //come from fav
 
-        Log.i("test", "$lat + $lon: ")
+}else{
 
+        val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+    sharedPreference.edit().putFloat(CONST.MapLat,lat).putFloat(CONST.MapLong,lon).commit()
+    startActivity(Intent(requireContext(), HomeActivity::class.java))
+
+}
         changeSaveCondition(true)
     }
+
 }
 
 

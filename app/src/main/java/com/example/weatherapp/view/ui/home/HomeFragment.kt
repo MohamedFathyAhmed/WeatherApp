@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.eram.weather.adapter.DaysAdapter
 import com.eram.weather.adapter.TimesAdapter
+import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.convertToTime
 import com.example.weatherapp.databinding.FragmentHomeBinding
@@ -36,6 +37,7 @@ import android.content.Context.LOCATION_SERVICE as ContextLOCATION_SERVICE
 
 const val PERMISSION_ID = 44
 class HomeFragment : Fragment() {
+
     lateinit var viewModel: HomeDataViewModel
     var latitude: Double =0.0
     var longitude: Double =0.0
@@ -54,10 +56,24 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(HomeDataViewModel::class.java)
-        getLastLocation()
+
+       var location =  sharedPreference.getString(CONST.LOCATION,"gps")
+        if(location.equals("gps")){
+          getLastLocation()
+       }else{
+           //map
+            viewModel.getCurrentWeatherApi(sharedPreference.getFloat(CONST.MapLat,0f).toString(),sharedPreference.getFloat(CONST.MapLong,0f).toString())
+          viewModel.welcome.observe(viewLifecycleOwner) {
+              //needtodelete
+              println(it)
+                initUi(it)
+            }
+        }
+
         return binding.root
     }
 
@@ -76,8 +92,6 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
                 .apply { orientation = RecyclerView.HORIZONTAL }
         }
-
-
 
         var iconUrl= "https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"
         Glide.with(requireContext()).load(iconUrl)
@@ -207,11 +221,11 @@ class HomeFragment : Fragment() {
             latitude  = mLastLocation. latitude
             longitude = mLastLocation. longitude
             Log.i("test","hello")
-            viewModel.getCurrentWeatherApi(latitude.toString(),longitude.toString(),"minutely")
+            viewModel.getCurrentWeatherApi(latitude.toString(),longitude.toString())
             viewModel.welcome.observe(viewLifecycleOwner) {
-
+                //needtodelete
+                println(it)
                 initUi(it)
-
             }
             mFusedLocationClient.removeLocationUpdates(this)
         }

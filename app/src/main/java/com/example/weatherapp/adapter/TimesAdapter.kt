@@ -49,7 +49,6 @@ class TimesAdapter(private val context: Context,var hourly: List<Current>) : Rec
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var item= hourly[position]
-        println(item)
         holder.binding.hourWindSpeed.text = "${item.wind_speed} km/h"
         holder.binding.hourName.text = hours[position]
         holder.binding.hourTemp.text = "${item.temp}°"

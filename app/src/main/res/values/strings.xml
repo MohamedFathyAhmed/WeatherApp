@@ -13,14 +13,11 @@
     <string name="location">location</string>
     <string name="gps">gps</string>
     <string name="map">map</string>
-    <string name="kelvin">kelvin</string>
-    <string name="celsius">celsius</string>
-    <string name="fehrenheit">fehrenheit</string>
     <string name="wind_speed">wind_speed</string>
     <string name="meter_sec">meter_sec</string>
     <string name="miles_hour">miles_hour</string>
     <string name="save">save</string>
-    save
+    <string name="choose_location">How do you want to choose location</string>
     <string name="Pressure">Pressure</string>
     <string name="Humidity">Humidity</string>
     <string name="Sun_Rise">Sun_Rise</string>
@@ -29,6 +26,10 @@
     <string name="Cloud">Cloud</string>
     <string name="Pascal">Pascal</string>
     <string name="MiliPerHour">mm/h</string>
+
+    <string name="celsius">Temperature is Celsius, Speed is m/s </string>
+    <string name="kelvin">Temperature is Kelvin, Speed is m/s</string>
+    <string name="fehrenheit">Temperature is Fahrenheit, Speed is mm/h</string>
 
 
 

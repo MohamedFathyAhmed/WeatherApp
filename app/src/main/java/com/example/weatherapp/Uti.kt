@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -59,8 +60,11 @@ fun isConnected(context: Context): Boolean {
             return true
         }
     }
+
     return false
+
 }
+
 
 
 

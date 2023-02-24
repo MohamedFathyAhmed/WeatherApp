@@ -1,5 +1,6 @@
 package com.example.weatherapp.model
 
+import android.content.Context
 import com.example.weatherapp.CONST
 import com.example.weatherapp.model.RetrofitHelper.retrofit
 import kotlinx.coroutines.flow.Flow
@@ -12,14 +13,14 @@ import retrofit2.http.Query
 const val BASE_URL= CONST.BASE_URL
 interface SimpleService{
 
-
     @GET(CONST.onecall)
     suspend fun getCurrentWeather(
         @Query(CONST.lat) lat: String?,
         @Query(CONST.lon) lon: String?,
-        @Query(CONST.exclude) exclude: String?="hourly",
-        @Query(CONST.appid) appId: String?,
-        @Query(CONST.units) units: String?
+        @Query(CONST.units) units: String?,
+        @Query(CONST.lang) lang: String?,
+        @Query(CONST.exclude) exclude: String="minutely",
+        @Query(CONST.appid) appId: String=CONST.API_KEY,
     ):Welcome
 
     @GET(CONST.onecall)

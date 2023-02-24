@@ -33,9 +33,9 @@ class HomeDataViewModel(val context: Context): ViewModel(){
 
     }
 
-    fun getCurrentWeatherApi(lat: String?, lon: String?, exclude: String?, appId: String= CONST.API_KEY, units: String="metric") {
+    fun getCurrentWeatherApi(lat: String?, lon: String?) {
         viewModelScope.launch {
-            var Welcome =   repo.getCurrentWeatherApi(lat,lon,exclude,appId,units)
+            var Welcome =   repo.getCurrentWeatherApi(lat,lon)
             _current.value=Welcome.current
             current=_current
 

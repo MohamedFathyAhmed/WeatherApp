@@ -6,10 +6,9 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.weatherapp.CONST
-import retrofit2.http.Query
 
 
-class  Repositary private constructor(context: Context) {
+class  Repositary private constructor(var context: Context) {
 
     companion object{
         @Volatile
@@ -22,8 +21,11 @@ class  Repositary private constructor(context: Context) {
         }
     }
 
-    suspend fun getCurrentWeatherApi( lat: String?, lon: String?,exclude: String?, appId: String= CONST.API_KEY, units: String): Welcome {
-        return API.retrofitService.getCurrentWeather(lat,lon,exclude,appId,  units)
+    suspend fun getCurrentWeatherApi( lat: String?, lon: String?): Welcome {
+        val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toString())
+        val lang =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())
+        return API.retrofitService.getCurrentWeather(lat,lon,units,lang)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
