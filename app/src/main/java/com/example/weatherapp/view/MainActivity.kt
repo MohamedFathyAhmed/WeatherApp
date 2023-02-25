@@ -29,32 +29,34 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-
-       binding.locationRadioGroup.setOnCheckedChangeListener { group, checkedId ->
-            locationRadioButton = findViewById<View>(checkedId) as RadioButton
-            Toast.makeText(this, locationRadioButton.text, Toast.LENGTH_SHORT).show()
+startActivity(Intent(this,HomeActivity::class.java))
 
 
-            when (locationRadioButton.text.toString()) {
-                getString(R.string.map) -> {
+//       binding.locationRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+//            locationRadioButton = findViewById<View>(checkedId) as RadioButton
+//            Toast.makeText(this, locationRadioButton.text, Toast.LENGTH_SHORT).show()
+//
 
-                    val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-                        sharedPreference.edit().putString(CONST.LOCATION,
-                            CONST.Enum_LOCATION.map.toString()
-                        ).commit()
-
-                    binding.cardView.visibility= GONE
-                    binding.fragmentContainerMap.visibility=VISIBLE
-                }
-                getString(R.string.gps) -> {
-                    val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-                    sharedPreference.edit().putString(CONST.LOCATION, CONST.Enum_LOCATION.gps.toString()
-                    ).commit()
-                    startActivity(Intent(this, HomeActivity::class.java))
-                }
-            }
-
-        }
+//            when (locationRadioButton.text.toString()) {
+//                getString(R.string.map) -> {
+//
+//                    val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+//                        sharedPreference.edit().putString(CONST.LOCATION,
+//                            CONST.Enum_LOCATION.map.toString()
+//                        ).commit()
+//
+//                    binding.cardView.visibility= GONE
+//                    binding.fragmentContainerMap.visibility=VISIBLE
+//                }
+//                getString(R.string.gps) -> {
+//                    val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+//                    sharedPreference.edit().putString(CONST.LOCATION, CONST.Enum_LOCATION.gps.toString()
+//                    ).commit()
+//                    startActivity(Intent(this, HomeActivity::class.java))
+//                }
+//            }
+//
+    //  }
 
 
 

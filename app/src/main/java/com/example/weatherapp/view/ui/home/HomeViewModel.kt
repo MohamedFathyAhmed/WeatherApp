@@ -16,32 +16,44 @@ import kotlinx.coroutines.launch
 
 class HomeDataViewModel(val context: Context): ViewModel(){
     private var repo: Repositary
+
     private  var _current: MutableLiveData<Current>
-    var current: LiveData<Current>
-    private  var _dailyList: MutableLiveData<List<Daily>>
-     var dailyList: LiveData<List<Daily>>
+     var current: LiveData<Current>
     private  var _welcome: MutableLiveData<Welcome>
      var welcome: LiveData<Welcome>
+
+
     init {
         repo=Repositary.getInstance(context)
+
+
         _current= MutableLiveData()
         current= _current
-        _dailyList= MutableLiveData()
-        dailyList= _dailyList
+
         _welcome= MutableLiveData()
         welcome= _welcome
 
     }
 
+    fun getCurrentWeatherDB() {
+        viewModelScope.launch {
+            var Root =   repo.getCurrentWeatherDataBase()
+            _current.value=Root
+            current=_current
+
+        }
+    }
+
+    fun insertCurrentWeatherDB(current: Current) {
+        viewModelScope.launch {
+            repo.insertCurrentWeatherDataBase(current)
+        }
+    }
+
+
     fun getCurrentWeatherApi(lat: String?, lon: String?) {
         viewModelScope.launch {
             var Welcome =   repo.getCurrentWeatherApi(lat,lon)
-            _current.value=Welcome.current
-            current=_current
-
-            _dailyList.value=Welcome.daily
-            dailyList=_dailyList
-
            _welcome.value=Welcome
             welcome=_welcome
 

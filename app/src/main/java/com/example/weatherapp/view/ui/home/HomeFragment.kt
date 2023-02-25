@@ -30,8 +30,11 @@ import com.eram.weather.adapter.TimesAdapter
 import com.example.weatherapp.*
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.ConditionAdapter
+import com.example.weatherapp.databinding.FragmentFavBinding
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.model.*
+import com.example.weatherapp.view.ui.fav.FavDataViewModel
+import com.example.weatherapp.view.ui.fav.FavViewModelFactory
 import com.google.android.gms.location.*
 import android.content.Context.LOCATION_SERVICE as ContextLOCATION_SERVICE
 
@@ -63,16 +66,21 @@ class HomeFragment : Fragment() {
 
        var location =  sharedPreference.getString(CONST.LOCATION,"gps")
         if(location.equals("gps")){
+            //gps
           getLastLocation()
        }else{
            //map
+
+
             viewModel.getCurrentWeatherApi(sharedPreference.getFloat(CONST.MapLat,0f).toString(),sharedPreference.getFloat(CONST.MapLong,0f).toString())
           viewModel.welcome.observe(viewLifecycleOwner) {
               //needtodelete
+
               println(it)
+
                 initUi(it)
             }
-        }
+  }
 
         return binding.root
     }
@@ -101,7 +109,13 @@ class HomeFragment : Fragment() {
                 .apply { orientation = RecyclerView.VERTICAL }
         }
 
-        _binding.imgIcon.setImageResource(getIconImage(it.current.weather[0].icon))
+ //       var iconUrl= "https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"
+//        Glide.with(requireContext()).load(iconUrl)
+//            .apply(
+//                RequestOptions().override(400, 300).placeholder(R.drawable.ic_launcher_background)
+//                    .error(R.drawable.ic_launcher_foreground)
+//            ).into(  _binding.imgIcon)
+       _binding.imgIcon.setImageResource(getIconImage(it.current.weather[0].icon))
 
         _binding.txtDegree.text = "${it.current.temp}°"
         if (it.daily[0].temp.min != it.daily[0].temp.max)
@@ -208,9 +222,8 @@ class HomeFragment : Fragment() {
             Log.i("test","hello")
             viewModel.getCurrentWeatherApi(latitude.toString(),longitude.toString())
             viewModel.welcome.observe(viewLifecycleOwner) {
-                //needtodelete
-                //  println(it)
                 initUi(it)
+
             }
             mFusedLocationClient.removeLocationUpdates(this)
         }

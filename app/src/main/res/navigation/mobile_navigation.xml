@@ -15,11 +15,32 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.weatherapp.view.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_navigation_dashboard_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.weatherapp.view.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/navigation_fav"
+        android:name="com.example.weatherapp.view.ui.fav.FavFragment"
+        android:label="FavFragment" >
+        <action
+            android:id="@+id/action_navigation_fav_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.weatherapp.view.ui.MapsFragment"
+        android:label="MapsFragment" >
+        <argument
+            android:name="comeFromHome"
+            app:argType="boolean"
+            android:defaultValue="false" />
+    </fragment>
 </navigation>

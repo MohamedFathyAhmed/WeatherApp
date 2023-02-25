@@ -7,9 +7,12 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.weatherapp.CONST
 
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
 
 class  Repositary private constructor(var context: Context) {
-
+    var room: WeatherDataBase
     companion object{
         @Volatile
         private var INSTANCE: Repositary? = null
@@ -21,6 +24,28 @@ class  Repositary private constructor(var context: Context) {
         }
     }
 
+    /*============================================================================================================*/
+
+    init {
+        room= WeatherDataBase.getInstance(context)
+    }
+/*============================================================================================================*/
+
+    suspend fun getCurrentWeatherDataBase():Current{
+        return room.getWeatherDao().getCurrentWeather()
+    }
+    suspend fun insertCurrentWeatherDataBase(current: Current):Long{
+        return room.getWeatherDao().insertCurrentWeather(current)
+    }
+
+
+    suspend fun getFavtsWeatherDataBase(): List<Welcome> {
+        return room.getFavWeatherDao().getFavsWeather()
+    }
+    suspend fun insertFavWeatherDataBase(welcome: Welcome):Long{
+        return room.getFavWeatherDao().insertFavWeather(welcome)
+    }
+    /*============================================================================================================*/
     suspend fun getCurrentWeatherApi( lat: String?, lon: String?): Welcome {
         val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
 val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toString())!!
@@ -28,24 +53,6 @@ val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toSt
         return API.retrofitService.getCurrentWeather(lat,lon,units,lang)
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        if (connectivityManager != null) {
-            val capabilities =
-                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-            if (capabilities != null) {
-                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
-                    return true
-                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
-                    return true
-                }
-            }
-        }
-        return false
-    }
+/*============================================================================================================*/
 
 }

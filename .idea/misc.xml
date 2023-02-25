@@ -43,12 +43,15 @@
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.30340557275541796" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2246376811594203" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_fav.xml" value="0.2246376811594203" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.26534296028880866" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.2246376811594203" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.23052536231884058" />
         <entry key="app/src/main/res/layout/item_days.xml" value="0.3126191733539968" />
         <entry key="app/src/main/res/layout/item_des.xml" value="0.2246376811594203" />
+        <entry key="app/src/main/res/layout/item_fav.xml" value="0.49512260547582654" />
         <entry key="app/src/main/res/layout/item_times.xml" value="0.55" />
+        <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.328125" />
       </map>
     </option>
   </component>

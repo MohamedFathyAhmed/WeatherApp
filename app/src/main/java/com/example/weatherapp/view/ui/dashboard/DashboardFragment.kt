@@ -10,10 +10,12 @@
     import android.widget.RadioButton
     import androidx.fragment.app.Fragment
     import androidx.lifecycle.ViewModelProvider
+    import androidx.navigation.Navigation
     import com.example.weatherapp.CONST
     import com.example.weatherapp.R
     import com.example.weatherapp.databinding.FragmentDashboardBinding
     import com.example.weatherapp.view.HomeActivity
+    import com.example.weatherapp.view.ui.fav.FavFragmentDirections
     import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -35,8 +37,7 @@
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View {
-            val SettingFragmentViewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
-            _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+           _binding = FragmentDashboardBinding.inflate(inflater, container, false)
             initUI()
             return _binding.root
         }
@@ -77,7 +78,8 @@
 
                     getString(R.string.map) -> {
                                sharedPreference.edit().putString(CONST.LOCATION,CONST.Enum_LOCATION.map.toString()).commit()
-
+                        val action = DashboardFragmentDirections.actionNavigationDashboardToMapsFragment(true)
+                        Navigation.findNavController(requireView()).navigate(action)
 
                     }
                     getString(R.string.gps)->{

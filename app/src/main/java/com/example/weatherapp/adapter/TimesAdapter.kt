@@ -57,7 +57,7 @@ class TimesAdapter(private val context: Context,var hourly: List<Current>) : Rec
 
         }
         holder.binding.hourName.text = convertToTime(item.dt, language)
-        binding.hourWeatherIcon.setImageResource(getIconImage(item.weather[0].icon))
+        holder.binding.hourWeatherIcon.setImageResource(getIconImage(item.weather[0].icon))
 
     }
 

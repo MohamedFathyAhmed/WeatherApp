@@ -7,14 +7,15 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.provider.Settings.Secure.getString
-import com.example.weatherapp.model.TimeState
+import com.example.weatherapp.model.Current
+
+import com.example.weatherapp.model.Weather
+
 import com.example.weatherapp.model.Welcome
 import java.text.SimpleDateFormat
 import java.util.*
 
-object  Uti {
 
-}
 
 fun setBackgroundContainer(timeState: String) :Int{
     val iconValue: Int

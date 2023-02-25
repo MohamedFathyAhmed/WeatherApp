@@ -30,9 +30,8 @@
     <string name="celsius">Temperature is Celsius, Speed is m/s </string>
     <string name="kelvin">Temperature is Kelvin, Speed is m/s</string>
     <string name="fehrenheit">Temperature is Fahrenheit, Speed is mm/h</string>
-
-
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

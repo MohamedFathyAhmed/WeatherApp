@@ -1,28 +1,34 @@
 package com.example.weatherapp.model
 //:java.io.Serializable
-import com.example.weatherapp.R
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import com.google.gson.Gson
 
-
+@Entity
 data class Welcome (
+
     val lat: Double,
     val lon: Double,
+    @PrimaryKey
     val timezone: String,
-    val timezoneOffset: Long,
+    val timezone_offset: Long,
     val current: Current,
     val hourly: List<Current>,
     val daily: List<Daily>
-)
+):java.io.Serializable
 
 data class Condition(
     var img: Int,
     var des: String,
     var name: String
 )
-
+@Entity
 data class Current (
     val dt: Long,
-    val sunrise: Long? = null,
-    val sunset: Long? = null,
+    val sunrise: Long,
+    val sunset: Long,
+    @PrimaryKey
     var temp: Double,
     val feelsLike: Double,
     val pressure: Long,
@@ -35,29 +41,17 @@ data class Current (
     val wind_Deg: Long,
     val wind_Gust: Double,
     val weather: List<Weather>,
-    val pop: Double? = null,
-    val rain: Rain? = null
-)
+    val pop: Double
+):java.io.Serializable
 
-data class Rain (
-    val the1H: Double
-)
+
 
 data class Weather (
     val id: Long,
-    val main: Main,
     val description: String,
     val icon: String
 )
 
-
-
-enum class Main {
-    Clear,
-    Clouds,
-    Rain,
-    Snow
-}
 
 data class Daily (
     val dt: Long,
@@ -78,9 +72,9 @@ data class Daily (
     val clouds: Long,
     val pop: Double,
     val uvi: Double,
-    val rain: Double? = null,
-    val snow: Double? = null
-)
+    val rain: Double,
+    val snow: Double
+):java.io.Serializable
 
 data class FeelsLike (
     val day: Double,
@@ -98,12 +92,33 @@ data class Temp (
     val morn: Double
 )
 
-data class Minutely (
-    val dt: Long,
-    val precipitation: Long
-)
+
+class Conv {
+    @TypeConverter
+    fun fromCurrentToString(current: Current) = Gson().toJson(current)
+    @TypeConverter
+    fun fromStringToCurrent(stringCurrent : String) = Gson().fromJson(stringCurrent, Current::class.java)
+
+    @TypeConverter
+    fun fromWeatherToString(weather: List<Weather>) = Gson().toJson(weather)
+    @TypeConverter
+    fun fromStringToWeather(stringCurrent : String) = Gson().fromJson(stringCurrent, Array<Weather>::class.java).toList()
+
+    @TypeConverter
+    fun fromweatherToString(weather: Weather) = Gson().toJson(weather)
+    @TypeConverter
+    fun fromStringToweather(stringCurrent : String) = Gson().fromJson(stringCurrent, Weather::class.java)
+
+    @TypeConverter
+    fun fromDailyListToString(daily: List<Daily>) = Gson().toJson(daily)
+    @TypeConverter
+    fun fromStringToDailyList(stringDaily : String) = Gson().fromJson(stringDaily, Array<Daily>::class.java).toList()
+
+    @TypeConverter
+    fun fromHourlyListToString(hourly: List<Current>) = Gson().toJson(hourly)
+    @TypeConverter
+    fun fromStringToHourlyList(stringHourly : String) = Gson().fromJson(stringHourly, Array<Current>::class.java).toList()
 
 
-enum class TimeState {
-    Dawn, Morning, Noon, Evening, Night, Undefined
 }
+

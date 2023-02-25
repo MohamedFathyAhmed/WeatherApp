@@ -5,7 +5,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.example.weatherapp.model.TimeState
 
 import retrofit2.http.Query
 import java.text.SimpleDateFormat

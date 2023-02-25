@@ -9,10 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentMapsBinding
 import com.example.weatherapp.view.HomeActivity
+import com.example.weatherapp.view.ui.fav.FavDataViewModel
+import com.example.weatherapp.view.ui.fav.FavFragment
+import com.example.weatherapp.view.ui.fav.FavViewModelFactory
+import com.example.weatherapp.view.ui.home.HomeDataViewModel
+import com.example.weatherapp.view.ui.home.HomeViewModelFactory
 
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -79,15 +85,28 @@ class MapsFragment : Fragment() {
     }
 
     private fun handleSaveClickable(lat: Float, lon: Float) {
-if(false){
-    //come from fav
+     var comeFromHome:Boolean =  MapsFragmentArgs.fromBundle(requireArguments()).comeFromHome ?: true
 
-}else{
-
-        val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+if(comeFromHome){
+    val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
     sharedPreference.edit().putFloat(CONST.MapLat,lat).putFloat(CONST.MapLong,lon).commit()
     startActivity(Intent(requireContext(), HomeActivity::class.java))
 
+}else{
+    lateinit var honeViewModel: HomeDataViewModel
+    honeViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(
+        HomeDataViewModel::class.java)
+    honeViewModel.getCurrentWeatherApi(lat.toString(),lon.toString())
+    honeViewModel.welcome.observe(viewLifecycleOwner) {
+        lateinit var viewModel: FavDataViewModel
+        viewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(
+            FavDataViewModel::class.java
+        )
+        viewModel.insertFavWeatherDB(it)
+        startActivity(Intent(requireContext(), HomeActivity::class.java))
+    }
+
+    //startActivity(Intent(requireContext(), FavFragment::class.java))
 }
         changeSaveCondition(true)
     }
