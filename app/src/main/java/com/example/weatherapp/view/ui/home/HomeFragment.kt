@@ -20,6 +20,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -28,6 +29,7 @@ import com.eram.weather.adapter.DaysAdapter
 import com.eram.weather.adapter.TimesAdapter
 import com.example.weatherapp.*
 import com.example.weatherapp.R
+import com.example.weatherapp.adapter.ConditionAdapter
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.model.*
 import com.google.android.gms.location.*
@@ -91,12 +93,14 @@ class HomeFragment : Fragment() {
                 .apply { orientation = RecyclerView.HORIZONTAL }
         }
 
- //       var iconUrl= "https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"
-//        Glide.with(requireContext()).load(iconUrl)
-//            .apply(
-//                RequestOptions().override(400, 300).placeholder(R.drawable.ic_launcher_background)
-//                    .error(R.drawable.ic_launcher_foreground)
-//            ).into(  _binding.imgIcon)
+        binding.recyViewConditionDescription.adapter= ConditionAdapter(init_rv_des(it.current))
+        init_rv_des(it.current)
+        binding.recyViewConditionDescription.apply {
+            adapter = binding.recyViewConditionDescription.adapter
+            layoutManager = GridLayoutManager(requireContext(),3)
+                .apply { orientation = RecyclerView.VERTICAL }
+        }
+
         _binding.imgIcon.setImageResource(getIconImage(it.current.weather[0].icon))
 
         _binding.txtDegree.text = "${it.current.temp}°"
@@ -109,7 +113,7 @@ class HomeFragment : Fragment() {
         _binding.txtDegree.text= "${it.current.temp}°"
 
         _binding.container.setBackgroundResource(setBackgroundContainer(it.current.weather[0].icon))
-
+        _binding.dayState.text=it.current.weather[0].description
     }
 
 
@@ -215,7 +219,7 @@ class HomeFragment : Fragment() {
 
 
     /*============================================================================================================*/
-   fun init_rv (current:Current)  = listOf<Condition>(
+   fun init_rv_des (current:Current)  = listOf<Condition>(
             Condition(
                 R.drawable.ic_pressure,
                 ("${current.pressure} ${getString(R.string.Pascal)}"),

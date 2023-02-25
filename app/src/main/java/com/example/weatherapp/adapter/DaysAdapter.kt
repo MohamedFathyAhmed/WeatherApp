@@ -44,15 +44,24 @@ class DaysAdapter(var daily: List<Daily>, val context: Context, private val item
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = daily[position]
-        holder.binding.dayName.text = convertToDay(item.dt,language)
-     // holder.binding.txtDay.text = days[position]
-        holder.binding.dayTempMax
-            .text = "${item.temp.max}°"
-        holder.binding.dayTempMin
-            .text = "${item.temp.min}°"
-        holder.binding.dayState
-            .text = item.weather[0].description
 
+if (language.equals("en"))
+        {
+      binding.dayTempMax
+                .text = "${item.temp.max}°"
+            binding.dayTempMin
+                .text = "${item.temp.min}°"
+    }else{
+         binding.dayTempMax
+                .text = "${convertStringToArabic(item.temp.max.toString())}°"
+            binding.dayTempMin
+                .text = "${convertStringToArabic(item.temp.min.toString())}°"
+       }
+        binding.dayName.text = convertToDay(item.dt, language)
+        binding.dayState
+            .text = item.weather[0].description
         binding.dayWeatherIcon.setImageResource(getIconImage(item.weather[0].icon))
+
+
     }
 }

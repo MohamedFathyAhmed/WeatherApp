@@ -10,11 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
 import com.bumptech.glide.request.RequestOptions
-import com.example.weatherapp.CONST
-import com.example.weatherapp.R
-import com.example.weatherapp.convertToTime
+import com.example.weatherapp.*
 import com.example.weatherapp.databinding.ItemTimesBinding
-import com.example.weatherapp.getIconImage
 
 import com.example.weatherapp.model.*
 
@@ -46,14 +43,22 @@ class TimesAdapter(private val context: Context,var hourly: List<Current>) : Rec
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var item= hourly[position]
+        if (language.equals("en")) {
 
-        holder.binding.hourName.text = convertToTime(item.dt,language)
+            holder.binding.hourWindSpeed.text = "${item.wind_speed} km/h"
 
-        holder.binding.hourWindSpeed.text = "${item.wind_speed} km/h"
+            holder.binding.hourTemp.text = "${item.temp}°"
 
-        holder.binding.hourTemp.text = "${item.temp}°"
+        }else{
+            holder.binding.hourWindSpeed.text = "${convertStringToArabic(item.wind_speed.toString())} كم/س"
 
-  binding.hourWeatherIcon.setImageResource(getIconImage(item.weather[0].icon))
+            holder.binding.hourTemp.text = "${convertStringToArabic(item.temp.toString())}°"
+
+
+        }
+        holder.binding.hourName.text = convertToTime(item.dt, language)
+        binding.hourWeatherIcon.setImageResource(getIconImage(item.weather[0].icon))
+
     }
 
 }
