@@ -26,11 +26,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.eram.weather.adapter.DaysAdapter
 import com.eram.weather.adapter.TimesAdapter
-import com.example.weatherapp.CONST
+import com.example.weatherapp.*
 import com.example.weatherapp.R
-import com.example.weatherapp.convertToTime
 import com.example.weatherapp.databinding.FragmentHomeBinding
-import com.example.weatherapp.getWeatherIcon
 import com.example.weatherapp.model.*
 import com.google.android.gms.location.*
 import android.content.Context.LOCATION_SERVICE as ContextLOCATION_SERVICE
@@ -93,48 +91,31 @@ class HomeFragment : Fragment() {
                 .apply { orientation = RecyclerView.HORIZONTAL }
         }
 
-        var iconUrl= "https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"
-        Glide.with(requireContext()).load(iconUrl)
-            .apply(
-                RequestOptions().override(400, 300).placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_foreground)
-            ).into(  _binding.imgIcon)
+ //       var iconUrl= "https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"
+//        Glide.with(requireContext()).load(iconUrl)
+//            .apply(
+//                RequestOptions().override(400, 300).placeholder(R.drawable.ic_launcher_background)
+//                    .error(R.drawable.ic_launcher_foreground)
+//            ).into(  _binding.imgIcon)
+        _binding.imgIcon.setImageResource(getIconImage(it.current.weather[0].icon))
 
         _binding.txtDegree.text = "${it.current.temp}°"
         if (it.daily[0].temp.min != it.daily[0].temp.max)
             _binding.txtDegreeRange.text = "${it.daily[0].temp.min}°/${it.daily.get(0).temp.max}°"
         else
             _binding.txtDegreeRange.text = ""
-        // setWeatherIcon(it)
+
         _binding.city.text= it.timezone
         _binding.txtDegree.text= "${it.current.temp}°"
 
+        _binding.container.setBackgroundResource(setBackgroundContainer(it.current.weather[0].icon))
+
     }
 
 
     /*============================================================================================================*/
-    private fun setBackgroundContainer(timeState: TimeState?) {
-     _binding.container.setBackgroundResource(
-            when (timeState) {
-                TimeState.Dawn ->
-                    R.drawable.background_dawn
-                TimeState.Night ->
-                    R.drawable.background_night
-                TimeState.Morning ->
-                    R.drawable.background_morning
-                TimeState.Evening ->
-                    R.drawable.background_evening
-                TimeState.Noon ->
-                    R.drawable.background_noon
-                else ->
-                    R.drawable.background_noon
-            }
-        )
-    }
+
     /*============================================================================================================*/
-    private fun setWeatherIcon(weather: Weather) {
-    //   _binding.imgIcon.setImageResource(getWeatherIcon(weather.state, currentTimeState!!))
-    }
     /*========================================GPS====================================================================*/
     private fun checkPermissions(): Boolean {
         return ActivityCompat.checkSelfPermission(
@@ -224,7 +205,7 @@ class HomeFragment : Fragment() {
             viewModel.getCurrentWeatherApi(latitude.toString(),longitude.toString())
             viewModel.welcome.observe(viewLifecycleOwner) {
                 //needtodelete
-                println(it)
+                //  println(it)
                 initUi(it)
             }
             mFusedLocationClient.removeLocationUpdates(this)
@@ -258,7 +239,7 @@ class HomeFragment : Fragment() {
             ),
             Condition(
                 R.drawable.ic_sunrise,
-                convertToTime(current.sunrise!!.toLong(), requireContext()),
+                convertToTime(current.sunrise!!.toLong(), "en"),
                 getString(
                     R.string.Sun_Rise
                 )

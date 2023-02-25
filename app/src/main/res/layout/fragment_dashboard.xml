@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        app:backgroundTint="?attr/colorPrimary"
+        app:backgroundTint="@color/grey_10"
         app:srcCompat="@drawable/ic_close_black_24dp"
         app:tint="?attr/colorControlNormal"
         tools:ignore="SpeakableTextPresentCheck" />
@@ -51,8 +51,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/gradient">
+                    android:layout_height="424dp"
+                    android:background="@drawable/background_dawn">
 
                     <TextView
                         android:id="@+id/setup_text"
@@ -170,8 +170,8 @@
 
                     <RadioGroup
                         android:id="@+id/temp_radio_group"
-                        android:layout_width="317dp"
-                        android:layout_height="123dp"
+                        android:layout_width="320dp"
+                        android:layout_height="139dp"
                         android:layout_marginTop="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -182,6 +182,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
                             android:buttonTint="@color/white"
                             android:text="@string/kelvin"
                             android:textColor="@color/white" />
@@ -191,6 +192,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"
+                            android:layout_marginEnd="5dp"
                             android:buttonTint="@color/white"
                             android:text="@string/celsius"
                             android:textColor="@color/white" />

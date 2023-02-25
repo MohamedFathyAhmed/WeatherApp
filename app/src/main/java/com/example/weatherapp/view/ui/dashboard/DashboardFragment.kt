@@ -92,13 +92,13 @@
                 tempRadioButton = view.findViewById<View>(checkedId) as RadioButton
                 when (tempRadioButton.text.toString()) {
                     getString(R.string.celsius) -> {
-                        sharedPreference.edit().putString(CONST.exclude,CONST.Enum_units.metric.toString()).commit()
+                        sharedPreference.edit().putString(CONST.units,CONST.Enum_units.metric.toString()).commit()
                     }
                     getString(R.string.fehrenheit) -> {
-                        sharedPreference.edit().putString(CONST.exclude,CONST.Enum_units.imperial .toString()).commit()
+                        sharedPreference.edit().putString(CONST.units,CONST.Enum_units.imperial .toString()).commit()
                     }
                     getString(R.string.kelvin) -> {
-                        sharedPreference.edit().putString(CONST.exclude,CONST.Enum_units.standard.toString()).commit()
+                        sharedPreference.edit().putString(CONST.units,CONST.Enum_units.standard.toString()).commit()
                     }
                 }
             }

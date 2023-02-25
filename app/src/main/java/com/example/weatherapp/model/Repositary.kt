@@ -23,8 +23,8 @@ class  Repositary private constructor(var context: Context) {
 
     suspend fun getCurrentWeatherApi( lat: String?, lon: String?): Welcome {
         val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toString())
-        val lang =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())
+val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toString())!!
+        val lang =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())!!
         return API.retrofitService.getCurrentWeather(lat,lon,units,lang)
     }
 

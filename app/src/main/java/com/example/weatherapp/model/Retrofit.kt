@@ -17,7 +17,7 @@ interface SimpleService{
     suspend fun getCurrentWeather(
         @Query(CONST.lat) lat: String?,
         @Query(CONST.lon) lon: String?,
-        @Query(CONST.units) units: String?,
+        @Query("units") units: String?,
         @Query(CONST.lang) lang: String?,
         @Query(CONST.exclude) exclude: String="minutely",
         @Query(CONST.appid) appId: String=CONST.API_KEY,

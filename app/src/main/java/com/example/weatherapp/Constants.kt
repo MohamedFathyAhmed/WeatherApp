@@ -6,21 +6,12 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import com.example.weatherapp.model.TimeState
-import com.example.weatherapp.model.WeatherState
-import com.example.weatherapp.model.WeatherStateMap
+
 import retrofit2.http.Query
 import java.text.SimpleDateFormat
 import java.util.*
 
-fun getWeatherIcon(state: WeatherState, currentTimeState: TimeState): Int {
-    return WeatherStateMap.icon[Pair(
-        state,
-        currentTimeState
-    )] ?: WeatherStateMap.icon[Pair(
-        state,
-        TimeState.Undefined
-    )]!!
-}
+
 object CONST {
     const val exclude= "exclude"
     const val  lat= "lat"
@@ -30,7 +21,7 @@ object CONST {
     const val onecall = "onecall"
 
     const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
-    const val UNITS = "metric"
+
    const val API_KEY = "bec88e8dd2446515300a492c3862a10e"
 
 

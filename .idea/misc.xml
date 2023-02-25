@@ -7,32 +7,46 @@
         <entry key="app/src/main/res/drawable-v24/gradient.xml" value="0.272" />
         <entry key="app/src/main/res/drawable-v24/ic_close_black_24dp.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/background_dawn.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/background_evening.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/background_morning.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/background_night.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/background_noon.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_broken_cloud.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_clear_sky_dawn.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_clear_sky_evening.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_clear_sky_morning.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_clear_sky_night.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_cloudy.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_few_cloud_dawn.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_few_cloud_evening.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_few_cloud_morning.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_few_cloud_night.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_humidity.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_location.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_mist.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_pressure.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_rain.xml" value="0.1665" />
+        <entry key="app/src/main/res/drawable/ic_scattered_clouds.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_shower_raint.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_snow.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_sunrise.xml" value="0.272" />
+        <entry key="app/src/main/res/drawable/ic_thunderstorm.xml" value="0.1665" />
         <entry key="app/src/main/res/drawable/ic_visibility.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_visibility_newdp.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_weather.xml" value="0.272" />
         <entry key="app/src/main/res/drawable/ic_windspeed.xml" value="0.272" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.5465728759765625" />
+        <entry key="app/src/main/res/drawable/round_transparent.xml" value="0.1665" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.30340557275541796" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2246376811594203" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.37899475097656254" />
         <entry key="app/src/main/res/layout/fragment_maps.xml" value="0.2246376811594203" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.23052536231884058" />
-        <entry key="app/src/main/res/layout/item_days.xml" value="0.23052536231884058" />
+        <entry key="app/src/main/res/layout/item_days.xml" value="0.3126191733539968" />
         <entry key="app/src/main/res/layout/item_des.xml" value="0.2246376811594203" />
         <entry key="app/src/main/res/layout/item_times.xml" value="0.55" />
       </map>

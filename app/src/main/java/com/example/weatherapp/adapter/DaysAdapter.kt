@@ -10,8 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.weatherapp.*
 
-import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ItemDaysBinding
 import com.example.weatherapp.databinding.ItemTimesBinding
 import com.example.weatherapp.model.*
@@ -22,21 +22,9 @@ import kotlin.collections.ArrayList
 class DaysAdapter(var daily: List<Daily>, val context: Context, private val itemClick: (weather: Weather) -> Unit) :
     RecyclerView.Adapter<DaysAdapter.ViewHolder>() {
     lateinit var binding: ItemDaysBinding
-     var days = arrayOf<String>()
+    val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+    val language =  sharedPreference.getString(CONST.lang,"en") !!
 
-
-    init {
- days = arrayOf(
-   Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 1) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
-    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 2) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
-    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 3) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
-    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 4) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
-    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 5) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
-    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 6) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
-    Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 7) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()),
-     Calendar.getInstance().apply { add(Calendar.DAY_OF_YEAR, 8) }.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()))
-
-    }
 
     inner class ViewHolder(var binding: ItemDaysBinding):RecyclerView.ViewHolder(binding.root)
 
@@ -56,14 +44,15 @@ class DaysAdapter(var daily: List<Daily>, val context: Context, private val item
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = daily[position]
-      holder.binding.txtDay.text = days[position]
-        holder.binding.txtDegreeRange.text = "${item.temp.min}°/${item.temp.max}°"
-        val iconUrl= "https://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png"
-        Glide.with(context).load(iconUrl)
-            .apply(
-                RequestOptions().override(400, 300).placeholder(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_foreground)
-            ).into(  binding.imgIcon)
+        holder.binding.dayName.text = convertToDay(item.dt,language)
+     // holder.binding.txtDay.text = days[position]
+        holder.binding.dayTempMax
+            .text = "${item.temp.max}°"
+        holder.binding.dayTempMin
+            .text = "${item.temp.min}°"
+        holder.binding.dayState
+            .text = item.weather[0].description
 
+        binding.dayWeatherIcon.setImageResource(getIconImage(item.weather[0].icon))
     }
 }
