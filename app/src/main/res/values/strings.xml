@@ -26,6 +26,7 @@
     <string name="Cloud">Cloud</string>
     <string name="Pascal">Pascal</string>
     <string name="MiliPerHour">mm/h</string>
+    <string name="api_key">AIzaSyAbuHdF1hB_ddtCtgEZ7iE3cDqXk4zpVJU</string>
 
     <string name="celsius">Temperature is Celsius, Speed is m/s </string>
     <string name="kelvin">Temperature is Kelvin, Speed is m/s</string>

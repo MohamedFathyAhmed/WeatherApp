@@ -17,22 +17,37 @@ import java.util.*
 
 
 
-fun setBackgroundContainer(timeState: String) :Int{
+fun setBackgroundContainer(timeState: String, context: Context) :Int{
+       val sharedPreference =  context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
     val iconValue: Int
 
         when (timeState) {
-            "02n" ->
+            "02n" ->{
                 iconValue =     R.drawable.background_dawn
-            "01n" ->
+                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+            }
+            "01n" ->{
                 iconValue =     R.drawable.background_night
+                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+            }
             "01d"->
+            {
                 iconValue =    R.drawable.background_morning
-            "04d" ->
+                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+            }
+            "04d" ->{
                 iconValue =    R.drawable.background_evening
-            "10d" ->
+                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+            }
+            "10d" ->{
                 iconValue =   R.drawable.background_noon
-            else ->
-                iconValue =  R.drawable.background_morning
+                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+            }
+            else -> {
+                iconValue = R.drawable.background_morning
+                sharedPreference.edit().putInt(CONST.Background, iconValue).commit()
+            }
+
         }
 
     return iconValue
@@ -64,63 +79,7 @@ fun getIconImage(icon: String): Int {
     return iconValue
 }
 
-fun convertIntToArabic(input: Int): String {
-    val arabicNumber = arrayOf("٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩")
 
-    var result = ""
-
-    var number = input
-
-    while (number > 0) {
-        val digit = number % 10
-
-        result = arabicNumber[digit] + result
-
-        number /= 10
-    }
-
-    return result
-}
-
-fun convertDoubleToArabic(input: Double): String {
-    val arabicNumber = arrayOf("٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩")
-
-    var result = ""
-
-    var number = input.toLong()
-
-    while (number > 0) {
-        val digit = number % 10
-
-        result = arabicNumber[digit.toInt()] + result
-
-        number /= 10
-    }
-
-    // add decimal part if needed
-    if (input - input.toLong() > 0) {
-        result += '.'
-
-        var decimalPart = (input - input.toLong()) * 100
-
-        while (decimalPart > 0) {
-            val digit = decimalPart % 10
-
-            result += arabicNumber[digit.toInt()]
-
-            decimalPart /= 10
-        }
-    }
-
-    return result
-}
-fun convertAntToArabic(input: Any): Any {
-    return when (input) {
-        is Int -> convertIntToArabic(input)
-        is Double -> convertDoubleToArabic(input)
-        else -> input
-    }
-}
 fun convertStringToArabic(value: String): String {
     return (value + "")
         .replace("1".toRegex(), "١").replace("2".toRegex(), "٢")

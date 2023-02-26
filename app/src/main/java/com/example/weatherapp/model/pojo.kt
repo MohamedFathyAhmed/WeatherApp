@@ -7,7 +7,7 @@ import com.google.gson.Gson
 
 @Entity
 data class Welcome (
-
+    var isFav:Boolean=false,
     val lat: Double,
     val lon: Double,
     @PrimaryKey
@@ -61,7 +61,6 @@ data class Daily (
     val moonset: Long,
     val moonPhase: Double,
     val temp: Temp,
-    val feelsLike: FeelsLike,
     val pressure: Long,
     val humidity: Long,
     val dewPoint: Double,

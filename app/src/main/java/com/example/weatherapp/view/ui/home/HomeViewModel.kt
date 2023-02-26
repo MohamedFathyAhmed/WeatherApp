@@ -35,20 +35,20 @@ class HomeDataViewModel(val context: Context): ViewModel(){
 
     }
 
-    fun getCurrentWeatherDB() {
-        viewModelScope.launch {
-            var Root =   repo.getCurrentWeatherDataBase()
-            _current.value=Root
-            current=_current
-
-        }
-    }
-
-    fun insertCurrentWeatherDB(current: Current) {
-        viewModelScope.launch {
-            repo.insertCurrentWeatherDataBase(current)
-        }
-    }
+//    fun getCurrentWeatherDB() {
+//        viewModelScope.launch {
+//            var Root =   repo.getCurrentWeatherDataBase()
+//            _current.value=Root
+//            current=_current
+//
+//        }
+//    }
+//
+//    fun insertCurrentWeatherDB(current: Current) {
+//        viewModelScope.launch {
+//            repo.insertCurrentWeatherDataBase(current)
+//        }
+//    }
 
 
     fun getCurrentWeatherApi(lat: String?, lon: String?) {

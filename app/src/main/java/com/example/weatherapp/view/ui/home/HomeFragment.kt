@@ -10,38 +10,32 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.eram.weather.adapter.DaysAdapter
 import com.eram.weather.adapter.TimesAdapter
 import com.example.weatherapp.*
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.ConditionAdapter
-import com.example.weatherapp.databinding.FragmentFavBinding
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.model.*
 import com.example.weatherapp.view.ui.fav.FavDataViewModel
 import com.example.weatherapp.view.ui.fav.FavViewModelFactory
 import com.google.android.gms.location.*
-import android.content.Context.LOCATION_SERVICE as ContextLOCATION_SERVICE
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 const val PERMISSION_ID = 44
 class HomeFragment : Fragment() {
-
-    lateinit var viewModel: HomeDataViewModel
+    lateinit var navBar: BottomNavigationView
+    lateinit var homeViewModel: HomeDataViewModel
+    lateinit var favViewModel: FavDataViewModel
     var latitude: Double =0.0
     var longitude: Double =0.0
     private lateinit var _binding: FragmentHomeBinding
@@ -51,7 +45,10 @@ class HomeFragment : Fragment() {
 
   /*============================================================================================================*/
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        navBar.setVisibility(View.VISIBLE);
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(
@@ -62,25 +59,62 @@ class HomeFragment : Fragment() {
         val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(HomeDataViewModel::class.java)
+        homeViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(HomeDataViewModel::class.java)
+        favViewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(FavDataViewModel::class.java)
+        //network
+        if (isConnected(requireContext())) {
+            //from home
+        if( HomeFragmentArgs.fromBundle(requireArguments()).comeFromHome) {
+            var location = sharedPreference.getString(CONST.LOCATION, "gps")
+            // from gps
+                if (location.equals("gps")) {
+                    //gps
+                    getLastLocation()
 
-       var location =  sharedPreference.getString(CONST.LOCATION,"gps")
-        if(location.equals("gps")){
-            //gps
-          getLastLocation()
-       }else{
-           //map
+                } else {
+                    //map
 
 
-            viewModel.getCurrentWeatherApi(sharedPreference.getFloat(CONST.MapLat,0f).toString(),sharedPreference.getFloat(CONST.MapLong,0f).toString())
-          viewModel.welcome.observe(viewLifecycleOwner) {
-              //needtodelete
+                    homeViewModel.getCurrentWeatherApi(
+                        sharedPreference.getFloat(CONST.MapLat, 0f).toString(),
+                        sharedPreference.getFloat(CONST.MapLong, 0f).toString()
+                    )
+                    homeViewModel.welcome.observe(viewLifecycleOwner) {
+                        initUi(it)
+                    }
+                }
 
-              println(it)
+//from fav
+            } else {
 
-                initUi(it)
+                navBar = requireActivity().findViewById(R.id.nav_view)
+                navBar.setVisibility(View.GONE);
+                HomeFragmentArgs.fromBundle(requireArguments()).favWeather?.let {
+                    homeViewModel.getCurrentWeatherApi(it.lat.toString(),it.lon.toString())
+                    homeViewModel.welcome.observe(viewLifecycleOwner){
+                        initUi(it)
+                        favViewModel.updateFavWeatherDB(it)
+                    }
+
+
+                }
             }
-  }
+        }//offline
+        else{
+            //from home
+            if( HomeFragmentArgs.fromBundle(requireArguments()).comeFromHome) {
+
+                // TODO: get current from data base
+
+            //from fav
+            } else {
+                navBar = requireActivity().findViewById(R.id.nav_view)
+                navBar.setVisibility(View.GONE);
+                HomeFragmentArgs.fromBundle(requireArguments()).favWeather?.let { initUi(it) }
+            }
+
+
+        }
 
         return binding.root
     }
@@ -109,12 +143,7 @@ class HomeFragment : Fragment() {
                 .apply { orientation = RecyclerView.VERTICAL }
         }
 
- //       var iconUrl= "https://openweathermap.org/img/wn/${it.current.weather[0].icon}@2x.png"
-//        Glide.with(requireContext()).load(iconUrl)
-//            .apply(
-//                RequestOptions().override(400, 300).placeholder(R.drawable.ic_launcher_background)
-//                    .error(R.drawable.ic_launcher_foreground)
-//            ).into(  _binding.imgIcon)
+
        _binding.imgIcon.setImageResource(getIconImage(it.current.weather[0].icon))
 
         _binding.txtDegree.text = "${it.current.temp}°"
@@ -126,7 +155,7 @@ class HomeFragment : Fragment() {
         _binding.city.text= it.timezone
         _binding.txtDegree.text= "${it.current.temp}°"
 
-        _binding.container.setBackgroundResource(setBackgroundContainer(it.current.weather[0].icon))
+        _binding.container.setBackgroundResource(setBackgroundContainer(it.current.weather[0].icon,requireContext()))
         _binding.dayState.text=it.current.weather[0].description
     }
 
@@ -216,14 +245,19 @@ class HomeFragment : Fragment() {
 
     private val mLocationCallback: LocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
-            val mLastLocation: Location = locationResult.lastLocation
-            latitude  = mLastLocation. latitude
-            longitude = mLastLocation. longitude
-            Log.i("test","hello")
-            viewModel.getCurrentWeatherApi(latitude.toString(),longitude.toString())
-            viewModel.welcome.observe(viewLifecycleOwner) {
-                initUi(it)
+            val mLastLocation: Location? = locationResult.lastLocation
+            if (mLastLocation != null) {
+                latitude  = mLastLocation. latitude
+                longitude = mLastLocation. longitude
+            }else{
+                val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+                latitude  =  sharedPreference.getFloat(CONST.MapLat, 0f).toDouble()
+                longitude =  sharedPreference.getFloat(CONST.MapLong, 0f).toDouble()
+            }
 
+            homeViewModel.getCurrentWeatherApi(latitude.toString(),longitude.toString())
+            homeViewModel.welcome.observe(viewLifecycleOwner) {
+                initUi(it)
             }
             mFusedLocationClient.removeLocationUpdates(this)
         }

@@ -37,11 +37,17 @@
             container: ViewGroup?,
             savedInstanceState: Bundle?
         ): View {
+            val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
            _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+            _binding.ConstraintLayoutBackground.setBackgroundResource(sharedPreference.getInt(CONST.Background,R.drawable.gradient))
             initUI()
             return _binding.root
         }
 
+        override fun onDestroy() {
+            super.onDestroy()
+            navBar.setVisibility(View.VISIBLE);
+        }
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             //hideen bar

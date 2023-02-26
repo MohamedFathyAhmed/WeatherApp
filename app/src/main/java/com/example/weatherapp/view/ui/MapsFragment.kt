@@ -8,32 +8,43 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentMapsBinding
 import com.example.weatherapp.view.HomeActivity
 import com.example.weatherapp.view.ui.fav.FavDataViewModel
 import com.example.weatherapp.view.ui.fav.FavFragment
+import com.example.weatherapp.view.ui.fav.FavFragmentDirections
 import com.example.weatherapp.view.ui.fav.FavViewModelFactory
 import com.example.weatherapp.view.ui.home.HomeDataViewModel
 import com.example.weatherapp.view.ui.home.HomeViewModelFactory
+import com.google.android.gms.common.api.Status
 
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 
 
 class MapsFragment : Fragment() {
+    var lat: Float = 0f
+    var long: Float = 0f
     private lateinit var binding: FragmentMapsBinding
+    lateinit var mMap : GoogleMap
     private val callback = OnMapReadyCallback { googleMap ->
-
+        mMap = googleMap
 
         googleMap.setOnMapClickListener {
-            var lat: Float = 0f
-            var long: Float = 0f
+
             val marker = MarkerOptions().apply {
                 position(it)
                 lat = it.latitude.toFloat()
@@ -49,9 +60,7 @@ class MapsFragment : Fragment() {
             googleMap.addMarker(marker)
             changeSaveCondition(false)
 
-            binding.btnSave.setOnClickListener {
-                handleSaveClickable(lat, long)
-            }
+
         }
 
 
@@ -72,6 +81,47 @@ class MapsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(callback)
+        val apiKey = getString(R.string.api_key)
+        if (!Places.isInitialized()) {
+            Places.initialize(requireContext(), apiKey)
+        }
+        val autocompleteFragment =
+            childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+                    as AutocompleteSupportFragment
+        autocompleteFragment.setPlaceFields(
+            listOf(
+                Place.Field.ID,
+                Place.Field.NAME,
+                Place.Field.PHOTO_METADATAS,
+                Place.Field.LAT_LNG,
+                Place.Field.ADDRESS
+            )
+        )
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                place.latLng?.let {
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(it)
+                            .title(place.name)
+                    )
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 10f))
+//                    handleSaveClickable(it.latitude.toFloat(), it.longitude.toFloat())
+                    lat = it.latitude.toFloat()
+                    long = it.longitude.toFloat()
+                    changeSaveCondition(false)
+
+
+                }
+            }
+            override fun onError(status: Status) {
+                Toast.makeText(requireContext(), status.toString(), Toast.LENGTH_SHORT).show();
+
+            }
+        })
+        binding.btnSave.setOnClickListener {
+            handleSaveClickable(lat, long)
+        }
     }
 
     private fun changeSaveCondition(visible: Boolean) {
@@ -103,10 +153,13 @@ if(comeFromHome){
             FavDataViewModel::class.java
         )
         viewModel.insertFavWeatherDB(it)
-        startActivity(Intent(requireContext(), HomeActivity::class.java))
+        viewModel.getFavsWeatherDB()
+        val action =MapsFragmentDirections.actionMapsFragmentToNavigationFav()
+        Navigation.findNavController(requireView()).navigate(action)
+
     }
 
-    //startActivity(Intent(requireContext(), FavFragment::class.java))
+
 }
         changeSaveCondition(true)
     }

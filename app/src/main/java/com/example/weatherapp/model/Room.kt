@@ -6,31 +6,29 @@ import androidx.room.*
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import com.google.gson.Gson
 
+
 @Dao
 interface WeatherDAO{
-
-    @Query("SELECT * FROM Current")
-    suspend fun getCurrentWeather() :Current
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertCurrentWeather(current: Current): Long
-
-}
-@Dao
-interface FavWeatherDAO{
     @Query("SELECT * FROM Welcome")
-    suspend fun getFavsWeather() :List<Welcome>
+    suspend fun getFavsWeather() :MutableList<Welcome>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFavWeather(welcome: Welcome): Long
 
+    @Delete
+    suspend fun deleteFavWeather(welcome: Welcome)
+
+    @Update
+    suspend fun updateFavWeather(welcome: Welcome)
+
+
 }
 
-@Database(entities = [Welcome::class,Current::class], version = 5)
+@Database(entities = [Welcome::class], version = 6)
 @TypeConverters(Conv::class)
 abstract class WeatherDataBase : RoomDatabase(){
-    abstract fun getWeatherDao() : WeatherDAO
-    abstract fun getFavWeatherDao() : FavWeatherDAO
+
+    abstract fun getFavWeatherDao() : WeatherDAO
 
     companion object{
         private var instance : WeatherDataBase? =null

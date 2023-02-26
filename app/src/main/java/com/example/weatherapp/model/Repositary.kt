@@ -31,19 +31,28 @@ class  Repositary private constructor(var context: Context) {
     }
 /*============================================================================================================*/
 
-    suspend fun getCurrentWeatherDataBase():Current{
-        return room.getWeatherDao().getCurrentWeather()
-    }
-    suspend fun insertCurrentWeatherDataBase(current: Current):Long{
-        return room.getWeatherDao().insertCurrentWeather(current)
-    }
+//    suspend fun getCurrentWeatherDataBase():Current{
+//        return room.getWeatherDao().getCurrentWeather()
+//    }
+//    suspend fun insertCurrentWeatherDataBase(current: Current):Long{
+//        return room.getWeatherDao().insertCurrentWeather(current)
+//    }
 
 
-    suspend fun getFavtsWeatherDataBase(): List<Welcome> {
+    suspend fun getFavtsWeatherDataBase(): MutableList<Welcome> {
         return room.getFavWeatherDao().getFavsWeather()
     }
     suspend fun insertFavWeatherDataBase(welcome: Welcome):Long{
+         welcome.isFav=true
         return room.getFavWeatherDao().insertFavWeather(welcome)
+
+    }
+    suspend fun deleteFavWeatherDataBase(welcome: Welcome){
+         room.getFavWeatherDao().deleteFavWeather(welcome)
+    }
+    suspend fun updateFavWeatherDataBase(welcome: Welcome){
+        welcome.isFav=true
+        room.getFavWeatherDao().updateFavWeather(welcome)
     }
     /*============================================================================================================*/
     suspend fun getCurrentWeatherApi( lat: String?, lon: String?): Welcome {

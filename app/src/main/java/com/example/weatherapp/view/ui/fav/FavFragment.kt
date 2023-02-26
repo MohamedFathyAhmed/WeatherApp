@@ -1,21 +1,25 @@
 package com.example.weatherapp.view.ui.fav
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherapp.CONST
+import com.example.weatherapp.R
 import com.example.weatherapp.adapter.FavAdapter
+import com.example.weatherapp.databinding.FragmentDashboardBinding
 import com.example.weatherapp.databinding.FragmentFavBinding
-import com.example.weatherapp.view.ui.MapsFragment
+import com.example.weatherapp.model.Welcome
 
 
-class FavFragment : Fragment() {
+class FavFragment : Fragment(),FavInterface {
     lateinit var viewModel: FavDataViewModel
     private lateinit var _binding: FragmentFavBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,16 +40,19 @@ class FavFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.getFavsWeatherDB()
         viewModel.favs.observe(viewLifecycleOwner) {
 
-            _binding.daysRecyclerView.adapter= FavAdapter(it){
+            val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
 
-            }
+            _binding.daysRecyclerView.adapter= FavAdapter(requireContext(),it,this)
             _binding.daysRecyclerView.apply {
                 adapter = _binding.daysRecyclerView.adapter
                 layoutManager = LinearLayoutManager(requireContext())
                     .apply { orientation = RecyclerView.VERTICAL }
+                setBackgroundResource(sharedPreference.getInt(CONST.Background, R.drawable.gradient))
+
             }
 
         }
@@ -53,13 +60,25 @@ class FavFragment : Fragment() {
 
             val action =FavFragmentDirections.actionNavigationFavToMapsFragment()
             Navigation.findNavController(requireView()).navigate(action)
-//open map
-//startActivity(Intent(requireContext(),MapsFragment::class.java))
 
         }
 
 
 
+    }
+
+    override fun deleteTask(welcome: Welcome, position: Int) {
+
+        viewModel.deleteFavWeatherDB(welcome)
+
+    }
+
+
+    override fun selectTask(welcome: Welcome) {
+
+        val action =FavFragmentDirections.actionNavigationFavToNavigationHome(false,welcome)
+
+        Navigation.findNavController(requireView()).navigate(action)
     }
 
 

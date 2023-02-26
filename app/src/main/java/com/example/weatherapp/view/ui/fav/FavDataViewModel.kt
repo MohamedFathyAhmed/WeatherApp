@@ -12,6 +12,7 @@ import com.example.weatherapp.model.Current
 import com.example.weatherapp.model.Daily
 import com.example.weatherapp.model.Repositary
 import com.example.weatherapp.model.Welcome
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
@@ -22,18 +23,16 @@ class FavDataViewModel(val context: Context): ViewModel(){
     private  var _welcome: MutableLiveData<Welcome>
     var welcome: LiveData<Welcome>
 
-    private  var _favs: MutableLiveData<List<Welcome>>
-    var favs: LiveData<List<Welcome>>
+    private  var _favs: MutableLiveData<MutableList<Welcome>>
+    var favs: LiveData<MutableList<Welcome>>
 
     init {
         repo=Repositary.getInstance(context)
         _favs= MutableLiveData()
         favs= _favs
 
-
         _welcome= MutableLiveData()
         welcome= _welcome
-
     }
 
 
@@ -48,12 +47,22 @@ class FavDataViewModel(val context: Context): ViewModel(){
     }
 
     fun insertFavWeatherDB(welcome: Welcome) {
-        viewModelScope.launch {
+        viewModelScope.launch (Dispatchers.IO) {
             repo.insertFavWeatherDataBase(welcome)
         }
+        getFavsWeatherDB()
     }
 
-
+    fun deleteFavWeatherDB(welcome: Welcome) {
+        viewModelScope.launch {
+            repo.deleteFavWeatherDataBase(welcome)
+        }
+    }
+    fun updateFavWeatherDB(welcome: Welcome) {
+        viewModelScope.launch {
+            repo.updateFavWeatherDataBase(welcome)
+        }
+    }
 
 
 }

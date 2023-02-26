@@ -23,7 +23,7 @@ object CONST {
 
    const val API_KEY = "bec88e8dd2446515300a492c3862a10e"
 
-
+    const val Background = "Background"
 //get SharedPreferences
 //    val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
 //    sharedPreference.edit().putString("username","Anupam").commit()
