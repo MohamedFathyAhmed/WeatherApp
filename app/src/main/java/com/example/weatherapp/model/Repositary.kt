@@ -31,12 +31,21 @@ class  Repositary private constructor(var context: Context) {
     }
 /*============================================================================================================*/
 
-//    suspend fun getCurrentWeatherDataBase():Current{
-//        return room.getWeatherDao().getCurrentWeather()
-//    }
-//    suspend fun insertCurrentWeatherDataBase(current: Current):Long{
-//        return room.getWeatherDao().insertCurrentWeather(current)
-//    }
+    suspend fun getCurrentsWeatherDataBase(): MutableList<Welcome> {
+        return room.getFavWeatherDao().getCurrentWeather()
+    }
+    suspend fun insertCurrentWeatherDataBase(welcome: Welcome):Long{
+        welcome.isFav=false
+        return room.getFavWeatherDao().insertCurrentWeather(welcome)
+    }
+    suspend fun updateCurrentWeatherDataBase(welcome: Welcome){
+        welcome.isFav=false
+        room.getFavWeatherDao().updateCurrentWeather(welcome)
+    }
+
+
+
+
 
 
     suspend fun getFavtsWeatherDataBase(): MutableList<Welcome> {
@@ -45,7 +54,6 @@ class  Repositary private constructor(var context: Context) {
     suspend fun insertFavWeatherDataBase(welcome: Welcome):Long{
          welcome.isFav=true
         return room.getFavWeatherDao().insertFavWeather(welcome)
-
     }
     suspend fun deleteFavWeatherDataBase(welcome: Welcome){
          room.getFavWeatherDao().deleteFavWeather(welcome)
