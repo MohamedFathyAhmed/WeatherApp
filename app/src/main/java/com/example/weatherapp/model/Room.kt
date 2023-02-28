@@ -9,11 +9,11 @@ import com.google.gson.Gson
 
 @Dao
 interface WeatherDAO{
-    @Query("SELECT * FROM Welcome WHERE isFav = TRUE")
-    suspend fun getFavsWeather() :MutableList<Welcome>
+    @Query("SELECT * FROM Welcome WHERE isFav = 1")
+    suspend fun getFavsWeather() :List<Welcome>
 
-    @Query("SELECT * FROM Welcome WHERE isFav = TRUE")
-    suspend fun getCurrentWeather() :MutableList<Welcome>
+    @Query("SELECT * FROM Welcome WHERE isFav = 0")
+    suspend fun getCurrentWeather() :Welcome
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFavWeather(welcome: Welcome): Long
@@ -26,13 +26,14 @@ interface WeatherDAO{
 
     @Update
     suspend fun updateFavWeather(welcome: Welcome)
+
     @Update
     suspend fun updateCurrentWeather(welcome: Welcome)
 
 
 }
 
-@Database(entities = [Welcome::class], version = 6)
+@Database(entities = [Welcome::class], version = 8)
 @TypeConverters(Conv::class)
 abstract class WeatherDataBase : RoomDatabase(){
 

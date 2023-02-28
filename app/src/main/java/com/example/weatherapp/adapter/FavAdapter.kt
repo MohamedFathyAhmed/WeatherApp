@@ -16,7 +16,7 @@ import com.example.weatherapp.model.Welcome
 import com.example.weatherapp.view.ui.fav.FavInterface
 
 class FavAdapter(var context: Context,
-    var welcome: MutableList<Welcome>, private val favInterface: FavInterface
+    var welcome: List<Welcome>, private val favInterface: FavInterface
 ) : RecyclerView.Adapter<FavAdapter.ViewHolder>() {
 
 

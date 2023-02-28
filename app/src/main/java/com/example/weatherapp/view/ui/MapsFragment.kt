@@ -11,10 +11,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentMapsBinding
+import com.example.weatherapp.model.ApiState
 import com.example.weatherapp.view.HomeActivity
 import com.example.weatherapp.view.ui.fav.FavDataViewModel
 import com.example.weatherapp.view.ui.fav.FavFragment
@@ -33,6 +35,8 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 class MapsFragment : Fragment() {
@@ -143,20 +147,35 @@ if(comeFromHome){
     startActivity(Intent(requireContext(), HomeActivity::class.java))
 
 }else{
-    lateinit var honeViewModel: HomeDataViewModel
-    honeViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(
+    val homeViewModel: HomeDataViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(
         HomeDataViewModel::class.java)
-    honeViewModel.getCurrentWeatherApi(lat.toString(),lon.toString())
-    honeViewModel.welcome.observe(viewLifecycleOwner) {
-        lateinit var viewModel: FavDataViewModel
-        viewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(
-            FavDataViewModel::class.java
-        )
-        viewModel.insertFavWeatherDB(it)
-        viewModel.getFavsWeatherDB()
-        val action =MapsFragmentDirections.actionMapsFragmentToNavigationFav()
-        Navigation.findNavController(requireView()).navigate(action)
+    val viewModel: FavDataViewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(
+        FavDataViewModel::class.java
+    )
+    homeViewModel.getCurrentWeatherApi(lat.toString(),lon.toString())
 
+    lifecycleScope.launch() {
+        homeViewModel.data.collectLatest { result ->
+            when (result) {
+                is ApiState.Loading ->
+                {
+                    Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
+                }
+
+                is ApiState.Success -> {
+                    viewModel.insertFavWeatherDB(result.data)
+                    viewModel.getFavsWeatherDB()
+                    val action =MapsFragmentDirections.actionMapsFragmentToNavigationFav()
+                    Navigation.findNavController(requireView()).navigate(action)
+                    Toast. makeText ( requireContext(),  "get connection",Toast.LENGTH_SHORT) .show ()
+                }
+                is ApiState.Failure->{
+                    Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
+                }
+
+            }
+
+        }
     }
 
 

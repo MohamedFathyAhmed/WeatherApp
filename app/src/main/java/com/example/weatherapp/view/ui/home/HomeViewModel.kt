@@ -1,66 +1,75 @@
 package com.example.weatherapp.view.ui.home
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 import android.content.Context
 import androidx.lifecycle.*
-import com.example.weatherapp.CONST
-import com.example.weatherapp.model.Current
-import com.example.weatherapp.model.Daily
-import com.example.weatherapp.model.Repositary
-import com.example.weatherapp.model.Welcome
+import com.example.weatherapp.model.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
 class HomeDataViewModel(val context: Context): ViewModel(){
     private var repo: Repositary
 
-    private  var _current: MutableLiveData<Current>
-     var current: LiveData<Current>
-    private  var _welcome: MutableLiveData<Welcome>
-     var welcome: LiveData<Welcome>
+    private  var _data: MutableStateFlow<ApiState>
+     var data: StateFlow<ApiState>
 
 
     init {
         repo=Repositary.getInstance(context)
 
-
-        _current= MutableLiveData()
-        current= _current
-
-        _welcome= MutableLiveData()
-        welcome= _welcome
+        _data= MutableStateFlow(ApiState.Loading)
+        data= _data
 
     }
 
-//    fun getCurrentWeatherDB() {
-//        viewModelScope.launch {
-//            var Root =   repo.getCurrentWeatherDataBase()
-//            _current.value=Root
-//            current=_current
-//
-//        }
-//    }
-//
-//    fun insertCurrentWeatherDB(current: Current) {
-//        viewModelScope.launch {
-//            repo.insertCurrentWeatherDataBase(current)
-//        }
-//    }
 
 
-    fun getCurrentWeatherApi(lat: String?, lon: String?) {
+    fun getCurrentWeatherDB() =
         viewModelScope.launch {
-            var Welcome =   repo.getCurrentWeatherApi(lat,lon)
-           _welcome.value=Welcome
-            welcome=_welcome
+            repo.getCurrentsWeatherDataBase().catch {
+                    e-> _data.value=ApiState.Failure(e)
+            }
+                .collectLatest {
+                    _data.value = ApiState.Success(it)
+                }
+            data=_data
+        }
+
+        fun insertCurrentWeatherDB(welcome: Welcome) {
+        viewModelScope.launch {
+            repo.insertCurrentWeatherDataBase(welcome)
+        }
+    }
+
+    fun updateCurrentWeatherDB(welcome: Welcome) {
+        viewModelScope.launch {
+            repo.updateCurrentWeatherDataBase(welcome)
+        }
+    }
+
+
+
+
+    fun getCurrentWeatherApi(lat: String?, lon: String?) =
+        viewModelScope.launch {
+          repo.getCurrentWeatherApi(lat,lon).catch {
+                    e-> _data.value=ApiState.Failure(e)
+            }
+                .collectLatest {
+                    _data.value = ApiState.Success(it)
+
+                }
+
+            data=_data
 
         }
     }
 
 
-}
 
 

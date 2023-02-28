@@ -23,15 +23,6 @@ interface SimpleService{
         @Query(CONST.appid) appId: String=CONST.API_KEY,
     ):Welcome
 
-    @GET(CONST.onecall)
-    fun getCurrentWeatherByCity(
-        @Query("q") city: String,
-        @Query("units") units: String = "metric",
-        @Query("lang") lang: String = "en",
-        @Query("appid") appId: String
-    ): Welcome
-
-
 }
 object RetrofitHelper {
     val retrofit = Retrofit.Builder()

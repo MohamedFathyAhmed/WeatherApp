@@ -8,11 +8,12 @@ import androidx.lifecycle.ViewModel
 import android.content.Context
 import androidx.lifecycle.*
 import com.example.weatherapp.CONST
-import com.example.weatherapp.model.Current
-import com.example.weatherapp.model.Daily
-import com.example.weatherapp.model.Repositary
-import com.example.weatherapp.model.Welcome
+import com.example.weatherapp.model.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
@@ -20,37 +21,34 @@ class FavDataViewModel(val context: Context): ViewModel(){
     private var repo: Repositary
 
 
-    private  var _welcome: MutableLiveData<Welcome>
-    var welcome: LiveData<Welcome>
+    private  var _flowData: MutableStateFlow<ApiStateList>
+     var flowData: StateFlow<ApiStateList>
 
-    private  var _favs: MutableLiveData<MutableList<Welcome>>
-    var favs: LiveData<MutableList<Welcome>>
 
     init {
         repo=Repositary.getInstance(context)
-        _favs= MutableLiveData()
-        favs= _favs
 
-        _welcome= MutableLiveData()
-        welcome= _welcome
+        _flowData= MutableStateFlow(ApiStateList.Loading)
+        flowData= _flowData
     }
 
 
 
-    fun getFavsWeatherDB() {
+    fun getFavsWeatherDB() =
         viewModelScope.launch {
-            var Root =   repo.getFavtsWeatherDataBase()
-            _favs.value=Root
-            favs=_favs
-
+            repo.getFavtsWeatherDataBase().catch {
+                    e-> _flowData.value=ApiStateList.Failure(e)
+            }
+                .collectLatest {
+                    _flowData.value = ApiStateList.Success(it)
+                }
+            flowData=_flowData
         }
-    }
 
     fun insertFavWeatherDB(welcome: Welcome) {
-        viewModelScope.launch (Dispatchers.IO) {
+        viewModelScope.launch () {
             repo.insertFavWeatherDataBase(welcome)
         }
-        getFavsWeatherDB()
     }
 
     fun deleteFavWeatherDB(welcome: Welcome) {

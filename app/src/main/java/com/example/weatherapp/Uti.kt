@@ -3,17 +3,43 @@ package com.example.weatherapp
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.location.Address
+import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.provider.Settings.Secure.getString
+import android.util.Log
 import com.example.weatherapp.model.Current
 
 import com.example.weatherapp.model.Weather
 
 import com.example.weatherapp.model.Welcome
+import java.io.IOException
+import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
+
+
+fun getAddress(latitude: Double, longitude: Double, lang:String, context: Context): String {
+    var address = ""
+    val geocoder = Geocoder(context,  Locale(lang))
+    val addresses = geocoder.getFromLocation(latitude, longitude, 1)
+    if (addresses != null && addresses.size > 0) {
+        if(!addresses[0].locality.isNullOrEmpty()){
+            address=addresses[0].locality
+        }
+        else{ if(!addresses[0].getAddressLine(0).isNullOrEmpty()){
+            address =  addresses[0].getAddressLine(0)
+            return address
+        }
+        }
+    }
+    return address
+}
+
+
+
 
 
 
@@ -149,6 +175,7 @@ fun isConnected(context: Context): Boolean {
     return false
 
 }
+
 
 
 

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
@@ -13,9 +14,11 @@ import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,6 +33,8 @@ import com.example.weatherapp.view.ui.fav.FavDataViewModel
 import com.example.weatherapp.view.ui.fav.FavViewModelFactory
 import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 const val PERMISSION_ID = 44
 class HomeFragment : Fragment() {
@@ -79,8 +84,26 @@ class HomeFragment : Fragment() {
                         sharedPreference.getFloat(CONST.MapLat, 0f).toString(),
                         sharedPreference.getFloat(CONST.MapLong, 0f).toString()
                     )
-                    homeViewModel.welcome.observe(viewLifecycleOwner) {
-                        initUi(it)
+                    lifecycleScope.launch() {
+                        homeViewModel.data.collectLatest { result ->
+                            when (result) {
+                                is ApiState.Loading ->
+                                {
+                                    Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
+                                }
+
+                                is ApiState.Success -> {
+                                    initUi(result.data)
+                                  //  homeViewModel.insertCurrentWeatherDB(result.data)
+                                    Toast. makeText ( requireContext(),  "get connection",Toast.LENGTH_SHORT) .show ()
+                                }
+                                is ApiState.Failure->{
+                                    Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
+                                }
+
+                            }
+
+                        }
                     }
                 }
 
@@ -91,36 +114,68 @@ class HomeFragment : Fragment() {
                 navBar.setVisibility(View.GONE);
                 HomeFragmentArgs.fromBundle(requireArguments()).favWeather?.let {
                     homeViewModel.getCurrentWeatherApi(it.lat.toString(),it.lon.toString())
-                    homeViewModel.welcome.observe(viewLifecycleOwner){
-                        initUi(it)
-                        favViewModel.updateFavWeatherDB(it)
+
+                    lifecycleScope.launch() {
+                        homeViewModel.data.collectLatest { result ->
+                            when (result) {
+                                is ApiState.Loading ->
+                                {
+                                    Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
+                                }
+
+                                is ApiState.Success -> {
+                                    initUi(result.data)
+                                    favViewModel.updateFavWeatherDB(result.data)
+                                    Toast. makeText ( requireContext(),  "get connection",Toast.LENGTH_SHORT) .show ()
+                                }
+                                is ApiState.Failure->{
+                                    Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
+                                }
+
+                            }
+
+                        }
                     }
-
-
                 }
             }
         }//offline
         else{
             //from home
             if( HomeFragmentArgs.fromBundle(requireArguments()).comeFromHome) {
-
+homeViewModel.getCurrentWeatherDB()
                 // TODO: get current from data base
+                lifecycleScope.launch() {
+                    homeViewModel.data.collectLatest { result ->
+                        when (result) {
+                            is ApiState.Loading ->
+                            {
+                                Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
+                            }
+                            is ApiState.Success -> {
+                                initUi(result.data)
+                                favViewModel.updateFavWeatherDB(result.data)
+                            }
+                            is ApiState.Failure->{
+                                Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
+                            }
 
+                        }
+
+                    }
+                }
             //from fav
             } else {
                 navBar = requireActivity().findViewById(R.id.nav_view)
                 navBar.setVisibility(View.GONE);
                 HomeFragmentArgs.fromBundle(requireArguments()).favWeather?.let { initUi(it) }
             }
-
-
         }
-
         return binding.root
     }
 
     /*============================================================================================================*/
     private fun initUi(it:Welcome) {
+
         binding.rvDays.adapter= DaysAdapter(it.daily,requireContext()){}
         binding.rvDays.apply {
             adapter = binding.rvDays.adapter
@@ -143,7 +198,6 @@ class HomeFragment : Fragment() {
                 .apply { orientation = RecyclerView.VERTICAL }
         }
 
-
        _binding.imgIcon.setImageResource(getIconImage(it.current.weather[0].icon))
 
         _binding.txtDegree.text = "${it.current.temp}°"
@@ -152,7 +206,9 @@ class HomeFragment : Fragment() {
         else
             _binding.txtDegreeRange.text = ""
 
-        _binding.city.text= it.timezone
+
+
+        _binding.city.text=  getAddress(it.lat,it.lon,"ar" ,requireContext())
         _binding.txtDegree.text= "${it.current.temp}°"
 
         _binding.container.setBackgroundResource(setBackgroundContainer(it.current.weather[0].icon,requireContext()))
@@ -231,7 +287,6 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("MissingPermission")
     private fun requestNewLocationData() {
-
         val mLocationRequest = LocationRequest()
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
         mLocationRequest.setInterval(0)
@@ -256,8 +311,26 @@ class HomeFragment : Fragment() {
             }
 
             homeViewModel.getCurrentWeatherApi(latitude.toString(),longitude.toString())
-            homeViewModel.welcome.observe(viewLifecycleOwner) {
-                initUi(it)
+
+            lifecycleScope.launch() {
+                homeViewModel.data.collectLatest { result ->
+                    when (result) {
+                        is ApiState.Loading ->
+                        {
+                            Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
+                        }
+                        is ApiState.Success -> {
+                            initUi(result.data)
+                         //   homeViewModel.insertCurrentWeatherDB(result.data)
+                            favViewModel.updateFavWeatherDB(result.data)
+                       }
+                        is ApiState.Failure->{
+                            Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
+                        }
+
+                    }
+
+                }
             }
             mFusedLocationClient.removeLocationUpdates(this)
         }

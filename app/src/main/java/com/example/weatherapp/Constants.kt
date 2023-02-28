@@ -21,7 +21,7 @@ object CONST {
 
     const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
 
-   const val API_KEY = "bec88e8dd2446515300a492c3862a10e"
+   const val API_KEY = "85e90ac76ec05044a030f7ee6cdf4591"
 
     const val Background = "Background"
 //get SharedPreferences

@@ -7,11 +7,12 @@ import com.google.gson.Gson
 
 @Entity
 data class Welcome (
-    var isFav:Boolean=false,
+    var isFav:Int=0,
     val lat: Double,
     val lon: Double,
     @PrimaryKey
-    val timezone: String,
+    var timezone: String,
+    var timezonear: String="",
     val timezone_offset: Long,
     val current: Current,
     val hourly: List<Current>,
