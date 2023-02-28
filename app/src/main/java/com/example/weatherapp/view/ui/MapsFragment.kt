@@ -147,17 +147,17 @@ if(comeFromHome){
     honeViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(
         HomeDataViewModel::class.java)
     honeViewModel.getCurrentWeatherApi(lat.toString(),lon.toString())
-    honeViewModel.welcome.observe(viewLifecycleOwner) {
-        lateinit var viewModel: FavDataViewModel
-        viewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(
-            FavDataViewModel::class.java
-        )
-        viewModel.insertFavWeatherDB(it)
-        viewModel.getFavsWeatherDB()
-        val action =MapsFragmentDirections.actionMapsFragmentToNavigationFav()
-        Navigation.findNavController(requireView()).navigate(action)
-
-    }
+//    honeViewModel.welcome.observe(viewLifecycleOwner) {
+//        lateinit var viewModel: FavDataViewModel
+//        viewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(
+//            FavDataViewModel::class.java
+//        )
+//        viewModel.insertFavWeatherDB(it)
+//        viewModel.getFavsWeatherDB()
+//        val action =MapsFragmentDirections.actionMapsFragmentToNavigationFav()
+//        Navigation.findNavController(requireView()).navigate(action)
+//
+//    }
 
 
 }

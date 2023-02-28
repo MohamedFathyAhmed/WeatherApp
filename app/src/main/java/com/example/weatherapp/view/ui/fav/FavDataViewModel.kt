@@ -56,6 +56,7 @@ class FavDataViewModel(val context: Context): ViewModel(){
     fun deleteFavWeatherDB(welcome: Welcome) {
         viewModelScope.launch {
             repo.deleteFavWeatherDataBase(welcome)
+
         }
     }
     fun updateFavWeatherDB(welcome: Welcome) {

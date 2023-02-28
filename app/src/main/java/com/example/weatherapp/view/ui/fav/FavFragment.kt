@@ -1,5 +1,6 @@
 package com.example.weatherapp.view.ui.fav
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -67,9 +68,11 @@ class FavFragment : Fragment(),FavInterface {
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun deleteTask(welcome: Welcome, position: Int) {
-
         viewModel.deleteFavWeatherDB(welcome)
+        viewModel.getFavsWeatherDB()
+        _binding.daysRecyclerView.adapter?.notifyDataSetChanged()
 
     }
 

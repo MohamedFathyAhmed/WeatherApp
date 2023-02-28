@@ -4,11 +4,17 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asFlow
 import com.example.weatherapp.CONST
 
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+
 
 
 class  Repositary private constructor(var context: Context) {
@@ -63,13 +69,19 @@ class  Repositary private constructor(var context: Context) {
         room.getFavWeatherDao().updateFavWeather(welcome)
     }
     /*============================================================================================================*/
-    suspend fun getCurrentWeatherApi( lat: String?, lon: String?): Welcome {
-        val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toString())!!
-        val lang =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())!!
-        return API.retrofitService.getCurrentWeather(lat,lon,units,lang)
-    }
+//    suspend fun getCurrentWeatherApi( lat: String?, lon: String?): Flow<Welcome> {
+//        val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+//val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toString())!!
+//        val lang =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())!!
+//        return API.retrofitService.getCurrentWeather(lat,lon,units,lang) as LiveData<Welcome>
+//    }
 
 /*============================================================================================================*/
+fun getCurrentWeatherApi( lat: String?, lon: String?)= flow<Welcome> {
+
+     emit(API.retrofitService.getCurrentWeather(lat,lon))
+
+}
+
 
 }

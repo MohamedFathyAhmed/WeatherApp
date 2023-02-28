@@ -1,9 +1,11 @@
 package com.example.weatherapp.model
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.example.weatherapp.CONST
 import com.example.weatherapp.model.RetrofitHelper.retrofit
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -17,11 +19,11 @@ interface SimpleService{
     suspend fun getCurrentWeather(
         @Query(CONST.lat) lat: String?,
         @Query(CONST.lon) lon: String?,
-        @Query("units") units: String?,
-        @Query(CONST.lang) lang: String?,
-        @Query(CONST.exclude) exclude: String="minutely",
         @Query(CONST.appid) appId: String=CONST.API_KEY,
     ):Welcome
+
+
+
 
     @GET(CONST.onecall)
     fun getCurrentWeatherByCity(
@@ -44,5 +46,9 @@ object API {
         retrofit.create(SimpleService::class.java)
     }
 }
+
+
+
+
 
 
