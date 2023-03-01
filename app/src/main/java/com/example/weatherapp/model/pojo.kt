@@ -1,5 +1,6 @@
 package com.example.weatherapp.model
 //:java.io.Serializable
+import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
@@ -24,12 +25,11 @@ data class Condition(
     var des: String,
     var name: String
 )
-@Entity
+
 data class Current (
     val dt: Long,
     val sunrise: Long,
     val sunset: Long,
-    @PrimaryKey
     var temp: Double,
     val feelsLike: Double,
     val pressure: Long,
@@ -121,4 +121,13 @@ class Conv {
 
 
 }
-
+@Entity
+data class Alert(
+    @NonNull
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    var startTime: Long,
+    var endTime: Long,
+    var startDay: Long,
+    var endDay: Long
+)
