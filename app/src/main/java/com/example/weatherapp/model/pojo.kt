@@ -6,12 +6,11 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 
-@Entity
+@Entity(primaryKeys = ["isFav","timezone"])
 data class Welcome (
     var isFav:Int=0,
     val lat: Double,
     val lon: Double,
-    @PrimaryKey
     var timezone: String,
     var timezonear: String="",
     val timezone_offset: Long,
@@ -123,11 +122,9 @@ class Conv {
 }
 @Entity
 data class Alert(
-    @NonNull
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    var startTime: Long,
-    var endTime: Long,
+    var Time: Long,
     var startDay: Long,
     var endDay: Long
 )

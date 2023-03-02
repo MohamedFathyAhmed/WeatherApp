@@ -54,7 +54,7 @@ class  Repositary private constructor(var context: Context) {
     }
 
 
-
+/*============================================================================================================*/
 
 
 
@@ -83,6 +83,16 @@ class  Repositary private constructor(var context: Context) {
     /*============================================================================================================*/
     suspend fun getCurrentWeatherApi( lat: String?, lon: String?)=flow<Welcome> {
         emit( API.retrofitService.getCurrentWeather(lat,lon,units,lang))
+    }
+    /*============================================================================================================*/
+    suspend fun getAlertsDataBase()=room.getAlertDao().getAlerts()
+
+    suspend fun insertAlertDataBase(alert: Alert) {
+        room.getAlertDao().insertAlert(alert)
+    }
+
+    suspend fun deleteAlertDataBase(alert: Alert) {
+       room.getAlertDao().deleteAlerts(alert)
     }
 /*============================================================================================================*/
 

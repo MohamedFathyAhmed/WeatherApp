@@ -11,3 +11,9 @@ sealed class ApiStateList {
     class Failure(val msg: Throwable) : ApiStateList()
     object Loading : ApiStateList()
 }
+
+sealed class ApiStateAlert {
+    class Success(val data: List<Alert>) : ApiStateAlert()
+    class Failure(val msg: Throwable) : ApiStateAlert()
+    object Loading : ApiStateAlert()
+}

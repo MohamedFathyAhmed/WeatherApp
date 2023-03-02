@@ -5,6 +5,7 @@ import androidx.annotation.Nullable
 import androidx.room.*
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -33,11 +34,26 @@ interface WeatherDAO{
 
 }
 
-@Database(entities = [Welcome::class], version = 8)
+
+@Dao
+interface AlertDAO {
+    @Query("SELECT * FROM Alert")
+     fun getAlerts(): Flow<List<Alert>>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertAlert(alert: Alert): Long
+
+    @Delete
+    suspend fun deleteAlerts(alert: Alert)
+
+}
+
+@Database(entities = [Welcome::class,Alert::class], version = 11)
 @TypeConverters(Conv::class)
 abstract class WeatherDataBase : RoomDatabase(){
 
     abstract fun getFavWeatherDao() : WeatherDAO
+    abstract fun getAlertDao() : AlertDAO
 
     companion object{
         private var instance : WeatherDataBase? =null
