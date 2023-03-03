@@ -2,18 +2,10 @@ package com.example.weatherapp.model
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Geocoder
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.example.weatherapp.CONST
 import com.example.weatherapp.getAddress
 
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
-import java.util.concurrent.Flow
 
 
 class  Repositary private constructor(var context: Context) {
@@ -84,12 +76,12 @@ class  Repositary private constructor(var context: Context) {
     /*============================================================================================================*/
     suspend fun getAlertsDataBase()=room.getAlertDao().getAlerts()
 
-    suspend fun insertAlertDataBase(alert: Alert) {
-        room.getAlertDao().insertAlert(alert)
+    suspend fun insertAlertDataBase(myAlert: MyAlert) {
+        room.getAlertDao().insertAlert(myAlert)
     }
 
-    suspend fun deleteAlertDataBase(alert: Alert) {
-       room.getAlertDao().deleteAlerts(alert)
+    suspend fun deleteAlertDataBase(myAlert: MyAlert) {
+       room.getAlertDao().deleteAlerts(myAlert)
     }
 /*============================================================================================================*/
 

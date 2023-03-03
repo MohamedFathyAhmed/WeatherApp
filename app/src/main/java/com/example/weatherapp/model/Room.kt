@@ -1,10 +1,7 @@
 package com.example.weatherapp.model
 
 import android.content.Context
-import androidx.annotation.Nullable
 import androidx.room.*
-import androidx.room.OnConflictStrategy.Companion.REPLACE
-import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 
 
@@ -37,18 +34,18 @@ interface WeatherDAO{
 
 @Dao
 interface AlertDAO {
-    @Query("SELECT * FROM Alert")
-     fun getAlerts(): Flow<List<Alert>>
+    @Query("SELECT * FROM MyAlert")
+     fun getAlerts(): Flow<List<MyAlert>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertAlert(alert: Alert): Long
+    suspend fun insertAlert(myAlert: MyAlert): Long
 
     @Delete
-    suspend fun deleteAlerts(alert: Alert)
+    suspend fun deleteAlerts(myAlert: MyAlert)
 
 }
 
-@Database(entities = [Welcome::class,Alert::class], version = 12)
+@Database(entities = [Welcome::class,MyAlert::class], version = 19)
 @TypeConverters(Conv::class)
 abstract class WeatherDataBase : RoomDatabase(){
 

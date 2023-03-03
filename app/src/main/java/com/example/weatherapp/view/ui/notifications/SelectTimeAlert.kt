@@ -11,12 +11,12 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.*
 import com.example.weatherapp.databinding.FragmentSelectTimeAlertBinding
-import com.example.weatherapp.model.Alert
+import com.example.weatherapp.model.MyAlert
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class SelectTimeAlert : DialogFragment() {
-    lateinit var alert :Alert
+    lateinit var myAlert :MyAlert
     var language :String=""
    lateinit var viewModel: NotificationsViewModel
     private lateinit var _binding: FragmentSelectTimeAlertBinding
@@ -56,7 +56,7 @@ class SelectTimeAlert : DialogFragment() {
                     var time = (TimeUnit.MINUTES.toSeconds(minute.toLong()) + TimeUnit.HOURS.toSeconds(hour.toLong()))
                     time = time.minus(3600L * 2)
                     _binding.btnTime.text = convertToTime(time, language)
-                    alert.Time=time
+                    myAlert.Time=time
                 }
             val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, listener, current.get(Calendar.HOUR_OF_DAY), current.get(Calendar.MINUTE), false)
             timePickerDialog.setTitle("time")
@@ -72,7 +72,7 @@ class SelectTimeAlert : DialogFragment() {
 
 
                         _binding.btnFrom.text = convertToDate(getseconds(year,month+1,day),language)
-                        alert.startDay=getseconds(year,month+1,day)
+                        myAlert.startDay=getseconds(year,month+1,day)
                     }
                 }
             val datePickerDialog = DatePickerDialog(
@@ -90,7 +90,7 @@ class SelectTimeAlert : DialogFragment() {
                     if (view.isShown) {
 
                         _binding.btnTo.text = convertToDate(getseconds(year,month+1,day),language)
-                        alert.endDay=getseconds(year,month+1,day)
+                        myAlert.endDay=getseconds(year,month+1,day)
                     }
                 }
             val datePickerDialog = DatePickerDialog(
@@ -103,7 +103,7 @@ class SelectTimeAlert : DialogFragment() {
             datePickerDialog.show()
         }
         _binding.btnSaveAlert.setOnClickListener{
-            viewModel.insertAlertDB(alert)
+            viewModel.insertAlertDB(myAlert)
             dialog!!.dismiss()
         }
     }
@@ -116,6 +116,6 @@ class SelectTimeAlert : DialogFragment() {
         _binding.btnTo.text = dateAfter
         _binding.btnFrom.text = dateNow
         _binding.btnTime.text=timeNow
-        alert = Alert(current,current,dateplus,null)
+        myAlert = MyAlert(current,current,dateplus,null)
     }
 }

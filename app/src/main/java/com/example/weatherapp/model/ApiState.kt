@@ -13,7 +13,7 @@ sealed class ApiStateList {
 }
 
 sealed class ApiStateAlert {
-    class Success(val data: List<Alert>) : ApiStateAlert()
+    class Success(val data: List<MyAlert>) : ApiStateAlert()
     class Failure(val msg: Throwable) : ApiStateAlert()
     object Loading : ApiStateAlert()
 }

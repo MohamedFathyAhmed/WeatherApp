@@ -3,24 +3,15 @@ package com.eram.weather.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.weatherapp.*
 import com.example.weatherapp.databinding.ItemAlertBinding
 
-import com.example.weatherapp.databinding.ItemDaysBinding
-import com.example.weatherapp.databinding.ItemTimesBinding
 import com.example.weatherapp.model.*
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class AlertAdapter(var alerts: List<Alert>, val context: Context, private val deleteAlertAction: (alert: Alert) -> Unit) :
+class AlertAdapter(var myAlerts: List<MyAlert>, val context: Context, private val deleteAlertAction: (myAlert: MyAlert) -> Unit) :
     RecyclerView.Adapter<AlertAdapter.ViewHolder>() {
     lateinit var binding: ItemAlertBinding
     val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
@@ -38,13 +29,13 @@ class AlertAdapter(var alerts: List<Alert>, val context: Context, private val de
     }
 
     override fun getItemCount(): Int {
-        return alerts.size ?: 0
+        return myAlerts.size ?: 0
     }
 
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = alerts[position]
+        val item = myAlerts[position]
 
         //    holder.binding.txtTo.text ="${convertToDate( item.endDay,language)}:${convertToTime(item.Time,language)}"
         holder.binding.txtFrom.text = convertToDate( item.startDay,language)

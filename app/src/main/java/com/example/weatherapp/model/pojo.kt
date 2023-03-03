@@ -1,9 +1,10 @@
 package com.example.weatherapp.model
-//:java.io.Serializable
+
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 @Entity(primaryKeys = ["isFav","timezone"])
 data class Welcome (
@@ -15,7 +16,8 @@ data class Welcome (
     val timezone_offset: Long,
     val current: Current,
     val hourly: List<Current>,
-    val daily: List<Daily>
+    val daily: List<Daily>,
+    val alerts: List<Alert>?
 ):java.io.Serializable
 
 data class Condition(
@@ -23,6 +25,15 @@ data class Condition(
     var des: String,
     var name: String
 )
+data class Alert (
+    val senderName: String? = null,
+    val event: String? = null,
+    val start: Long? = null,
+    val end: Long? = null,
+    val description: String? = null,
+    val tags: List<String> = emptyList()
+)
+
 
 data class Current (
     val dt: Long,
@@ -103,11 +114,6 @@ class Conv {
     fun fromStringToWeather(stringCurrent : String) = Gson().fromJson(stringCurrent, Array<Weather>::class.java).toList()
 
     @TypeConverter
-    fun fromweatherToString(weather: Weather) = Gson().toJson(weather)
-    @TypeConverter
-    fun fromStringToweather(stringCurrent : String) = Gson().fromJson(stringCurrent, Weather::class.java)
-
-    @TypeConverter
     fun fromDailyListToString(daily: List<Daily>) = Gson().toJson(daily)
     @TypeConverter
     fun fromStringToDailyList(stringDaily : String) = Gson().fromJson(stringDaily, Array<Daily>::class.java).toList()
@@ -117,10 +123,25 @@ class Conv {
     @TypeConverter
     fun fromStringToHourlyList(stringHourly : String) = Gson().fromJson(stringHourly, Array<Current>::class.java).toList()
 
+    @TypeConverter
+    fun fromAlertsToString(alerts: List<Alert>?): String {
+        if (!alerts.isNullOrEmpty()) {
+            return Gson().toJson(alerts)
+        }
+        return ""
+    }
+    @TypeConverter
+    fun fromStringToAlerts(alerts: String?): List<Alert> {
+        if (alerts.isNullOrEmpty()) {
+            return emptyList()
+        }
+        val listType = object : TypeToken<List<Alert?>?>() {}.type
+        return Gson().fromJson(alerts, listType)
+    }
 
 }
 @Entity
-data class Alert(
+data class MyAlert(
     var Time: Long,
     var startDay: Long,
     var endDay: Long,

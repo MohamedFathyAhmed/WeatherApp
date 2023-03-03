@@ -1,8 +1,6 @@
 package com.example.weatherapp.view.ui.notifications
 
 import android.content.Context
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.model.*
@@ -40,15 +38,15 @@ import kotlinx.coroutines.launch
                 flowData=_flowData
             }
 
-        fun insertAlertDB(alert: Alert) {
+        fun insertAlertDB(myAlert: MyAlert) {
             viewModelScope.launch () {
-                repo.insertAlertDataBase(alert)
+                repo.insertAlertDataBase(myAlert)
             }
         }
 
-        fun deleteAlertDB(alert: Alert) {
+        fun deleteAlertDB(myAlert: MyAlert) {
             viewModelScope.launch {
-                repo.deleteAlertDataBase(alert)
+                repo.deleteAlertDataBase(myAlert)
             }
         }
 
