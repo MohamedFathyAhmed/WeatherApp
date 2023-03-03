@@ -4,18 +4,19 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.TimePicker
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.weatherapp.*
-import com.example.weatherapp.databinding.FragmentNotificationsBinding
 import com.example.weatherapp.databinding.FragmentSelectTimeAlertBinding
+import com.example.weatherapp.model.Alert
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class SelectTimeAlert : DialogFragment() {
+    lateinit var alert :Alert
     var language :String=""
    lateinit var viewModel: NotificationsViewModel
     private lateinit var _binding: FragmentSelectTimeAlertBinding
@@ -55,23 +56,23 @@ class SelectTimeAlert : DialogFragment() {
                     var time = (TimeUnit.MINUTES.toSeconds(minute.toLong()) + TimeUnit.HOURS.toSeconds(hour.toLong()))
                     time = time.minus(3600L * 2)
                     _binding.btnTime.text = convertToTime(time, language)
+                    alert.Time=time
                 }
             val timePickerDialog = TimePickerDialog(requireContext(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar, listener, current.get(Calendar.HOUR_OF_DAY), current.get(Calendar.MINUTE), false)
             timePickerDialog.setTitle("time")
             timePickerDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
             timePickerDialog.show()
         }
-        fun getMilliseconds(year: Int, month: Int, day: Int): Long {
-            val calendar = Calendar.getInstance()
-            calendar.set(year, month - 1, day)
-            return calendar.timeInMillis
-        }
-
         _binding.btnFrom.setOnClickListener{
             val myDateListener =
                 DatePickerDialog.OnDateSetListener { view, year, month, day ->
+
+                    Log.i("time", "onViewCreated: ${getseconds(year,month,day)}")
                     if (view.isShown) {
-                        _binding.btnFrom.text = convertToDate( getMilliseconds(year,month,day),language)
+
+
+                        _binding.btnFrom.text = convertToDate(getseconds(year,month+1,day),language)
+                        alert.startDay=getseconds(year,month+1,day)
                     }
                 }
             val datePickerDialog = DatePickerDialog(
@@ -83,13 +84,13 @@ class SelectTimeAlert : DialogFragment() {
             datePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
             datePickerDialog.show()
         }
-
-
         _binding.btnTo.setOnClickListener{
             val myDateListener =
                 DatePickerDialog.OnDateSetListener { view, year, month, day ->
                     if (view.isShown) {
-                        _binding.btnTo.text =  convertToDate( getMilliseconds(year,month,day),language)
+
+                        _binding.btnTo.text = convertToDate(getseconds(year,month+1,day),language)
+                        alert.endDay=getseconds(year,month+1,day)
                     }
                 }
             val datePickerDialog = DatePickerDialog(
@@ -101,19 +102,20 @@ class SelectTimeAlert : DialogFragment() {
             datePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
             datePickerDialog.show()
         }
+        _binding.btnSaveAlert.setOnClickListener{
+            viewModel.insertAlertDB(alert)
+            dialog!!.dismiss()
+        }
     }
-
-
-
-
     private fun setFirstUi(current: Long) {
         val current = current.div(1000L)
         val timeNow = convertToTime(current, language)
-        val date = (5184000L) + current
-        val dateAfter = convertToDate((date), language)
+        val dateplus = (86400L) + current
+        val dateAfter = convertToDate((dateplus), language)
         val dateNow = convertToDate(current, language)
-        _binding.btnFrom.text = dateAfter
-        _binding.btnTo.text = dateNow
+        _binding.btnTo.text = dateAfter
+        _binding.btnFrom.text = dateNow
         _binding.btnTime.text=timeNow
+        alert = Alert(current,current,dateplus,null)
     }
 }

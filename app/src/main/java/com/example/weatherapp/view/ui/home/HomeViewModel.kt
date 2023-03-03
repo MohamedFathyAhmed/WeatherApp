@@ -5,15 +5,13 @@ import androidx.lifecycle.ViewModel
 import android.content.Context
 import androidx.lifecycle.*
 import com.example.weatherapp.model.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 
 class HomeDataViewModel(val context: Context): ViewModel(){
     private var repo: Repositary
+
 
     private  var _data: MutableStateFlow<ApiState>
      var data: StateFlow<ApiState>
@@ -24,6 +22,7 @@ class HomeDataViewModel(val context: Context): ViewModel(){
 
         _data= MutableStateFlow(ApiState.Loading)
         data= _data
+
 
     }
 
@@ -53,8 +52,6 @@ class HomeDataViewModel(val context: Context): ViewModel(){
     }
 
 
-
-
     fun getCurrentWeatherApi(lat: String?, lon: String?) =
         viewModelScope.launch {
           repo.getCurrentWeatherApi(lat,lon).catch {
@@ -62,7 +59,6 @@ class HomeDataViewModel(val context: Context): ViewModel(){
             }
                 .collectLatest {
                     _data.value = ApiState.Success(it)
-
                 }
 
             data=_data

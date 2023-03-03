@@ -159,16 +159,14 @@ if(comeFromHome){
             when (result) {
                 is ApiState.Loading ->
                 {
-                    Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
+                    Toast. makeText ( requireContext(),  " get data ....",Toast.LENGTH_SHORT) .show ()
                 }
 
                 is ApiState.Success -> {
                     viewModel.insertFavWeatherDB(result.data)
-                    viewModel.getFavsWeatherDB()
                     val action =MapsFragmentDirections.actionMapsFragmentToNavigationFav()
                     Navigation.findNavController(requireView()).navigate(action)
-                    Toast. makeText ( requireContext(),  "get connection",Toast.LENGTH_SHORT) .show ()
-                }
+               }
                 is ApiState.Failure->{
                     Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
                 }

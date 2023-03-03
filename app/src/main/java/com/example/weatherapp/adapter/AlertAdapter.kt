@@ -46,16 +46,10 @@ class AlertAdapter(var alerts: List<Alert>, val context: Context, private val de
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = alerts[position]
 
-if (language.equals("en"))
-        {
-            holder.binding.txtFrom.text = item.startDay.toString()
-            holder.binding.txtTo.text = item.endDay.toString()
-
-    }else{
-// TODO: when select arabic
-
-
-       }
+        //    holder.binding.txtTo.text ="${convertToDate( item.endDay,language)}:${convertToTime(item.Time,language)}"
+        holder.binding.txtFrom.text = convertToDate( item.startDay,language)
+        holder.binding.txtTime.text =convertToTime(item.Time,language)
+        holder.binding.txtTo.text =convertToDate( item.endDay,language)
         holder.binding.imgDelete.setOnClickListener {
             deleteAlertAction(item)
         }

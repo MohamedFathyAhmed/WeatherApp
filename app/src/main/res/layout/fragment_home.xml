@@ -1,160 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.core.widget.NestedScrollView android:layout_width="match_parent"
+
+
+
+<androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.04" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glTop2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.02" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glLeft"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.98" />
-
-    <TextView
-        android:id="@+id/txtDegree"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="48sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/glLeft"
-        app:layout_constraintTop_toTopOf="@+id/glTop"
-        tools:text="23\u00B0" />
-
-    <TextView
-        android:id="@+id/txtDegreeRange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/secondaryTextColor"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@id/txtDegree"
-        tools:text="23\u00B0/19\u00B0" />
-
-
-    <ImageView
-        android:id="@+id/imgIcon"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:contentDescription="PHOTO"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintRight_toRightOf="@+id/glRight"
-        app:layout_constraintStart_toEndOf="@+id/txtDegree"
-        app:layout_constraintTop_toTopOf="@+id/glTop2"
-        tools:src="@drawable/ic_clear_sky_morning" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvTimes"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:paddingLeft="20dp"
-        android:paddingTop="40dp"
-        android:paddingRight="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/glRight"
-        app:layout_constraintStart_toStartOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@+id/imgIcon" />
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:visibility="visible">
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recy_view_condition_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:padding="10dp"
-        app:layout_constraintEnd_toStartOf="@+id/glRight"
-        app:layout_constraintStart_toStartOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@+id/rvDays"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_des" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDays"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:clipToPadding="false"
-        android:fadeScrollbars="false"
-        android:overScrollMode="never"
-        android:paddingTop="32dp"
-        android:paddingBottom="20dp"
-        app:layout_constraintEnd_toStartOf="@+id/glRight"
-        app:layout_constraintStart_toStartOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@+id/rvTimes"
-        tools:listitem="@layout/item_days" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="1dp"
-        android:src="@drawable/ic_location"
-        app:layout_constraintBottom_toBottomOf="@id/city"
-        app:layout_constraintLeft_toRightOf="@+id/city"
-        app:layout_constraintTop_toTopOf="@id/city" />
-
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:minHeight="20dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="8dp"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@+id/txtDegreeRange" />
-
-    <TextView
-        android:id="@+id/day_state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="@+id/glLeft"
-        app:layout_constraintTop_toBottomOf="@+id/city"
-        tools:text="sky" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerloading"
+            android:layout_width="413dp"
+            android:layout_height="738dp"
+            android:fitsSystemWindows="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
 
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView3"
+                android:layout_width="346dp"
+                android:layout_height="462dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/loading" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containererror"
+            android:layout_width="407dp"
+            android:layout_height="731dp"
+            android:fitsSystemWindows="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation"
+                android:layout_width="346dp"
+                android:layout_height="462dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/error" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/containerdata"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            android:visibility="visible">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glTop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.04" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glTop2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.02" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/glRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.98" />
+
+            <TextView
+                android:id="@+id/txtDegree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@+id/glLeft"
+                app:layout_constraintTop_toTopOf="@+id/glTop"
+                tools:text="23\u00B0" />
+
+            <TextView
+                android:id="@+id/txtDegreeRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondaryTextColor"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@id/txtDegree"
+                tools:text="23\u00B0/19\u00B0" />
+
+
+            <ImageView
+                android:id="@+id/imgIcon"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:contentDescription="PHOTO"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintRight_toRightOf="@+id/glRight"
+                app:layout_constraintStart_toEndOf="@+id/txtDegree"
+                app:layout_constraintTop_toTopOf="@+id/glTop2"
+                tools:src="@drawable/ic_clear_sky_morning" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTimes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingLeft="20dp"
+                android:paddingTop="40dp"
+                android:paddingRight="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/imgIcon" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recy_view_condition_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                app:layout_constraintEnd_toStartOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/rvDays"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_des" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clipToPadding="false"
+                android:fadeScrollbars="false"
+                android:overScrollMode="never"
+                android:paddingTop="32dp"
+                android:paddingBottom="20dp"
+                app:layout_constraintEnd_toStartOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/rvTimes"
+                tools:listitem="@layout/item_days" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:src="@drawable/ic_location"
+                app:layout_constraintBottom_toBottomOf="@id/city"
+                app:layout_constraintLeft_toRightOf="@+id/city"
+                app:layout_constraintTop_toTopOf="@id/city" />
+
+            <TextView
+                android:id="@+id/city"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:minHeight="20dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="8dp"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                app:layout_constraintLeft_toLeftOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/txtDegreeRange" />
+
+            <TextView
+                android:id="@+id/day_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/city"
+                tools:text="sky" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

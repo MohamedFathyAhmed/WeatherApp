@@ -39,28 +39,24 @@ class  Repositary private constructor(var context: Context) {
     }
 /*============================================================================================================*/
 
-    suspend fun getCurrentsWeatherDataBase()=flow<Welcome> {
-        emit(room.getFavWeatherDao().getCurrentWeather())
-    }
+     fun getCurrentsWeatherDataBase()=room.getFavWeatherDao().getCurrentWeather()
     suspend fun insertCurrentWeatherDataBase(welcome: Welcome):Long{
+        welcome.isFav=0
         welcome.timezonear= getAddress(welcome.lat,welcome.lon,"ar" ,context)
         welcome.timezone= getAddress(welcome.lat,welcome.lon,"en" ,context)
         return room.getFavWeatherDao().insertCurrentWeather(welcome)
     }
     suspend fun updateCurrentWeatherDataBase(welcome: Welcome){
-
-        welcome.timezone= getAddress(welcome.lat,welcome.lon,lang ,context)
+        welcome.isFav=0
+        welcome.timezonear= getAddress(welcome.lat,welcome.lon,"ar" ,context)
+        welcome.timezone= getAddress(welcome.lat,welcome.lon,"en" ,context)
         room.getFavWeatherDao().updateCurrentWeather(welcome)
     }
 
 
 /*============================================================================================================*/
 
-
-
-    suspend fun getFavtsWeatherDataBase()=flow<List<Welcome>> {
-        emit( room.getFavWeatherDao().getFavsWeather())
-    }
+     fun getFavtsWeatherDataBase()= room.getFavWeatherDao().getFavsWeather()
 
     suspend fun insertFavWeatherDataBase(welcome: Welcome):Long{
         welcome.isFav=1
@@ -83,6 +79,7 @@ class  Repositary private constructor(var context: Context) {
     /*============================================================================================================*/
     suspend fun getCurrentWeatherApi( lat: String?, lon: String?)=flow<Welcome> {
         emit( API.retrofitService.getCurrentWeather(lat,lon,units,lang))
+
     }
     /*============================================================================================================*/
     suspend fun getAlertsDataBase()=room.getAlertDao().getAlerts()

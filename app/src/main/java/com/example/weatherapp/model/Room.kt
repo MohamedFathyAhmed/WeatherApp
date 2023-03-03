@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface WeatherDAO{
     @Query("SELECT * FROM Welcome WHERE isFav = 1")
-    suspend fun getFavsWeather() :List<Welcome>
+     fun getFavsWeather() : Flow<List<Welcome>>
 
     @Query("SELECT * FROM Welcome WHERE isFav = 0")
-    suspend fun getCurrentWeather() :Welcome
+     fun getCurrentWeather() :Flow<Welcome>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFavWeather(welcome: Welcome): Long
@@ -48,7 +48,7 @@ interface AlertDAO {
 
 }
 
-@Database(entities = [Welcome::class,Alert::class], version = 11)
+@Database(entities = [Welcome::class,Alert::class], version = 12)
 @TypeConverters(Conv::class)
 abstract class WeatherDataBase : RoomDatabase(){
 

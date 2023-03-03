@@ -34,7 +34,7 @@
             android:id="@+id/txtFrom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="5dp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:textColor="@color/black"
@@ -45,27 +45,52 @@
             tools:text="12:00AM" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/dot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text=" : "
+            android:text=":"
             android:textColor="@color/black"
+            android:layout_marginStart="5dp"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtFrom"
-            app:layout_constraintStart_toEndOf="@+id/txtFrom"
-            app:layout_constraintTop_toTopOf="@+id/txtFrom" />
+            app:layout_constraintBottom_toBottomOf="@+id/txtTo"
+            app:layout_constraintStart_toEndOf="@+id/txtTo"
+            app:layout_constraintTop_toTopOf="@+id/txtTo" />
 
         <TextView
             android:id="@+id/txtTo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="5dp"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/textView7"
             app:layout_constraintStart_toEndOf="@+id/textView7"
             app:layout_constraintTop_toTopOf="@+id/textView7"
             tools:text="12:00AM" />
+
+        <TextView
+            android:id="@+id/txtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/dot"
+            app:layout_constraintStart_toEndOf="@+id/dot"
+            app:layout_constraintTop_toTopOf="@+id/dot"
+            app:layout_constraintVertical_bias="1.0"
+            tools:text="12:00AM" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:text="->"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtFrom"
+            app:layout_constraintStart_toEndOf="@+id/txtFrom"
+            app:layout_constraintTop_toTopOf="@+id/txtFrom" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

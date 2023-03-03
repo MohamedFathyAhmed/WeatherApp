@@ -20,11 +20,7 @@ import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 
- fun getDateMillis(date: String,lang :String): Long {
-    val f = SimpleDateFormat("dd/MM/yyyy", Locale(lang))
-    val d: Date = f.parse(date)
-    return (d.time).div(1000)
-}
+
 fun getAddress(latitude: Double, longitude: Double, lang:String, context: Context): String {
     var address = ""
     val geocoder = Geocoder(context,  Locale(lang))
@@ -148,6 +144,12 @@ fun convertToDate(dt: Long,lang :String): String {
     val date = Date(dt * 1000)
     val format = SimpleDateFormat("d MMM, yyyy", Locale(lang))
     return format.format(date)
+}
+
+fun getseconds(year: Int, month: Int, day: Int): Long {
+    val calendar = Calendar.getInstance()
+    calendar.set(year, month - 1, day)
+    return calendar.timeInMillis / 1000
 }
 
 fun isConnected(context: Context): Boolean {

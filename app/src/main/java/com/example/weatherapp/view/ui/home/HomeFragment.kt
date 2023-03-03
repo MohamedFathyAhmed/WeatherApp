@@ -8,11 +8,14 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -38,6 +41,8 @@ import kotlinx.coroutines.launch
 
 const val PERMISSION_ID = 44
 class HomeFragment : Fragment() {
+
+
     lateinit var navBar: BottomNavigationView
     lateinit var homeViewModel: HomeDataViewModel
     lateinit var favViewModel: FavDataViewModel
@@ -61,120 +66,15 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        homeViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(HomeDataViewModel::class.java)
-        favViewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(FavDataViewModel::class.java)
-        //network
-        if (isConnected(requireContext())) {
-            //from home
-        if( HomeFragmentArgs.fromBundle(requireArguments()).comeFromHome) {
-            var location = sharedPreference.getString(CONST.LOCATION, "gps")
-            // from gps
-                if (location.equals("gps")) {
-                    //gps
-                    getLastLocation()
-
-                } else {
-                    //map
-
-
-                    homeViewModel.getCurrentWeatherApi(
-                        sharedPreference.getFloat(CONST.MapLat, 0f).toString(),
-                        sharedPreference.getFloat(CONST.MapLong, 0f).toString()
-                    )
-                    lifecycleScope.launch() {
-                        homeViewModel.data.collectLatest { result ->
-                            when (result) {
-                                is ApiState.Loading ->
-                                {
-                                    Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
-                                }
-
-                                is ApiState.Success -> {
-                                    initUi(result.data)
-                                  //  homeViewModel.insertCurrentWeatherDB(result.data)
-                                    Toast. makeText ( requireContext(),  "get connection",Toast.LENGTH_SHORT) .show ()
-                                }
-                                is ApiState.Failure->{
-                                    Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-
-//from fav
-            } else {
-
-                navBar = requireActivity().findViewById(R.id.nav_view)
-                navBar.setVisibility(View.GONE);
-                HomeFragmentArgs.fromBundle(requireArguments()).favWeather?.let {
-                    homeViewModel.getCurrentWeatherApi(it.lat.toString(),it.lon.toString())
-
-                    lifecycleScope.launch() {
-                        homeViewModel.data.collectLatest { result ->
-                            when (result) {
-                                is ApiState.Loading ->
-                                {
-                                    Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
-                                }
-
-                                is ApiState.Success -> {
-                                    initUi(result.data)
-                                    favViewModel.updateFavWeatherDB(result.data)
-                                    Toast. makeText ( requireContext(),  "get connection",Toast.LENGTH_SHORT) .show ()
-                                }
-                                is ApiState.Failure->{
-                                    Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
-                                }
-
-                            }
-
-                        }
-                    }
-                }
-            }
-        }//offline
-        else{
-            //from home
-            if( HomeFragmentArgs.fromBundle(requireArguments()).comeFromHome) {
-homeViewModel.getCurrentWeatherDB()
-                // TODO: get current from data base
-                lifecycleScope.launch() {
-                    homeViewModel.data.collectLatest { result ->
-                        when (result) {
-                            is ApiState.Loading ->
-                            {
-                                Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
-                            }
-                            is ApiState.Success -> {
-                                initUi(result.data)
-                                favViewModel.updateFavWeatherDB(result.data)
-                            }
-                            is ApiState.Failure->{
-                                Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
-                            }
-
-                        }
-
-                    }
-                }
-            //from fav
-            } else {
-                navBar = requireActivity().findViewById(R.id.nav_view)
-                navBar.setVisibility(View.GONE);
-                HomeFragmentArgs.fromBundle(requireArguments()).favWeather?.let { initUi(it) }
-            }
-        }
         return binding.root
     }
 
     /*============================================================================================================*/
     private fun initUi(it:Welcome) {
+        _binding.containerloading.visibility = GONE
+        _binding.containerdata.visibility = VISIBLE
+
 
         binding.rvDays.adapter= DaysAdapter(it.daily,requireContext()){}
         binding.rvDays.apply {
@@ -217,7 +117,121 @@ homeViewModel.getCurrentWeatherDB()
 
 
     /*============================================================================================================*/
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        loadingTime()
+        val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+        homeViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(HomeDataViewModel::class.java)
+        favViewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(FavDataViewModel::class.java)
+        //network
+        if (isConnected(requireContext())) {
+            //from home
+            if( HomeFragmentArgs.fromBundle(requireArguments()).comeFromHome) {
+                var location = sharedPreference.getString(CONST.LOCATION, "gps")
+                // from gps
+                if (location.equals("gps")) {
+                    //gps
+                    getLastLocation()
 
+                } else {
+                    //map
+
+
+                    homeViewModel.getCurrentWeatherApi(
+                        sharedPreference.getFloat(CONST.MapLat, 0f).toString(),
+                        sharedPreference.getFloat(CONST.MapLong, 0f).toString()
+                    )
+                    lifecycleScope.launch() {
+                        homeViewModel.data.collectLatest { result ->
+                            when (result) {
+                                is ApiState.Loading ->
+                                {
+                                    loadingTime()  }
+
+                                is ApiState.Success -> {
+
+                                    initUi(result.data)
+                                }
+                                is ApiState.Failure->{
+                                    faildTime()
+                                    Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+
+//from fav
+            } else {
+
+                navBar = requireActivity().findViewById(R.id.nav_view)
+                navBar.setVisibility(View.GONE);
+                HomeFragmentArgs.fromBundle(requireArguments()).favWeather?.let {
+                    homeViewModel.getCurrentWeatherApi(it.lat.toString(),it.lon.toString())
+
+                    lifecycleScope.launch() {
+                        homeViewModel.data.collectLatest { result ->
+                            when (result) {
+                                is ApiState.Loading ->
+                                {
+                                    loadingTime() }
+
+                                is ApiState.Success -> {
+
+                                    initUi(result.data)
+                                    favViewModel.updateFavWeatherDB(result.data)
+                                }
+                                is ApiState.Failure->{
+                                    faildTime()
+                                    Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
+                                }
+
+                            }
+
+                        }
+                    }
+                }
+            }
+        }//offline
+        else{
+            //from home
+            if( HomeFragmentArgs.fromBundle(requireArguments()).comeFromHome) {
+                homeViewModel.getCurrentWeatherDB()
+                // TODO: get current from data base
+                lifecycleScope.launch() {
+                    homeViewModel.data.collectLatest { result ->
+                        when (result) {
+                            is ApiState.Loading ->
+                            {
+                                loadingTime()
+                            }
+                            is ApiState.Success -> {
+
+                                initUi(result.data)
+                                favViewModel.updateFavWeatherDB(result.data)
+                            }
+                            is ApiState.Failure->{
+                                faildTime()
+                                Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
+                            }
+
+                        }
+
+                    }
+                }
+                //from fav
+            } else {
+                navBar = requireActivity().findViewById(R.id.nav_view)
+                navBar.setVisibility(View.GONE);
+                HomeFragmentArgs.fromBundle(requireArguments()).favWeather?.let {
+                    initUi(it)
+                }
+            }
+        }
+    }
     /*============================================================================================================*/
     /*========================================GPS====================================================================*/
     private fun checkPermissions(): Boolean {
@@ -317,14 +331,15 @@ homeViewModel.getCurrentWeatherDB()
                     when (result) {
                         is ApiState.Loading ->
                         {
-                            Toast. makeText ( requireContext(),  " loading",Toast.LENGTH_SHORT) .show ()
+                            loadingTime()
                         }
                         is ApiState.Success -> {
+
                             initUi(result.data)
-                         //   homeViewModel.insertCurrentWeatherDB(result.data)
                             favViewModel.updateFavWeatherDB(result.data)
                        }
                         is ApiState.Failure->{
+                            faildTime()
                             Toast. makeText ( requireContext(),  "Check ${result.msg}",Toast.LENGTH_SHORT) .show ()
                         }
 
@@ -385,4 +400,15 @@ homeViewModel.getCurrentWeatherDB()
 
         )
     /*============================================================================================================*/
+
+    fun loadingTime(){
+        _binding.containerdata.visibility = GONE
+        _binding.containerloading.visibility = VISIBLE
+    }
+
+    fun faildTime(){
+        _binding.containerloading.visibility = GONE
+        _binding.containererror.visibility = VISIBLE
+    }
+
 }

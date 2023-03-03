@@ -53,21 +53,15 @@ class FavFragment : Fragment(),FavInterface {
         lifecycleScope.launch() {
             viewModel.flowData.collectLatest { result ->
                 when (result) {
-                    is ApiStateList.Loading ->
-                    {
-                        Toast. makeText ( requireContext(),  " loading", Toast.LENGTH_SHORT) .show ()
-                    }
-
+                    is ApiStateList.Loading -> {}
                     is ApiStateList.Success -> {
                         val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-
                         _binding.daysRecyclerView.adapter= FavAdapter(requireContext(),result.data,this@FavFragment)
                         _binding.daysRecyclerView.apply {
                             adapter = _binding.daysRecyclerView.adapter
                             layoutManager = LinearLayoutManager(requireContext())
                                 .apply { orientation = RecyclerView.VERTICAL }
                             setBackgroundResource(sharedPreference.getInt(CONST.Background, R.drawable.gradient))
-
                         }
                     }
                     is ApiStateList.Failure->{
@@ -81,7 +75,6 @@ class FavFragment : Fragment(),FavInterface {
 
 
         _binding.addFab.setOnClickListener{
-
             val action =FavFragmentDirections.actionNavigationFavToMapsFragment()
             Navigation.findNavController(requireView()).navigate(action)
             _binding.daysRecyclerView.adapter?.notifyDataSetChanged()
@@ -97,9 +90,7 @@ class FavFragment : Fragment(),FavInterface {
 
 
     override fun selectTask(welcome: Welcome) {
-
         val action =FavFragmentDirections.actionNavigationFavToNavigationHome(false,welcome)
-
         Navigation.findNavController(requireView()).navigate(action)
     }
 

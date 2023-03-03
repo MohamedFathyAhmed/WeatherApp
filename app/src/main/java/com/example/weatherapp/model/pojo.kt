@@ -1,6 +1,5 @@
 package com.example.weatherapp.model
 //:java.io.Serializable
-import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
@@ -122,9 +121,9 @@ class Conv {
 }
 @Entity
 data class Alert(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
     var Time: Long,
     var startDay: Long,
-    var endDay: Long
+    var endDay: Long,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?
 )
