@@ -12,7 +12,9 @@ data class MyAlert(
     var endDay: Long,
     @PrimaryKey(autoGenerate = true)
     val id: Int?,
-   // var welcome: Welcome
+    var lat: Double,
+    var lon: Double,
+    var AlertCityName :String
 )
 @Entity(primaryKeys = ["isFav","timezone"])
 data class Welcome (

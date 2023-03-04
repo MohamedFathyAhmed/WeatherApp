@@ -14,6 +14,7 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.work.*
 import com.example.weatherapp.R
 import com.example.weatherapp.model.*
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -27,16 +28,17 @@ class NotificationsWorker(private var appContext: Context, workerParams: WorkerP
     }
 
     override suspend fun doWork(): Result {
-//        val data =  inputData.getString("MyAlert")
-//        var MyAlert = Gson().fromJson(data, MyAlert::class.java)
+        val lat =  inputData.getString("lat")
+        val lon =  inputData.getString("lon")
+        val address=inputData.getString("address")
         var responseModel: Welcome
-        responseModel = _repo.getCurrentWeatherApiForWorker("55","40")
+        responseModel = _repo.getCurrentWeatherApiForWorker(lat,lon)
        // var desc:String= responseModel.alerts?.get(0)?.description?:"no alert"
         var desc:String= responseModel.current.weather[0].description
         if(desc=="")desc="no alert"
         if(true){
             GlobalScope.launch (Dispatchers.Main){
-                AlertWindow(appContext,desc,"alert").onCreate()
+                AlertWindow(appContext,desc,address.toString()).onCreate()
             }
         }else{
             Notification(responseModel.timezone," $desc")

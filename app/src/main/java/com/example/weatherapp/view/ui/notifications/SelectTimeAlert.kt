@@ -11,13 +11,14 @@ import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkManager
+import androidx.work.*
 import com.example.weatherapp.*
+import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentSelectTimeAlertBinding
 import com.example.weatherapp.model.MyAlert
 import com.example.weatherapp.view.ui.dashboard.DashboardFragmentDirections
 import com.google.android.gms.maps.MapFragment
+import com.google.gson.Gson
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -104,7 +105,6 @@ class SelectTimeAlert : DialogFragment() {
             val myDateListener =
                 DatePickerDialog.OnDateSetListener { view, year, month, day ->
                     if (view.isShown) {
-
                         _binding.btnTo.text = convertToDate(getseconds(year,month+1,day),language)
                         myAlert.endDay=getseconds(year,month+1,day)
                     }
@@ -119,16 +119,17 @@ class SelectTimeAlert : DialogFragment() {
             datePickerDialog.show()
         }
         _binding.btnSaveAlert.setOnClickListener{
+            val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+            myAlert.lat =sharedPreference.getFloat(CONST.AlertLat, 0.0F).toDouble()
+            myAlert.lon=sharedPreference.getFloat(CONST.AlertLong, 0.0F).toDouble()
+            myAlert.AlertCityName = sharedPreference.getString(CONST.AlertCityName,"default").toString()
+
             viewModel.insertAlertDB(myAlert)
-            //
-            val workerManager = WorkManager.getInstance(requireContext())
-            val request = OneTimeWorkRequestBuilder<NotificationsWorker>()
-                .addTag("WORKER_TAG")
-                .build()
-            workerManager.enqueue(request)
+            setWorker(myAlert)
             dialog!!.dismiss()
         }
     }
+
     private fun setFirstUi(current: Long) {
         val current = current.div(1000L)
         val timeNow = convertToTime(current, language)
@@ -138,6 +139,31 @@ class SelectTimeAlert : DialogFragment() {
         _binding.btnTo.text = dateAfter
         _binding.btnFrom.text = dateNow
         _binding.btnTime.text=timeNow
-        myAlert = MyAlert(current,current,dateplus,null)
+        myAlert = MyAlert(current,current,dateplus,null,0.0,0.0,"")
+    }
+
+    private fun setWorker(myAlert:MyAlert) {
+        val calendar = Calendar.getInstance()
+        val currentTime = calendar.timeInMillis.div(1000)
+        val targetTime = myAlert.Time
+        val initialDelay = ((currentTime - targetTime)/60/60/60/60)-1
+        println( convertToTime(currentTime,"en"))
+        println( convertToTime(myAlert.Time,"en"))
+        println(initialDelay )
+
+
+        val data = Data.Builder()
+        data.putString("lat", myAlert.lat.toString())
+        data.putString("lon", myAlert.lon.toString())
+        data.putString("address", myAlert.AlertCityName)
+
+        val workRequest = PeriodicWorkRequestBuilder<NotificationsWorker>(1,TimeUnit.DAYS)
+            .setInitialDelay(initialDelay, TimeUnit.SECONDS)
+            .addTag(myAlert.id.toString())
+            .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+            .setInputData(data.build())
+            .build()
+
+        WorkManager.getInstance(requireContext()).enqueue(workRequest)
     }
 }
