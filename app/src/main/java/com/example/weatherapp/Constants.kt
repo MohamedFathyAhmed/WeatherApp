@@ -33,10 +33,13 @@ object CONST {
 
     const val LOCATION = "LOCATION"
     enum class Enum_LOCATION(){map,gps}
-    const val FavLong = "GpsLong"
-    const val FavLat = "GpsLat"
+    const val GpsLong = "GpsLong"
+    const val GpsLat = "GpsLat"
     const val MapLong = "MapLong"
     const val MapLat = "MapLat"
+    const val AlertLong = "AlertLong"
+    const val AlertLat = "AlertLat"
+    const val AlertCityName = "AlertCityName"
     const val units =" units"
     enum class Enum_units(){standard,metric,imperial}
     const val lang ="lang"

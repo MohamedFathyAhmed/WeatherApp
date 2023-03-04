@@ -5,7 +5,15 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-
+@Entity
+data class MyAlert(
+    var Time: Long,
+    var startDay: Long,
+    var endDay: Long,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int?,
+   // var welcome: Welcome
+)
 @Entity(primaryKeys = ["isFav","timezone"])
 data class Welcome (
     var isFav:Int=0,
@@ -138,13 +146,11 @@ class Conv {
         val listType = object : TypeToken<List<Alert?>?>() {}.type
         return Gson().fromJson(alerts, listType)
     }
+    @TypeConverter
+    fun fromWelcomeToString(welcome: Welcome) = Gson().toJson(welcome)
+    @TypeConverter
+    fun fromStringToWelcome(stringCurrent : String) = Gson().fromJson(stringCurrent, Welcome::class.java)
+
 
 }
-@Entity
-data class MyAlert(
-    var Time: Long,
-    var startDay: Long,
-    var endDay: Long,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int?
-)
+

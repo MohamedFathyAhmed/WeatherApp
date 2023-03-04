@@ -19,6 +19,7 @@ import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityHomeBinding
 import com.example.weatherapp.databinding.ActivityMainBinding
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+
 startActivity(Intent(this,HomeActivity::class.java))
 
 
@@ -61,6 +63,20 @@ startActivity(Intent(this,HomeActivity::class.java))
 
 
     }
+    private fun setLan(language: String) {
+        val metric = resources.displayMetrics
+        val configuration = resources.configuration
+        configuration.locale = Locale(language)
+        Locale.setDefault(Locale(language))
+
+        configuration.setLayoutDirection(Locale(language))
+        // update configuration
+        resources.updateConfiguration(configuration, metric)
+        // notify configuration
+        onConfigurationChanged(configuration)
+
+    }
+
 }
 
 

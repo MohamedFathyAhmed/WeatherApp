@@ -313,11 +313,15 @@ class HomeFragment : Fragment() {
     }
 
     private val mLocationCallback: LocationCallback = object : LocationCallback() {
-        override fun onLocationResult(locationResult: LocationResult) {
+      override fun onLocationResult(locationResult: LocationResult) {
             val mLastLocation: Location? = locationResult.lastLocation
             if (mLastLocation != null) {
                 latitude  = mLastLocation. latitude
                 longitude = mLastLocation. longitude
+                val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+
+                sharedPreference.edit().putString(CONST.GpsLong,longitude.toString()).commit()
+                sharedPreference.edit().putString(CONST.GpsLat,latitude.toString()).commit()
             }else{
                 val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
                 latitude  =  sharedPreference.getFloat(CONST.MapLat, 0f).toDouble()

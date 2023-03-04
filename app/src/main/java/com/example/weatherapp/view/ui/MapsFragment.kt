@@ -139,14 +139,14 @@ class MapsFragment : Fragment() {
     }
 
     private fun handleSaveClickable(lat: Float, lon: Float) {
-     var comeFromHome:Boolean =  MapsFragmentArgs.fromBundle(requireArguments()).comeFromHome ?: true
+     var comeFrom:String =  MapsFragmentArgs.fromBundle(requireArguments()).comeFrom
 
-if(comeFromHome){
+if(comeFrom=="home"){
     val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
     sharedPreference.edit().putFloat(CONST.MapLat,lat).putFloat(CONST.MapLong,lon).commit()
     startActivity(Intent(requireContext(), HomeActivity::class.java))
 
-}else{
+}else if(comeFrom=="fav"){
     val homeViewModel: HomeDataViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(
         HomeDataViewModel::class.java)
     val viewModel: FavDataViewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(
@@ -177,6 +177,10 @@ if(comeFromHome){
     }
 
 
+}else{
+    val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+    sharedPreference.edit().putFloat(CONST.AlertLat,lat).putFloat(CONST.AlertLong,lon).commit()
+    getActivity()?.getFragmentManager()?.popBackStack();
 }
         changeSaveCondition(true)
     }

@@ -52,11 +52,19 @@
         android:name="com.example.weatherapp.view.ui.MapsFragment"
         android:label="MapsFragment" >
         <argument
-            android:name="comeFromHome"
-            app:argType="boolean"
-            android:defaultValue="false" />
+            android:name="comeFrom"
+            app:argType="string"
+            android:defaultValue="home" />
         <action
             android:id="@+id/action_mapsFragment_to_navigation_fav"
             app:destination="@id/navigation_fav" />
     </fragment>
+    <dialog
+        android:id="@+id/selectTimeAlert"
+        android:name="com.example.weatherapp.view.ui.notifications.SelectTimeAlert"
+        android:label="SelectTimeAlert" >
+        <action
+            android:id="@+id/action_selectTimeAlert_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </dialog>
 </navigation>

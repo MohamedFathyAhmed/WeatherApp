@@ -17,8 +17,7 @@
     import com.example.weatherapp.view.HomeActivity
     import com.example.weatherapp.view.ui.fav.FavFragmentDirections
     import com.google.android.material.bottomnavigation.BottomNavigationView
-
-
+    import java.util.*
 
 
     class DashboardFragment : Fragment() {
@@ -67,15 +66,18 @@
                 when(languageRadioButton.text){
                     getString(R.string.arabic) -> {
                          sharedPreference.edit().putString(CONST.lang,CONST.Enum_language.ar.toString()).commit()
+                        setLan("ar")
+
                     }
                     getString(R.string.english)->{
                               sharedPreference.edit().putString(CONST.lang,CONST.Enum_language.en.toString()).commit()
+                        setLan("en")
                     }
                 }
 
             }
 
-
+          
 
             _binding.locationRadioGroup.setOnCheckedChangeListener { group, checkedId ->
                 locationRadioButton = view.findViewById<View>(checkedId) as RadioButton
@@ -84,7 +86,7 @@
 
                     getString(R.string.map) -> {
                                sharedPreference.edit().putString(CONST.LOCATION,CONST.Enum_LOCATION.map.toString()).commit()
-                        val action = DashboardFragmentDirections.actionNavigationDashboardToMapsFragment(true)
+                        val action = DashboardFragmentDirections.actionNavigationDashboardToMapsFragment("home")
                         Navigation.findNavController(requireView()).navigate(action)
 
                     }
@@ -110,5 +112,18 @@
                     }
                 }
             }
+        }
+        private fun setLan(language: String) {
+            val metric = resources.displayMetrics
+            val configuration = resources.configuration
+            configuration.locale = Locale(language)
+            Locale.setDefault(Locale(language))
+
+            configuration.setLayoutDirection(Locale(language))
+            // update configuration
+            resources.updateConfiguration(configuration, metric)
+            // notify configuration
+            onConfigurationChanged(configuration)
+
         }
     }

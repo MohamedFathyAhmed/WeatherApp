@@ -113,7 +113,7 @@
                 android:textColor="@color/primaryTextColor"
                 android:textSize="48sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@+id/glLeft"
+                app:layout_constraintStart_toEndOf="@+id/glLeft"
                 app:layout_constraintTop_toTopOf="@+id/glTop"
                 tools:text="23\u00B0" />
 
@@ -124,7 +124,7 @@
                 android:textColor="@color/secondaryTextColor"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="@+id/glLeft"
+                app:layout_constraintStart_toEndOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@id/txtDegree"
                 tools:text="23\u00B0/19\u00B0" />
 
@@ -189,7 +189,7 @@
                 android:layout_marginLeft="1dp"
                 android:src="@drawable/ic_location"
                 app:layout_constraintBottom_toBottomOf="@id/city"
-                app:layout_constraintLeft_toRightOf="@+id/city"
+                app:layout_constraintStart_toEndOf="@+id/city"
                 app:layout_constraintTop_toTopOf="@id/city" />
 
             <TextView
@@ -203,7 +203,7 @@
                 android:paddingBottom="8dp"
                 android:textColor="@color/white"
                 android:textSize="18sp"
-                app:layout_constraintLeft_toLeftOf="@+id/glLeft"
+                app:layout_constraintStart_toEndOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@+id/txtDegreeRange" />
 
             <TextView
@@ -212,7 +212,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                app:layout_constraintLeft_toLeftOf="@+id/glLeft"
+                app:layout_constraintStart_toEndOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@+id/city"
                 tools:text="sky" />
         </androidx.constraintlayout.widget.ConstraintLayout>

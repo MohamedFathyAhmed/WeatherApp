@@ -8,7 +8,7 @@
     <string name="app_settings">settings</string>
     <string name="language">language</string>
     <string name="english">english</string>
-    <string name="arabic">arabic</string>
+    <string name="arabic" translatable="false">arabic</string>
     <string name="temperature">temperature</string>
     <string name="location">location</string>
     <string name="gps">gps</string>
@@ -33,9 +33,11 @@
     <string name="kelvin">Temperature is Kelvin, Speed is m/s</string>
     <string name="fehrenheit">Temperature is Fahrenheit, Speed is mm/h</string>
     <string name="succ_deleted">deleted</string>
-
+    <string name="Search">Search</string>
+    <string name="title_activity_maps">MapsActivity</string>
     <string name="weatherAlerts">weatherAlerts</string>
     <string name="features">features</string>
+    <string name="where">where</string>
     <string name="ok">ok</string>
     <string name="cancel">cancel</string>
     <string name="time">time</string>

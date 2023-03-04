@@ -11,25 +11,43 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.CoroutineWorker
-import androidx.work.WorkerParameters
+import androidx.work.*
 import com.example.weatherapp.R
+import com.example.weatherapp.model.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
-class NotificationsWorker(var appContext: Context, workerParams: WorkerParameters) : CoroutineWorker(appContext, workerParams) {
+class NotificationsWorker(private var appContext: Context, workerParams: WorkerParameters) : CoroutineWorker(appContext, workerParams) {
+    private  var _repo: Repositary = Repositary.getInstance(appContext)
+
     companion object{
         const val CHANNEL_ID = "channelID"
     }
+
     override suspend fun doWork(): Result {
-
-
+//        val data =  inputData.getString("MyAlert")
+//        var MyAlert = Gson().fromJson(data, MyAlert::class.java)
+        var responseModel: Welcome
+        responseModel = _repo.getCurrentWeatherApiForWorker("55","40")
+       // var desc:String= responseModel.alerts?.get(0)?.description?:"no alert"
+        var desc:String= responseModel.current.weather[0].description
+        if(desc=="")desc="no alert"
+        if(true){
+            GlobalScope.launch (Dispatchers.Main){
+                AlertWindow(appContext,desc,"alert").onCreate()
+            }
+        }else{
+            Notification(responseModel.timezone," $desc")
+        }
 
         return Result.success()
     }
 
 
 
-    private fun showNotification(title:String,desc:String) {
+    private fun Notification(title:String,desc:String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "channel_name"
             val descriptionText = "channel_description"
@@ -67,3 +85,5 @@ class NotificationsWorker(var appContext: Context, workerParams: WorkerParameter
         }
     }
 }
+
+

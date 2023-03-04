@@ -3,19 +3,32 @@ package com.example.weatherapp.view.ui.notifications
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.weatherapp.*
 import com.example.weatherapp.databinding.FragmentSelectTimeAlertBinding
 import com.example.weatherapp.model.MyAlert
+import com.example.weatherapp.view.ui.dashboard.DashboardFragmentDirections
+import com.google.android.gms.maps.MapFragment
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class SelectTimeAlert : DialogFragment() {
+    override fun onResume() {
+        super.onResume()
+        val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+   var AlertCityName= sharedPreference.getString(CONST.AlertCityName,"default")
+        _binding.btnCity.text=AlertCityName
+    }
+
     lateinit var myAlert :MyAlert
     var language :String=""
    lateinit var viewModel: NotificationsViewModel
@@ -49,6 +62,9 @@ class SelectTimeAlert : DialogFragment() {
         _binding.ConstraintLayout.setBackgroundResource(sharedPreference.getInt(CONST.Background,R.drawable.gradient))
         _binding.closeButton.setOnClickListener{
             dialog!!.dismiss()
+        }
+        _binding.btnCity.setOnClickListener{
+          startActivity(Intent(requireContext(),MapsActivity::class.java))
         }
         _binding.btnTime.setOnClickListener{
             val listener: (TimePicker?, Int, Int) -> Unit =
@@ -104,6 +120,12 @@ class SelectTimeAlert : DialogFragment() {
         }
         _binding.btnSaveAlert.setOnClickListener{
             viewModel.insertAlertDB(myAlert)
+            //
+            val workerManager = WorkManager.getInstance(requireContext())
+            val request = OneTimeWorkRequestBuilder<NotificationsWorker>()
+                .addTag("WORKER_TAG")
+                .build()
+            workerManager.enqueue(request)
             dialog!!.dismiss()
         }
     }

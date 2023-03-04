@@ -75,9 +75,8 @@ class FavFragment : Fragment(),FavInterface {
 
 
         _binding.addFab.setOnClickListener{
-            val action =FavFragmentDirections.actionNavigationFavToMapsFragment()
+            val action =FavFragmentDirections.actionNavigationFavToMapsFragment("fav")
             Navigation.findNavController(requireView()).navigate(action)
-            _binding.daysRecyclerView.adapter?.notifyDataSetChanged()
         }
 
 
