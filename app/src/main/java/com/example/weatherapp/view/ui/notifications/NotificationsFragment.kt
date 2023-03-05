@@ -78,8 +78,7 @@ class NotificationsFragment : Fragment() {
             viewModel.flowData.collectLatest { result ->
                 when (result) {
                     is ApiStateAlert.Loading -> {
-                        Toast.makeText(requireContext(), " loading", Toast.LENGTH_SHORT).show()
-                    }
+                  }
 
                     is ApiStateAlert.Success -> {
                         val sharedPreference = requireActivity().getSharedPreferences(
