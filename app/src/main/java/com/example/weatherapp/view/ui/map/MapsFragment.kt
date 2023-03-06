@@ -1,16 +1,16 @@
-package com.example.weatherapp.view.ui
+package com.example.weatherapp.view.ui.map
 
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import com.example.weatherapp.CONST
@@ -19,8 +19,6 @@ import com.example.weatherapp.databinding.FragmentMapsBinding
 import com.example.weatherapp.model.ApiState
 import com.example.weatherapp.view.HomeActivity
 import com.example.weatherapp.view.ui.fav.FavDataViewModel
-import com.example.weatherapp.view.ui.fav.FavFragment
-import com.example.weatherapp.view.ui.fav.FavFragmentDirections
 import com.example.weatherapp.view.ui.fav.FavViewModelFactory
 import com.example.weatherapp.view.ui.home.HomeDataViewModel
 import com.example.weatherapp.view.ui.home.HomeViewModelFactory
@@ -139,10 +137,15 @@ class MapsFragment : Fragment() {
     }
 
     private fun handleSaveClickable(lat: Float, lon: Float) {
-     var comeFrom:String =  MapsFragmentArgs.fromBundle(requireArguments()).comeFrom
+        val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+        var comeFrom:String ="home"
+      if (sharedPreference.getBoolean("test",true)) {
+          sharedPreference.edit().putBoolean("test",false).commit()
+      }else{
+          comeFrom = MapsFragmentArgs.fromBundle(requireArguments()).comeFrom
+      }
 
 if(comeFrom=="home"){
-    val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
     sharedPreference.edit().putFloat(CONST.MapLat,lat).putFloat(CONST.MapLong,lon).commit()
     startActivity(Intent(requireContext(), HomeActivity::class.java))
 

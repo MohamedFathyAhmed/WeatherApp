@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.*
+import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.model.*
 import com.google.gson.Gson
@@ -28,23 +29,35 @@ class NotificationsWorker(private var appContext: Context, workerParams: WorkerP
     }
 
     override suspend fun doWork(): Result {
+        val sharedPreference =  appContext.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+        val startDate =  inputData.getLong("startDate",0)
+        val endDate =  inputData.getLong("endDate",0)
         val lat =  inputData.getString("lat")
         val lon =  inputData.getString("lon")
         val address=inputData.getString("address")
-        var responseModel: Welcome
-        responseModel = _repo.getCurrentWeatherApiForWorker(lat,lon)
-       // var desc:String= responseModel.alerts?.get(0)?.description?:"no alert"
-        var desc:String= responseModel.current.weather[0].description
-        if(desc=="")desc="no alert"
-        if(true){
-            GlobalScope.launch (Dispatchers.Main){
-                AlertWindow(appContext,desc,address.toString()).onCreate()
-            }
-        }else{
-            Notification(responseModel.timezone," $desc")
-        }
 
-        return Result.success()
+        val currentTime = System.currentTimeMillis().div(1000)
+
+        if(currentTime in startDate..endDate) {
+            var responseModel = _repo.getCurrentWeatherApiForWorker(lat, lon)
+            //  var desc:String= responseModel.alerts?.get(0)?.description?:"no alert"
+            var desc: String = responseModel.current.weather[0].description
+            if (desc == "") desc = "no alert"
+            if (sharedPreference.getString(
+                    CONST.alert,
+                    CONST.Enum_alert.notification.toString()
+                ) == CONST.Enum_alert.notification.toString()
+            ) {
+                Notification(responseModel.timezone, " $desc")
+            } else {
+                GlobalScope.launch(Dispatchers.Main) {
+                    AlertWindow(appContext, desc, address.toString()).onCreate()
+                }
+            }
+            return Result.success()
+        }else{
+            return Result.retry()
+        }
     }
 
 
@@ -74,13 +87,6 @@ class NotificationsWorker(private var appContext: Context, workerParams: WorkerP
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return
             }
             notify(1, builder.build())

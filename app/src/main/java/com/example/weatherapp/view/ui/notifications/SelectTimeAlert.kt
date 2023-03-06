@@ -10,15 +10,13 @@ import android.view.*
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.work.*
 import com.example.weatherapp.*
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentSelectTimeAlertBinding
 import com.example.weatherapp.model.MyAlert
-import com.example.weatherapp.view.ui.dashboard.DashboardFragmentDirections
-import com.google.android.gms.maps.MapFragment
-import com.google.gson.Gson
+import com.example.weatherapp.view.ui.map.MapsActivity
+
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -65,7 +63,7 @@ class SelectTimeAlert : DialogFragment() {
             dialog!!.dismiss()
         }
         _binding.btnCity.setOnClickListener{
-          startActivity(Intent(requireContext(),MapsActivity::class.java))
+          startActivity(Intent(requireContext(), MapsActivity::class.java))
         }
         _binding.btnTime.setOnClickListener{
             val listener: (TimePicker?, Int, Int) -> Unit =
@@ -123,7 +121,6 @@ class SelectTimeAlert : DialogFragment() {
             myAlert.lat =sharedPreference.getFloat(CONST.AlertLat, 0.0F).toDouble()
             myAlert.lon=sharedPreference.getFloat(CONST.AlertLong, 0.0F).toDouble()
             myAlert.AlertCityName = sharedPreference.getString(CONST.AlertCityName,"default").toString()
-
             viewModel.insertAlertDB(myAlert)
             setWorker(myAlert)
             dialog!!.dismiss()
@@ -146,17 +143,17 @@ class SelectTimeAlert : DialogFragment() {
         val calendar = Calendar.getInstance()
         val currentTime = calendar.timeInMillis.div(1000)
         val targetTime = myAlert.Time
-        val initialDelay = ((currentTime - targetTime)/60/60/60/60)-1
+        val initialDelay = ((currentTime - targetTime)/60/60/60/60)-100
         println( convertToTime(currentTime,"en"))
         println( convertToTime(myAlert.Time,"en"))
         println(initialDelay )
-
 
         val data = Data.Builder()
         data.putString("lat", myAlert.lat.toString())
         data.putString("lon", myAlert.lon.toString())
         data.putString("address", myAlert.AlertCityName)
-
+        data.putLong("startDate", myAlert.startDay)
+        data.putLong("endDate", myAlert.endDay)
         val workRequest = PeriodicWorkRequestBuilder<NotificationsWorker>(1,TimeUnit.DAYS)
             .setInitialDelay(initialDelay, TimeUnit.SECONDS)
             .addTag(myAlert.id.toString())
@@ -165,5 +162,6 @@ class SelectTimeAlert : DialogFragment() {
             .build()
 
         WorkManager.getInstance(requireContext()).enqueue(workRequest)
+
     }
 }

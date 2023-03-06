@@ -44,7 +44,7 @@
     <string name="notification">notification</string>
     <string name="alarm">alarm</string>
     <string name="alert">alert</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="favorite">favorite</string>
+    <string name="at">at</string>
+    at
 </resources>

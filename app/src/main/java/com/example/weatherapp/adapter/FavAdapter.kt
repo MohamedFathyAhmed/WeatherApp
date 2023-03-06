@@ -1,5 +1,6 @@
 package com.example.weatherapp.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class FavAdapter(var context: Context,
             )
         )
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val sharedPreference =  context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         val language =  sharedPreference.getString(CONST.lang,"en") !!
@@ -42,9 +44,13 @@ class FavAdapter(var context: Context,
         holder.binding.constraintLayout.setOnClickListener{
             favInterface.selectTask(item)
         }
-        var time = convertToTime(item.current.dt,language)
       var date = convertToDate(item.current.dt,language)
-        holder.binding.localityText.text ="${item.timezone} : ${date} ${time}"
+        if(language=="en"){
+            holder.binding.localityText.text ="${item.timezone} : ${date} "
+        }else{
+            holder.binding.localityText.text ="${item.timezonear} : ${date} "
+        }
+
     }
 
     override fun getItemCount(): Int {

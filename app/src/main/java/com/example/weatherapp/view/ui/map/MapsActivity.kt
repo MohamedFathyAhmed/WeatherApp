@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.example.weatherapp.view.ui.map
 
 import android.os.Bundle
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -13,7 +13,6 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.location.LocationServices
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.util.Log
@@ -21,9 +20,10 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.ViewModelProvider
+import com.example.weatherapp.CONST
+import com.example.weatherapp.R
+import com.example.weatherapp.getAddress
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.material.internal.ContextUtils.getActivity
 import java.io.IOException
 import java.util.*
 
@@ -49,7 +49,8 @@ class MapsActivity() : FragmentActivity(), OnMapReadyCallback{
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
         val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-        sharedPreference.edit().putFloat(CONST.AlertLat, latitude.toFloat()).putFloat(CONST.AlertLong,longtude.toFloat()).putString(CONST.AlertCityName,selectedAddress).commit()
+        sharedPreference.edit().putFloat(CONST.AlertLat, latitude.toFloat()).putFloat(CONST.AlertLong,longtude.toFloat()).putString(
+            CONST.AlertCityName,selectedAddress).commit()
 
         fusedLocationProviderClient=LocationServices.getFusedLocationProviderClient(this)
         editor =  sharedPreference.edit()
@@ -113,7 +114,7 @@ class MapsActivity() : FragmentActivity(), OnMapReadyCallback{
 
     fun drawMarker(latLon:LatLng){
         val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-        val language =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())!!
+        val language =  sharedPreference.getString(CONST.lang, CONST.Enum_language.en.toString())!!
 
         val markerOption=MarkerOptions().position(latLon).title("i need this location")
             .snippet(getAddress(latLon.latitude,latLon.longitude,language,this)).draggable(true)
@@ -123,7 +124,7 @@ class MapsActivity() : FragmentActivity(), OnMapReadyCallback{
         currentMarker?.showInfoWindow()
         latitude=latLon.latitude
         longtude=latLon.longitude
-        selectedAddress=getAddress(latitude,longtude,language,this)
+        selectedAddress= getAddress(latitude,longtude,language,this)
     }
 
 
@@ -159,7 +160,8 @@ class MapsActivity() : FragmentActivity(), OnMapReadyCallback{
     }
   fun setLocation(view: View) {
       val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-      sharedPreference.edit().putFloat(CONST.AlertLat, latitude.toFloat()).putFloat(CONST.AlertLong,longtude.toFloat()).putString(CONST.AlertCityName,selectedAddress).commit()
+      sharedPreference.edit().putFloat(CONST.AlertLat, latitude.toFloat()).putFloat(CONST.AlertLong,longtude.toFloat()).putString(
+          CONST.AlertCityName,selectedAddress).commit()
      finish()
    }
 }

@@ -16,13 +16,9 @@ object CONST {
     const val  lat= "lat"
     const val  lon= "lon"
     const val  appid= "appid"
-
     const val onecall = "onecall"
-
     const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
-
    const val API_KEY = "85e90ac76ec05044a030f7ee6cdf4591"
-
     const val Background = "Background"
 //get SharedPreferences
 //    val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
@@ -44,7 +40,7 @@ object CONST {
     enum class Enum_units(){standard,metric,imperial}
     const val lang ="lang"
     enum class Enum_language(){ar,en}
-
-
+    const val alert ="alert"
+    enum class Enum_alert(){alarm,notification}
 }
 

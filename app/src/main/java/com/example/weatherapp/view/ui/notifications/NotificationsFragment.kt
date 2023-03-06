@@ -3,7 +3,6 @@ package com.example.weatherapp.view.ui.notifications
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -13,18 +12,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.eram.weather.adapter.AlertAdapter
-import com.example.weatherapp.databinding.FragmentNotificationsBinding
-import com.example.weatherapp.model.ApiStateAlert
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.WorkManager
+import com.eram.weather.adapter.AlertAdapter
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
+import com.example.weatherapp.databinding.FragmentNotificationsBinding
+import com.example.weatherapp.model.ApiStateAlert
 import com.example.weatherapp.view.HomeActivity
-import com.example.weatherapp.view.ui.home.HomeFragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -90,6 +88,7 @@ class NotificationsFragment : Fragment() {
                             AlertAdapter(result.data, requireContext()) {
 
                                 viewModel.deleteAlertDB(it)
+                                WorkManager.getInstance(requireContext()).cancelAllWorkByTag(it.id.toString())
                                 Toast.makeText(
                                     requireContext(),
                                     getString(R.string.succ_deleted),
@@ -98,15 +97,15 @@ class NotificationsFragment : Fragment() {
                             }
                         _binding.daysRecyclerView.apply {
                             adapter = _binding.daysRecyclerView.adapter
-                            layoutManager = LinearLayoutManager(requireContext())
-                                .apply { orientation = RecyclerView.VERTICAL }
+                            layoutManager = LinearLayoutManager(requireContext()).apply {
+                                orientation = RecyclerView.VERTICAL
+                            }
                             setBackgroundResource(
                                 sharedPreference.getInt(
                                     CONST.Background,
                                     R.drawable.gradient
                                 )
                             )
-
                         }
                     }
                     is ApiStateAlert.Failure -> {

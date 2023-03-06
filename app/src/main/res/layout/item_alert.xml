@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/txtTo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/txtTo"
-            app:srcCompat="@drawable/ic_clear_sky_morning" />
+            app:srcCompat="@drawable/baseline_delete" />
 
         <TextView
             android:id="@+id/txtFrom"
@@ -48,7 +48,7 @@
             android:id="@+id/dot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=":"
+            android:text="@string/at"
             android:textColor="@color/black"
             android:layout_marginStart="5dp"
             android:textSize="16sp"
@@ -72,13 +72,14 @@
             android:id="@+id/txtTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/dot"
+            app:layout_constraintEnd_toStartOf="@+id/img_delete"
+            app:layout_constraintHorizontal_bias="0.093"
             app:layout_constraintStart_toEndOf="@+id/dot"
             app:layout_constraintTop_toTopOf="@+id/dot"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="12:00AM" />
 
         <TextView
@@ -86,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:text="->"
+            android:text="@string/to"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/txtFrom"

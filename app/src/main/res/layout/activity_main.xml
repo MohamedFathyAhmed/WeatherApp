@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainActivity"
+    tools:context=".view.ui.main.MainActivity"
 
     >
 
@@ -85,7 +85,7 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragmentContainerMap"
-        android:name="com.example.weatherapp.view.ui.MapsFragment"
+        android:name="com.example.weatherapp.view.ui.map.MapsFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"

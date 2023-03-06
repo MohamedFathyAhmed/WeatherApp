@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.FavAdapter
-import com.example.weatherapp.databinding.FragmentDashboardBinding
+
 import com.example.weatherapp.databinding.FragmentFavBinding
 import com.example.weatherapp.model.ApiState
 import com.example.weatherapp.model.ApiStateList

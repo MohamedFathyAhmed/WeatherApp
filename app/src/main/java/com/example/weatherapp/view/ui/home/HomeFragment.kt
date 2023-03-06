@@ -19,6 +19,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +33,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.adapter.ConditionAdapter
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.model.*
+import com.example.weatherapp.view.HomeActivity
 import com.example.weatherapp.view.ui.fav.FavDataViewModel
 import com.example.weatherapp.view.ui.fav.FavViewModelFactory
 import com.google.android.gms.location.*
@@ -72,6 +74,7 @@ class HomeFragment : Fragment() {
 
     /*============================================================================================================*/
     private fun initUi(it:Welcome) {
+        val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         _binding.containerloading.visibility = GONE
         _binding.containerdata.visibility = VISIBLE
 
@@ -99,18 +102,28 @@ class HomeFragment : Fragment() {
         }
 
        _binding.imgIcon.setImageResource(getIconImage(it.current.weather[0].icon))
+var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())
+        if(lang==CONST.Enum_language.en.toString()){
+            //en
+            _binding.txtDegree.text = "${it.current.temp}°"
+            if (it.daily[0].temp.min != it.daily[0].temp.max)
+                _binding.txtDegreeRange.text = "${it.daily[0].temp.min}°/${it.daily.get(0).temp.max}°"
+            else
+                _binding.txtDegreeRange.text = ""
 
-        _binding.txtDegree.text = "${it.current.temp}°"
-        if (it.daily[0].temp.min != it.daily[0].temp.max)
-            _binding.txtDegreeRange.text = "${it.daily[0].temp.min}°/${it.daily.get(0).temp.max}°"
-        else
-            _binding.txtDegreeRange.text = ""
+            _binding.txtDegree.text= "${it.current.temp}°"
+        }else{
+            //ar
+            _binding.txtDegree.text = "${convertStringToArabic(it.current.temp.toString())}°"
+            if (it.daily[0].temp.min != it.daily[0].temp.max)
+                _binding.txtDegreeRange.text = "${convertStringToArabic(it.daily[0].temp.min.toString())}°/${convertStringToArabic(it.daily.get(0).temp.max.toString()) }°"
+            else
+                _binding.txtDegreeRange.text = ""
 
+            _binding.txtDegree.text= "${convertStringToArabic(it.current.temp.toString()) }°"
+        }
 
-
-        _binding.city.text=  getAddress(it.lat,it.lon,"ar" ,requireContext())
-        _binding.txtDegree.text= "${it.current.temp}°"
-
+        _binding.city.text= lang?.let { it1 -> getAddress(it.lat,it.lon, it1,requireContext()) }
         _binding.container.setBackgroundResource(setBackgroundContainer(it.current.weather[0].icon,requireContext()))
         _binding.dayState.text=it.current.weather[0].description
     }
@@ -281,8 +294,7 @@ class HomeFragment : Fragment() {
             }else{
                 val intent = Intent (Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity (intent)
-
-            }
+           }
         } else {
             requestPermissions()
 

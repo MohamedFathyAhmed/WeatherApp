@@ -26,7 +26,9 @@ fun getAddress(latitude: Double, longitude: Double, lang:String, context: Contex
     val geocoder = Geocoder(context,  Locale(lang))
     val addresses = geocoder.getFromLocation(latitude, longitude, 1)
     if (addresses != null && addresses.size > 0) {
-        address= addresses.get(0).adminArea
+        if(addresses.get(0).adminArea!=null) {
+            address = addresses.get(0).adminArea
+        }
     }
     return address
 }
