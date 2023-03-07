@@ -45,14 +45,14 @@ class TimesAdapter(private val context: Context,var hourly: List<Current>) : Rec
         var item= hourly[position]
         if (language.equals("en")) {
 
-            holder.binding.hourWindSpeed.text = "${item.wind_speed} km/h"
+            holder.binding.hourWindSpeed.text = "${item.wind_speed} ${getCurrentSpeed(context)}"
 
-            holder.binding.hourTemp.text = "${item.temp}°"
+            holder.binding.hourTemp.text = "${item.temp}${getCurrentTemperature(context)}"
 
         }else{
-            holder.binding.hourWindSpeed.text = "${convertStringToArabic(item.wind_speed.toString())} كم/س"
+            holder.binding.hourWindSpeed.text = "${convertStringToArabic(item.wind_speed.toString())} ${getCurrentSpeed(context)}"
 
-            holder.binding.hourTemp.text = "${convertStringToArabic(item.temp.toString())}°"
+            holder.binding.hourTemp.text = "${convertStringToArabic(item.temp.toString())}${getCurrentTemperature(context)}"
 
 
         }

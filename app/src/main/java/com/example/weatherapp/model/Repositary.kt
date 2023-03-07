@@ -30,7 +30,7 @@ class  Repositary private constructor(var context: Context) {
         room= WeatherDataBase.getInstance(context)
     }
 /*============================================================================================================*/
-
+    suspend fun getCheckCurrentsWeatherDataBase()= room.getFavWeatherDao().getCheckCurrentWeather()
      fun getCurrentsWeatherDataBase()=room.getFavWeatherDao().getCurrentWeather()
     suspend fun insertCurrentWeatherDataBase(welcome: Welcome):Long{
         welcome.isFav=0

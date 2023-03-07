@@ -105,22 +105,23 @@ class HomeFragment : Fragment() {
 var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())
         if(lang==CONST.Enum_language.en.toString()){
             //en
-            _binding.txtDegree.text = "${it.current.temp}°"
+            _binding.txtDegree.text = "${it.current.temp} ${getCurrentTemperature(requireContext())}"
+
             if (it.daily[0].temp.min != it.daily[0].temp.max)
-                _binding.txtDegreeRange.text = "${it.daily[0].temp.min}°/${it.daily.get(0).temp.max}°"
+                _binding.txtDegreeRange.text = "${it.daily[0].temp.min}${getCurrentTemperature(requireContext())}/${it.daily.get(0).temp.max}${getCurrentTemperature(requireContext())}"
             else
                 _binding.txtDegreeRange.text = ""
 
-            _binding.txtDegree.text= "${it.current.temp}°"
+            _binding.txtDegree.text= "${it.current.temp}${getCurrentTemperature(requireContext())}"
         }else{
             //ar
-            _binding.txtDegree.text = "${convertStringToArabic(it.current.temp.toString())}°"
+            _binding.txtDegree.text = "${convertStringToArabic(it.current.temp.toString())}${getCurrentTemperature(requireContext())}"
             if (it.daily[0].temp.min != it.daily[0].temp.max)
-                _binding.txtDegreeRange.text = "${convertStringToArabic(it.daily[0].temp.min.toString())}°/${convertStringToArabic(it.daily.get(0).temp.max.toString()) }°"
+                _binding.txtDegreeRange.text = "${convertStringToArabic(it.daily[0].temp.min.toString())}${getCurrentTemperature(requireContext())}/${convertStringToArabic(it.daily.get(0).temp.max.toString()) }${getCurrentTemperature(requireContext())}"
             else
                 _binding.txtDegreeRange.text = ""
 
-            _binding.txtDegree.text= "${convertStringToArabic(it.current.temp.toString()) }°"
+            _binding.txtDegree.text= "${convertStringToArabic(it.current.temp.toString()) }${getCurrentTemperature(requireContext())}"
         }
 
         _binding.city.text= lang?.let { it1 -> getAddress(it.lat,it.lon, it1,requireContext()) }
@@ -146,11 +147,8 @@ var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString(
                 if (location.equals("gps")) {
                     //gps
                     getLastLocation()
-
                 } else {
                     //map
-
-
                     homeViewModel.getCurrentWeatherApi(
                         sharedPreference.getFloat(CONST.MapLat, 0f).toString(),
                         sharedPreference.getFloat(CONST.MapLong, 0f).toString()
@@ -163,8 +161,8 @@ var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString(
                                     loadingTime()  }
 
                                 is ApiState.Success -> {
-
                                     initUi(result.data)
+                                    homeViewModel.insertCurrentWeatherDB(result.data)
                                 }
                                 is ApiState.Failure->{
                                     faildTime()
@@ -193,7 +191,6 @@ var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString(
                                     loadingTime() }
 
                                 is ApiState.Success -> {
-
                                     initUi(result.data)
                                     favViewModel.updateFavWeatherDB(result.data)
                                 }
@@ -352,7 +349,7 @@ var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString(
                         is ApiState.Success -> {
 
                             initUi(result.data)
-                            favViewModel.updateFavWeatherDB(result.data)
+                            homeViewModel.insertCurrentWeatherDB(result.data)
                        }
                         is ApiState.Failure->{
                             faildTime()

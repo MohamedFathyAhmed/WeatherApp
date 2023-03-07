@@ -161,34 +161,37 @@ class SettingFragment : Fragment() {
         val sharedPreference =
             requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         var lang = sharedPreference.getString(CONST.lang, CONST.Enum_language.en.toString())
-        var LOCATION =
-            sharedPreference.getString(CONST.LOCATION, CONST.Enum_LOCATION.gps.toString())
-        var alert =
-            sharedPreference.getString(CONST.alert, CONST.Enum_alert.notification.toString())
+        var LOCATION = sharedPreference.getString(CONST.LOCATION, CONST.Enum_LOCATION.gps.toString())
+        var alert = sharedPreference.getString(CONST.alert, CONST.Enum_alert.notification.toString())
         var units = sharedPreference.getString(CONST.units, CONST.Enum_units.metric.toString())
         if (lang == CONST.Enum_language.en.toString()) {
             _binding.languageRadioGroup.check(_binding.englishRadioButton.id)
-        } else {
+        }
+        if (lang == CONST.Enum_language.ar.toString()) {
             _binding.languageRadioGroup.check(_binding.arabicRadioButton.id)
         }
 
         if (LOCATION == CONST.Enum_LOCATION.gps.toString()) {
             _binding.locationRadioGroup.check(_binding.gpsRadioButton.id)
-        } else {
+        }
+        if (LOCATION == CONST.Enum_LOCATION.map.toString()) {
             _binding.locationRadioGroup.check(_binding.mapRadioButton.id)
         }
 
         if (alert == CONST.Enum_alert.notification.toString()) {
             _binding.alertRadioGroup.check(_binding.notificationRadioButton.id)
-        } else {
+        }
+        if (alert == CONST.Enum_alert.alarm.toString()) {
             _binding.languageRadioGroup.check(_binding.alertRadioButton.id)
         }
 
         if (units == CONST.Enum_units.metric.toString()) {
             _binding.tempRadioGroup.check(_binding.celsiusRadioButton.id)
-        } else if (units == CONST.Enum_units.standard.toString()) {
+        }
+        if (units == CONST.Enum_units.standard.toString()) {
             _binding.tempRadioGroup.check(_binding.kelvinRadioButton.id)
-        } else {
+        }
+       if (units == CONST.Enum_units.imperial.toString()) {
             _binding.tempRadioGroup.check(_binding.fehrenheitRadioButton.id)
         }
 

@@ -10,8 +10,11 @@ interface WeatherDAO{
     @Query("SELECT * FROM Welcome WHERE isFav = 1")
      fun getFavsWeather() : Flow<List<Welcome>>
 
-    @Query("SELECT * FROM Welcome WHERE isFav = 0")
+    @Query("SELECT * FROM Welcome WHERE isFav = 0 ORDER BY timezone_offset ASC")
      fun getCurrentWeather() :Flow<Welcome>
+
+    @Query("SELECT * FROM Welcome WHERE isFav = 0")
+    suspend  fun getCheckCurrentWeather() :Welcome
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertFavWeather(welcome: Welcome): Long
@@ -45,7 +48,7 @@ interface AlertDAO {
 
 }
 
-@Database(entities = [Welcome::class,MyAlert::class], version = 1)
+@Database(entities = [Welcome::class,MyAlert::class], version = 2)
 @TypeConverters(Conv::class)
 abstract class WeatherDataBase : RoomDatabase(){
 

@@ -2,11 +2,14 @@ package com.example.weatherapp.view.ui.fav
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
@@ -19,11 +22,13 @@ import com.example.weatherapp.R
 import com.example.weatherapp.adapter.FavAdapter
 
 import com.example.weatherapp.databinding.FragmentFavBinding
+import com.example.weatherapp.isConnected
 import com.example.weatherapp.model.ApiState
 import com.example.weatherapp.model.ApiStateList
 import com.example.weatherapp.model.Welcome
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.time.Duration
 
 
 class FavFragment : Fragment(),FavInterface {
@@ -48,6 +53,11 @@ class FavFragment : Fragment(),FavInterface {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if(!isConnected(requireContext())){
+            Toast.makeText(requireContext(),R.string.you_are_offline,Toast.LENGTH_SHORT).show()
+            _binding.addFab.visibility=GONE
+        }
 
         viewModel.getFavsWeatherDB()
         lifecycleScope.launch() {
@@ -75,6 +85,7 @@ class FavFragment : Fragment(),FavInterface {
 
 
         _binding.addFab.setOnClickListener{
+
             val action =FavFragmentDirections.actionNavigationFavToMapsFragment("fav")
             Navigation.findNavController(requireView()).navigate(action)
         }
@@ -84,7 +95,18 @@ class FavFragment : Fragment(),FavInterface {
     }
 
     override fun deleteTask(welcome: Welcome, position: Int) {
-        viewModel.deleteFavWeatherDB(welcome)
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setMessage(R.string.AWTD)
+            .setCancelable(false)
+            .setPositiveButton(R.string.yes) { dialog, id ->
+                viewModel.deleteFavWeatherDB(welcome)
+            }
+            .setNegativeButton(R.string.no) { dialog, id ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
+
     }
 
 

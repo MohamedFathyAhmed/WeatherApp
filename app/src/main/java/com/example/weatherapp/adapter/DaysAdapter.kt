@@ -49,11 +49,11 @@ class DaysAdapter(var daily: List<Daily>, val context: Context, private val item
 
 if (language.equals("en"))
         {
-   holder.binding.dayTempMax.text = "${item.temp.max}°"
-            holder. binding.dayTempMin.text = "${item.temp.min}°"
+   holder.binding.dayTempMax.text = "${item.temp.max}${getCurrentTemperature(context)}"
+            holder. binding.dayTempMin.text = "${item.temp.min}${getCurrentTemperature(context)}"
     }else{
-    holder. binding.dayTempMax.text = "${convertStringToArabic(item.temp.max.toString())}°"
-    holder. binding.dayTempMin.text = "${convertStringToArabic(item.temp.min.toString())}°"
+    holder. binding.dayTempMax.text = "${convertStringToArabic(item.temp.max.toString())}${getCurrentTemperature(context)}"
+    holder. binding.dayTempMin.text = "${convertStringToArabic(item.temp.min.toString())}${getCurrentTemperature(context)}"
        }
         holder. binding.dayName.text = convertToDay(item.dt, language)
         holder.  binding.dayState.text = item.weather[0].description

@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +21,7 @@ import com.eram.weather.adapter.AlertAdapter
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentNotificationsBinding
+import com.example.weatherapp.isConnected
 import com.example.weatherapp.model.ApiStateAlert
 import com.example.weatherapp.view.HomeActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -70,7 +72,10 @@ class NotificationsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        if(!isConnected(requireContext())){
+            Toast.makeText(requireContext(),R.string.you_are_offline,Toast.LENGTH_SHORT).show()
+            _binding.addFab.visibility= View.GONE
+        }
         viewModel.getAlertsDB()
         lifecycleScope.launch() {
             viewModel.flowData.collectLatest { result ->
@@ -86,14 +91,22 @@ class NotificationsFragment : Fragment() {
 
                         _binding.daysRecyclerView.adapter =
                             AlertAdapter(result.data, requireContext()) {
+                                val builder = AlertDialog.Builder(requireContext())
+                                builder.setMessage(R.string.AWTD)
+                                    .setCancelable(false)
+                                    .setPositiveButton(R.string.yes) { dialog, id ->
+                                        viewModel.deleteAlertDB(it)
+                                        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(it.id.toString())
+                                        Toast.makeText(requireContext(), getString(R.string.succ_deleted), Toast.LENGTH_SHORT).show()
+                                    }
+                                    .setNegativeButton(R.string.no) { dialog, id ->
+                                        dialog.dismiss()
+                                    }
+                                val alert = builder.create()
+                                alert.show()
 
-                                viewModel.deleteAlertDB(it)
-                                WorkManager.getInstance(requireContext()).cancelAllWorkByTag(it.id.toString())
-                                Toast.makeText(
-                                    requireContext(),
-                                    getString(R.string.succ_deleted),
-                                    Toast.LENGTH_SHORT
-                                ).show()
+
+
                             }
                         _binding.daysRecyclerView.apply {
                             adapter = _binding.daysRecyclerView.adapter

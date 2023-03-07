@@ -116,7 +116,7 @@ class MapsActivity() : FragmentActivity(), OnMapReadyCallback{
         val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         val language =  sharedPreference.getString(CONST.lang, CONST.Enum_language.en.toString())!!
 
-        val markerOption=MarkerOptions().position(latLon).title("i need this location")
+        val markerOption=MarkerOptions().position(latLon).title(R.string.i_need_this_location.toString())
             .snippet(getAddress(latLon.latitude,latLon.longitude,language,this)).draggable(true)
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLon))
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLon,15f))

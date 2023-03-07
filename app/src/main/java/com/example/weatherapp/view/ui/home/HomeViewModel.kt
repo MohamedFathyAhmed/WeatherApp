@@ -40,10 +40,22 @@ class HomeDataViewModel(val context: Context): ViewModel(){
         }
 
         fun insertCurrentWeatherDB(welcome: Welcome) {
-        viewModelScope.launch {
-            repo.insertCurrentWeatherDataBase(welcome)
-        }
+
+               viewModelScope.launch {
+                   repo.insertCurrentWeatherDataBase(welcome)
+
+           }
+
+
     }
+
+
+     fun checkCurrentWeatherDB()=
+        viewModelScope.launch {
+              repo.getCheckCurrentsWeatherDataBase()
+        }
+
+
 
     fun updateCurrentWeatherDB(welcome: Welcome) {
         viewModelScope.launch {

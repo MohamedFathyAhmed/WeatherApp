@@ -8,7 +8,7 @@
     <string name="app_settings">settings</string>
     <string name="language">language</string>
     <string name="english">english</string>
-    <string name="arabic" translatable="false">arabic</string>
+    <string name="arabic">arabic</string>
     <string name="temperature">temperature</string>
     <string name="location">location</string>
     <string name="gps">gps</string>
@@ -26,7 +26,7 @@
     <string name="Cloud">Cloud</string>
     <string name="Pascal">Pascal</string>
     <string name="MiliPerHour">mm/h</string>
-    <string name="api_key">AIzaSyAbuHdF1hB_ddtCtgEZ7iE3cDqXk4zpVJU</string>
+    <string name="api_key" translatable="false">AIzaSyAbuHdF1hB_ddtCtgEZ7iE3cDqXk4zpVJU</string>
     <string name="to">to</string>
     <string name="from">from</string>
     <string name="celsius">Temperature is Celsius, Speed is m/s </string>
@@ -38,7 +38,7 @@
     <string name="weatherAlerts">weatherAlerts</string>
     <string name="features">features</string>
     <string name="where">where</string>
-    <string name="ok">ok</string>
+    <string name="ok">OK</string>
     <string name="cancel">cancel</string>
     <string name="time">time</string>
     <string name="notification">notification</string>
@@ -46,5 +46,16 @@
     <string name="alert">alert</string>
     <string name="favorite">favorite</string>
     <string name="at">at</string>
-    at
+    <string name="SuccessDeleted">Success Deleted</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="AWTD">Are You Want to delete</string>
+    <string name="you_are_offline">You are offline. Some functionality may be unavailable.</string>
+    <string name="there_is_no_alarm_yet">there is no alarm yet</string>
+    <string name="i_need_this_location">i need this location</string>
+    <string name="Celsusi">°C</string>
+    <string name="Ferherhit">F</string>
+    <string name="KELVIN">°K</string>
+    <string name="MeterPerSecond">m/s</string>
+
 </resources>

@@ -82,8 +82,7 @@ class SelectTimeAlert : DialogFragment() {
             val myDateListener =
                 DatePickerDialog.OnDateSetListener { view, year, month, day ->
 
-                    Log.i("time", "onViewCreated: ${getseconds(year,month,day)}")
-                    if (view.isShown) {
+                  if (view.isShown) {
 
 
                         _binding.btnFrom.text = convertToDate(getseconds(year,month+1,day),language)

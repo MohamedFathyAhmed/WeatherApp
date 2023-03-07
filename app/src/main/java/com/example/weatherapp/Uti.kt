@@ -36,6 +36,43 @@ fun getAddress(latitude: Double, longitude: Double, lang:String, context: Contex
 
 
 
+fun getCurrentTemperature(context: Context): String {
+    val sharedPreference =  context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+  sharedPreference.getString(CONST.units,CONST.Enum_units.standard.toString())
+    return when (  sharedPreference.getString(CONST.units,CONST.Enum_units.standard.toString())) {
+        CONST.Enum_units.metric.toString() -> {
+            context.getString(R.string.Celsusi)
+        }
+        CONST.Enum_units.imperial.toString()-> {
+            context.getString(R.string.Ferherhit)
+        }
+        CONST.Enum_units.standard.toString() -> {
+            context.getString(R.string.KELVIN)
+        }
+        else -> {
+            context.getString(R.string.Celsusi)
+        }
+    }
+}
+
+
+fun getCurrentSpeed(context: Context): String {
+    val sharedPreference =  context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+    return when (  sharedPreference.getString(CONST.units,CONST.Enum_units.standard.toString())) {
+        CONST.Enum_units.metric.toString() -> {
+            context.getString(R.string.MeterPerSecond)
+        }
+        CONST.Enum_units.imperial.toString()-> {
+            context.getString(R.string.MiliPerHour)
+        }
+        CONST.Enum_units.standard.toString() -> {
+            context.getString(R.string.MeterPerSecond)
+        }
+        else -> {
+            context.getString(R.string.MeterPerSecond)
+        }
+    }
+}
 
 
 fun setBackgroundContainer(timeState: String, context: Context) :Int{
