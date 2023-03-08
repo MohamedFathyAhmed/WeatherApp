@@ -10,3 +10,9 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+ext {
+    androidXTestCoreVersion = '1.3.0'
+    androidXTestExtKotlinRunnerVersion = '1.1.3'
+    coroutinesVersion = '1.5.2'
+    espressoVersion = '3.4.0'
+}

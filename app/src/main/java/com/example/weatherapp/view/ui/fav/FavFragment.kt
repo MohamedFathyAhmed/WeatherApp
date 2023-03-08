@@ -2,7 +2,6 @@ package com.example.weatherapp.view.ui.fav
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
@@ -20,15 +18,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.FavAdapter
-
 import com.example.weatherapp.databinding.FragmentFavBinding
 import com.example.weatherapp.isConnected
-import com.example.weatherapp.model.ApiState
-import com.example.weatherapp.model.ApiStateList
-import com.example.weatherapp.model.Welcome
+import com.example.weatherapp.model.*
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.Duration
 
 
 class FavFragment : Fragment(),FavInterface {
@@ -43,9 +37,12 @@ class FavFragment : Fragment(),FavInterface {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentFavBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(FavDataViewModel::class.java)
+        var weatherDataBase = WeatherDataBase.getInstance(requireContext())
+        var room = LocalDataSource.getInstance(weatherDataBase,requireContext())
+        var repo = Repositary.getInstance(API.retrofitService, room, requireContext())
+        viewModel =
+            ViewModelProvider(this, FavViewModelFactory(repo)).get(FavDataViewModel::class.java)
 
         return _binding.root
     }

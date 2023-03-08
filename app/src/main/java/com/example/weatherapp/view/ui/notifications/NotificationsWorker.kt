@@ -11,28 +11,34 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.work.*
+import androidx.work.CoroutineWorker
+import androidx.work.WorkerParameters
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
-import com.example.weatherapp.model.*
-import com.google.gson.Gson
+import com.example.weatherapp.model.API
+import com.example.weatherapp.model.LocalDataSource
+import com.example.weatherapp.model.Repositary
+import com.example.weatherapp.model.WeatherDataBase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
 class NotificationsWorker(private var appContext: Context, workerParams: WorkerParameters) : CoroutineWorker(appContext, workerParams) {
-    private  var _repo: Repositary = Repositary.getInstance(appContext)
+    var weatherDataBase = WeatherDataBase.getInstance(appContext)
+    var room = LocalDataSource.getInstance(weatherDataBase,appContext)
+    var _repo = Repositary.getInstance(API.retrofitService, room, appContext)
 
-    companion object{
+    companion object {
         const val CHANNEL_ID = "channelID"
     }
 
     override suspend fun doWork(): Result {
-        val sharedPreference =  appContext.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-        val startDate =  inputData.getLong("startDate",0)
-        val endDate =  inputData.getLong("endDate",0)
-        val lat =  inputData.getString("lat")
+        val sharedPreference =
+            appContext.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+        val startDate = inputData.getLong("startDate", 0)
+        val endDate = inputData.getLong("endDate", 0)
+        val lat = inputData.getString("lat")
         val lon =  inputData.getString("lon")
         val address=inputData.getString("address")
 
@@ -41,7 +47,7 @@ class NotificationsWorker(private var appContext: Context, workerParams: WorkerP
         if(currentTime in startDate..endDate) {
             var responseModel = _repo.getCurrentWeatherApiForWorker(lat, lon)
             //  var desc:String= responseModel.alerts?.get(0)?.description?:"no alert"
-            var desc: String = responseModel.current.weather[0].description
+            var desc: String = responseModel.current?.weather?.get(0)?.description ?: ""
             if (desc == "") desc = "no alert"
             if (sharedPreference.getString(
                     CONST.alert,

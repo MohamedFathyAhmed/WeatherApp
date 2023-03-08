@@ -5,6 +5,7 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+
 @Entity
 data class MyAlert(
     var Time: Long,
@@ -19,14 +20,14 @@ data class MyAlert(
 @Entity(primaryKeys = ["isFav","timezone"])
 data class Welcome (
     var isFav:Int=0,
-    val lat: Double,
-    val lon: Double,
-    var timezone: String,
+    val lat: Double=0.0,
+    val lon: Double=0.0,
+    var timezone: String="",
     var timezonear: String="",
-    val timezone_offset: Long,
-    val current: Current,
-    val hourly: List<Current>,
-    val daily: List<Daily>,
+    val timezone_offset: Long=0,
+    val current: Current?,
+    val hourly: List<Current>?,
+    val daily: List<Daily>?,
     val alerts: List<Alert>?
 ):java.io.Serializable
 

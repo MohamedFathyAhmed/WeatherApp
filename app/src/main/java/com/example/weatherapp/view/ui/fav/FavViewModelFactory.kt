@@ -1,17 +1,14 @@
 package com.example.weatherapp.view.ui.fav
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.weatherapp.view.ui.home.HomeDataViewModel
+import com.example.weatherapp.model.Repositary
 
-class  FavViewModelFactory(val context: Context): ViewModelProvider.Factory{
-    override fun <T : ViewModel> create(modelClass: Class<T>) : T{
-        return if (modelClass.isAssignableFrom(FavDataViewModel::class.java))
-        {
-            FavDataViewModel(context) as T
-        }
-        else{
+class FavViewModelFactory(var repo: Repositary) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return if (modelClass.isAssignableFrom(FavDataViewModel::class.java)) {
+            FavDataViewModel(repo) as T
+        } else {
             throw java.lang.IllegalArgumentException("View modle class not found")
         }
     }

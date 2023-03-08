@@ -5,7 +5,6 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
@@ -14,9 +13,8 @@ import androidx.work.*
 import com.example.weatherapp.*
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentSelectTimeAlertBinding
-import com.example.weatherapp.model.MyAlert
+import com.example.weatherapp.model.*
 import com.example.weatherapp.view.ui.map.MapsActivity
-
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -48,8 +46,13 @@ class SelectTimeAlert : DialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         isCancelable = false
         _binding = FragmentSelectTimeAlertBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, NotificationsViewModelFactory(requireContext())).get(
-            NotificationsViewModel::class.java)
+        var weatherDataBase = WeatherDataBase.getInstance(requireContext())
+        var room = LocalDataSource.getInstance(weatherDataBase,requireContext())
+        var repo = Repositary.getInstance(API.retrofitService, room, requireContext())
+        viewModel = ViewModelProvider(
+            this,
+            NotificationsViewModelFactory(repo)
+        )[NotificationsViewModel::class.java]
         return _binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -126,7 +129,7 @@ class SelectTimeAlert : DialogFragment() {
         }
     }
 
-    private fun setFirstUi(current: Long) {
+     fun setFirstUi(current: Long) {
         val current = current.div(1000L)
         val timeNow = convertToTime(current, language)
         val dateplus = (86400L) + current
@@ -138,7 +141,7 @@ class SelectTimeAlert : DialogFragment() {
         myAlert = MyAlert(current,current,dateplus,null,0.0,0.0,"")
     }
 
-    private fun setWorker(myAlert:MyAlert) {
+     fun setWorker(myAlert:MyAlert) {
         val calendar = Calendar.getInstance()
         val currentTime = calendar.timeInMillis.div(1000)
         val targetTime = myAlert.Time

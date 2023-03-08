@@ -5,10 +5,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationManager
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -19,7 +17,6 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -33,7 +30,6 @@ import com.example.weatherapp.R
 import com.example.weatherapp.adapter.ConditionAdapter
 import com.example.weatherapp.databinding.FragmentHomeBinding
 import com.example.weatherapp.model.*
-import com.example.weatherapp.view.HomeActivity
 import com.example.weatherapp.view.ui.fav.FavDataViewModel
 import com.example.weatherapp.view.ui.fav.FavViewModelFactory
 import com.google.android.gms.location.*
@@ -79,21 +75,21 @@ class HomeFragment : Fragment() {
         _binding.containerdata.visibility = VISIBLE
 
 
-        binding.rvDays.adapter= DaysAdapter(it.daily,requireContext()){}
+        binding.rvDays.adapter= DaysAdapter(it.daily!!,requireContext()){}
         binding.rvDays.apply {
             adapter = binding.rvDays.adapter
             layoutManager = LinearLayoutManager(requireContext())
                 .apply { orientation = RecyclerView.VERTICAL }
         }
 
-        binding.rvTimes.adapter= TimesAdapter(requireContext(),it.hourly)
+        binding.rvTimes.adapter= TimesAdapter(requireContext(),it.hourly!!)
         binding.rvTimes.apply {
             adapter = binding.rvTimes.adapter
             layoutManager = LinearLayoutManager(requireContext())
                 .apply { orientation = RecyclerView.HORIZONTAL }
         }
 
-        binding.recyViewConditionDescription.adapter= ConditionAdapter(init_rv_des(it.current))
+        binding.recyViewConditionDescription.adapter= ConditionAdapter(init_rv_des(it.current!!))
         init_rv_des(it.current)
         binding.recyViewConditionDescription.apply {
             adapter = binding.recyViewConditionDescription.adapter
@@ -134,14 +130,20 @@ var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadingTime()
-        val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+        val sharedPreference =
+            requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-        homeViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(HomeDataViewModel::class.java)
-        favViewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(FavDataViewModel::class.java)
+        var weatherDataBase = WeatherDataBase.getInstance(requireContext())
+        var room = LocalDataSource.getInstance(weatherDataBase,requireContext())
+        var repo = Repositary.getInstance(API.retrofitService, room, requireContext())
+        homeViewModel =
+            ViewModelProvider(this, HomeViewModelFactory(repo)).get(HomeDataViewModel::class.java)
+        favViewModel =
+            ViewModelProvider(this, FavViewModelFactory(repo)).get(FavDataViewModel::class.java)
         //network
         if (isConnected(requireContext())) {
             //from home
-            if( HomeFragmentArgs.fromBundle(requireArguments()).comeFromHome) {
+            if (HomeFragmentArgs.fromBundle(requireArguments()).comeFromHome) {
                 var location = sharedPreference.getString(CONST.LOCATION, "gps")
                 // from gps
                 if (location.equals("gps")) {

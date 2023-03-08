@@ -1,16 +1,5 @@
 package com.example.weatherapp
 
-import android.annotation.SuppressLint
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
-
-import retrofit2.http.Query
-import java.text.SimpleDateFormat
-import java.util.*
-
-
 object CONST {
     const val exclude= "exclude"
     const val  lat= "lat"

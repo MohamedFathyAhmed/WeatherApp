@@ -2,95 +2,105 @@ package com.example.weatherapp.model
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
 import com.example.weatherapp.CONST
 import com.example.weatherapp.getAddress
+import kotlinx.coroutines.flow.Flow
 
 import kotlinx.coroutines.flow.flow
 
 
-class  Repositary private constructor(var context: Context) {
-    var room: WeatherDataBase
-    companion object{
+
+
+class Repositary private constructor(
+     var retrofitService: SimpleService,
+     var room: ILocalDataSourceInterface,
+     var context: Context
+) : RepositaryInterface {
+
+    companion object {
         @SuppressLint("StaticFieldLeak")
         @Volatile
         private var INSTANCE: Repositary? = null
-        fun getInstance (ctx: Context): Repositary{
+        fun getInstance(
+            retrofitService: SimpleService,
+            room: ILocalDataSourceInterface,
+            con: Context
+        ): Repositary {
             return INSTANCE ?: synchronized(this) {
-                val instance =Repositary(ctx)
+                val instance = Repositary(retrofitService, room, con)
                 INSTANCE = instance
-                instance }
+                instance
+            }
         }
     }
 
     /*============================================================================================================*/
-    val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-    val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toString())!!
-    val lang =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())!!
-    init {
-        room= WeatherDataBase.getInstance(context)
-    }
+     val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+     val lang =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())!!
+
 /*============================================================================================================*/
-    suspend fun getCheckCurrentsWeatherDataBase()= room.getFavWeatherDao().getCheckCurrentWeather()
-     fun getCurrentsWeatherDataBase()=room.getFavWeatherDao().getCurrentWeather()
-    suspend fun insertCurrentWeatherDataBase(welcome: Welcome):Long{
+    override suspend fun getCheckCurrentsWeatherDataBase()= room.getCheckCurrentsWeatherDataBase()
+     override fun getCurrentsWeatherDataBase()=room.getCurrentsWeatherDataBase()
+    override suspend fun insertCurrentWeatherDataBase(welcome: Welcome):Long{
         welcome.isFav=0
         welcome.timezonear= getAddress(welcome.lat,welcome.lon,"ar" ,context)
         welcome.timezone= getAddress(welcome.lat,welcome.lon,"en" ,context)
-        return room.getFavWeatherDao().insertCurrentWeather(welcome)
+        return room.insertCurrentWeatherDataBase(welcome)
     }
-    suspend fun updateCurrentWeatherDataBase(welcome: Welcome){
+    override suspend fun updateCurrentWeatherDataBase(welcome: Welcome){
         welcome.isFav=0
         welcome.timezonear= getAddress(welcome.lat,welcome.lon,"ar" ,context)
         welcome.timezone= getAddress(welcome.lat,welcome.lon,"en" ,context)
-        room.getFavWeatherDao().updateCurrentWeather(welcome)
+        room.updateCurrentWeatherDataBase(welcome)
     }
 
 
 /*============================================================================================================*/
 
-     fun getFavtsWeatherDataBase()= room.getFavWeatherDao().getFavsWeather()
+     override fun getFavtsWeatherDataBase()= room.getFavtsWeatherDataBase()
 
-    suspend fun insertFavWeatherDataBase(welcome: Welcome):Long{
+    override suspend fun insertFavWeatherDataBase(welcome: Welcome):Long{
         welcome.isFav=1
         welcome.timezonear= getAddress(welcome.lat,welcome.lon,"ar" ,context)
         welcome.timezone= getAddress(welcome.lat,welcome.lon,"en" ,context)
-        return room.getFavWeatherDao().insertFavWeather(welcome)
+        return room.insertFavWeatherDataBase(welcome)
     }
 
 
-    suspend fun deleteFavWeatherDataBase(welcome: Welcome){
-         room.getFavWeatherDao().deleteFavWeather(welcome)
+    override suspend fun deleteFavWeatherDataBase(welcome: Welcome){
+         room.deleteFavWeatherDataBase(welcome)
     }
 
-    suspend fun updateFavWeatherDataBase(welcome: Welcome){
+    override suspend fun updateFavWeatherDataBase(welcome: Welcome){
         welcome.isFav=1
         welcome.timezonear= getAddress(welcome.lat,welcome.lon,"ar" ,context)
         welcome.timezone= getAddress(welcome.lat,welcome.lon,"en" ,context)
-        room.getFavWeatherDao().updateFavWeather(welcome)
+        room.updateFavWeatherDataBase(welcome)
     }
     /*============================================================================================================*/
-    suspend fun getCurrentWeatherApi( lat: String?, lon: String?)=flow<Welcome> {
+    override suspend fun getCurrentWeatherApi(lat: String?, lon: String?)=flow<Welcome> {
         val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toString())!!
         val lang =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())!!
-        emit( API.retrofitService.getCurrentWeather(lat,lon,units,lang))
+        emit(retrofitService.getCurrentWeather(lat, lon, units, lang))
     }
 
-    suspend fun getCurrentWeatherApiForWorker( lat: String?, lon: String?): Welcome {
+    override suspend fun getCurrentWeatherApiForWorker(lat: String?, lon: String?): Welcome {
         val sharedPreference = context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         val units =  sharedPreference.getString(CONST.units,CONST.Enum_units.metric.toString())!!
         val lang =  sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString())!!
-        return API.retrofitService.getCurrentWeather(lat,lon,units,lang)
+        return retrofitService.getCurrentWeather(lat, lon, units, lang)
     }
     /*============================================================================================================*/
-     fun getAlertsDataBase()=room.getAlertDao().getAlerts()
+    override fun getAlertsDataBase()=room.getAlertsDataBase()
 
-    suspend fun insertAlertDataBase(myAlert: MyAlert) {
-        room.getAlertDao().insertAlert(myAlert)
+    override suspend fun insertAlertDataBase(myAlert: MyAlert) {
+        room.insertAlertDataBase(myAlert)
     }
 
-    suspend fun deleteAlertDataBase(myAlert: MyAlert) {
-       room.getAlertDao().deleteAlerts(myAlert)
+    override suspend fun deleteAlertDataBase(myAlert: MyAlert) {
+       room.deleteAlertDataBase(myAlert)
     }
 /*============================================================================================================*/
 

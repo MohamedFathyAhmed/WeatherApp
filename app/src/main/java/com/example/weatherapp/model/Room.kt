@@ -48,7 +48,7 @@ interface AlertDAO {
 
 }
 
-@Database(entities = [Welcome::class,MyAlert::class], version = 2)
+@Database(entities = [Welcome::class,MyAlert::class], version = 3)
 @TypeConverters(Conv::class)
 abstract class WeatherDataBase : RoomDatabase(){
 

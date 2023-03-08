@@ -22,7 +22,7 @@ import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentNotificationsBinding
 import com.example.weatherapp.isConnected
-import com.example.weatherapp.model.ApiStateAlert
+import com.example.weatherapp.model.*
 import com.example.weatherapp.view.HomeActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collectLatest
@@ -43,8 +43,12 @@ class NotificationsFragment : Fragment() {
     ): View? {
 
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, NotificationsViewModelFactory(requireContext())).get(
-            NotificationsViewModel::class.java)
+        var weatherDataBase = WeatherDataBase.getInstance(requireContext())
+        var room = LocalDataSource.getInstance(weatherDataBase,requireContext())
+        var repo = Repositary.getInstance(API.retrofitService, room, requireContext())
+        viewModel = ViewModelProvider(this, NotificationsViewModelFactory(repo)).get(
+            NotificationsViewModel::class.java
+        )
         checkOverlayPermission()
         return _binding.root
     }

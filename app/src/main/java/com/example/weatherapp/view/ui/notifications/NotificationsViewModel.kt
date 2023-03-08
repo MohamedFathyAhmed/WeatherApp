@@ -1,27 +1,26 @@
 package com.example.weatherapp.view.ui.notifications
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.model.*
+import com.example.weatherapp.model.ApiStateAlert
+import com.example.weatherapp.model.MyAlert
+import com.example.weatherapp.model.Repositary
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-    class NotificationsViewModel(val context: Context): ViewModel(){
-        private var repo: Repositary
+class NotificationsViewModel(var repo: Repositary) : ViewModel() {
 
 
-        private  var _flowData: MutableStateFlow<ApiStateAlert>
-        var flowData: StateFlow<ApiStateAlert>
+    private var _flowData: MutableStateFlow<ApiStateAlert>
+    var flowData: StateFlow<ApiStateAlert>
 
 
-        init {
-            repo= Repositary.getInstance(context)
+    init {
 
-            _flowData= MutableStateFlow(ApiStateAlert.Loading)
+        _flowData = MutableStateFlow(ApiStateAlert.Loading)
             flowData= _flowData
         }
 

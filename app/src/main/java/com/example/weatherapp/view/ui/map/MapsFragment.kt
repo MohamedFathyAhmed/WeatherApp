@@ -16,7 +16,7 @@ import androidx.navigation.Navigation
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentMapsBinding
-import com.example.weatherapp.model.ApiState
+import com.example.weatherapp.model.*
 import com.example.weatherapp.view.HomeActivity
 import com.example.weatherapp.view.ui.fav.FavDataViewModel
 import com.example.weatherapp.view.ui.fav.FavViewModelFactory
@@ -149,13 +149,17 @@ if(comeFrom=="home"){
     sharedPreference.edit().putFloat(CONST.MapLat,lat).putFloat(CONST.MapLong,lon).commit()
     startActivity(Intent(requireContext(), HomeActivity::class.java))
 
-}else if(comeFrom=="fav"){
-    val homeViewModel: HomeDataViewModel = ViewModelProvider(this, HomeViewModelFactory(requireContext())).get(
-        HomeDataViewModel::class.java)
-    val viewModel: FavDataViewModel = ViewModelProvider(this, FavViewModelFactory(requireContext())).get(
+}else if(comeFrom=="fav") {
+    var weatherDataBase = WeatherDataBase.getInstance(requireContext())
+    var room = LocalDataSource.getInstance(weatherDataBase,requireContext())
+    var repo = Repositary.getInstance(API.retrofitService, room, requireContext())
+    val homeViewModel: HomeDataViewModel = ViewModelProvider(this, HomeViewModelFactory(repo)).get(
+        HomeDataViewModel::class.java
+    )
+    val viewModel: FavDataViewModel = ViewModelProvider(this, FavViewModelFactory(repo)).get(
         FavDataViewModel::class.java
     )
-    homeViewModel.getCurrentWeatherApi(lat.toString(),lon.toString())
+    homeViewModel.getCurrentWeatherApi(lat.toString(), lon.toString())
 
     lifecycleScope.launch() {
         homeViewModel.data.collectLatest { result ->

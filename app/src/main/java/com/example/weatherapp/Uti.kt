@@ -2,21 +2,10 @@ package com.example.weatherapp
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
-import android.location.Address
 import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.provider.Settings.Secure.getString
-import android.util.Log
-import com.example.weatherapp.model.Current
-
-import com.example.weatherapp.model.Weather
-
-import com.example.weatherapp.model.Welcome
-import java.io.IOException
-import java.lang.StringBuilder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -75,38 +64,38 @@ fun getCurrentSpeed(context: Context): String {
 }
 
 
+@SuppressLint("SuspiciousIndentation")
 fun setBackgroundContainer(timeState: String, context: Context) :Int{
-       val sharedPreference =  context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+    val sharedPreference =  context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
     val iconValue: Int
 
-        when (timeState) {
-            "02n" ->{
-                iconValue =     R.drawable.background_dawn
-                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
-            }
-            "01n" ->{
-                iconValue =     R.drawable.background_night
-                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
-            }
-            "01d"->
-            {
-                iconValue =    R.drawable.background_morning
-                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
-            }
-            "04d" ->{
-                iconValue =    R.drawable.background_evening
-                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
-            }
-            "10d" ->{
-                iconValue =   R.drawable.background_noon
-                sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
-            }
-            else -> {
-                iconValue = R.drawable.background_morning
-                sharedPreference.edit().putInt(CONST.Background, iconValue).commit()
-            }
-
+    when (timeState) {
+        "02n" ->{
+            iconValue =     R.drawable.background_dawn
+            sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
         }
+        "01n" ->{
+            iconValue =     R.drawable.background_night
+            sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        "01d"-> {
+            iconValue =    R.drawable.background_morning
+            sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        "04d" ->{
+            iconValue =    R.drawable.background_evening
+            sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        "10d" ->{
+            iconValue =   R.drawable.background_noon
+            sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        else -> {
+            iconValue = R.drawable.background_morning
+            sharedPreference.edit().putInt(CONST.Background, iconValue).commit()
+        }
+
+    }
 
     return iconValue
 }

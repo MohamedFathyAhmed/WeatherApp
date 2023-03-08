@@ -1,15 +1,11 @@
 package com.example.weatherapp.view.ui.fav
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-
-import android.content.Context
-import androidx.lifecycle.*
-import com.example.weatherapp.CONST
-import com.example.weatherapp.model.*
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.model.ApiStateList
+import com.example.weatherapp.model.Repositary
+import com.example.weatherapp.model.Welcome
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -17,16 +13,15 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class FavDataViewModel(val context: Context): ViewModel(){
-    private var repo: Repositary
+class FavDataViewModel(var repo: Repositary) : ViewModel() {
 
 
-    private  var _flowData: MutableStateFlow<ApiStateList>
-     var flowData: StateFlow<ApiStateList>
+    private var _flowData: MutableStateFlow<ApiStateList>
+    var flowData: StateFlow<ApiStateList>
 
 
     init {
-        repo=Repositary.getInstance(context)
+
 
         _flowData= MutableStateFlow(ApiStateList.Loading)
         flowData= _flowData
