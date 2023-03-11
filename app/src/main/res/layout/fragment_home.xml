@@ -17,7 +17,6 @@
         android:fitsSystemWindows="true"
         android:visibility="visible">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/containerloading"
             android:layout_width="413dp"
@@ -77,6 +76,15 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:visibility="visible">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/gif_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                tools:layout_editor_absoluteY="1437dp" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/glTop"

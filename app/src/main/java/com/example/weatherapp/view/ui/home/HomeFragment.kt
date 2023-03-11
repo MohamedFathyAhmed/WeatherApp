@@ -23,6 +23,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.eram.weather.adapter.DaysAdapter
 import com.eram.weather.adapter.TimesAdapter
 import com.example.weatherapp.*
@@ -124,6 +126,19 @@ var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString(
         _binding.city.text= lang?.let { it1 -> getAddress(it.lat,it.lon, it1,requireContext()) }
         _binding.container.setBackgroundResource(setBackgroundContainer(it.current.weather[0].icon,requireContext()))
         _binding.dayState.text=it.current.weather[0].description
+        setupAnim(it.current.weather[0].icon)
+
+    }
+    private fun setupAnim(icon :String) {
+        if(setLotte(icon, requireContext())!=0) {
+            _binding.gifHome.visibility= VISIBLE
+            _binding.gifHome.setAnimation(setLotte(icon, requireContext()))
+            binding.gifHome.repeatCount = LottieDrawable.INFINITE
+            binding.gifHome.playAnimation()
+        }else{
+            _binding.gifHome.visibility= GONE
+        }
+
     }
 
 

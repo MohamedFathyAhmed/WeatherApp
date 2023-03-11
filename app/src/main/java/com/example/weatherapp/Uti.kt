@@ -100,6 +100,47 @@ fun setBackgroundContainer(timeState: String, context: Context) :Int{
     return iconValue
 }
 
+@SuppressLint("SuspiciousIndentation")
+fun setLotte(timeState: String, context: Context) :Int{
+    val sharedPreference =  context.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+    val iconValue: Int
+
+    when (timeState) {
+        "13d" ->{
+            iconValue =     R.raw.snow
+          //  sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        "13n" ->{
+            iconValue =     R.raw.snow
+            //  sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        "09d" ->{
+            iconValue =     R.raw.rain
+          //  sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        "10d" ->{
+            iconValue =     R.raw.rain
+            //  sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        "09n" ->{
+            iconValue =     R.raw.rain
+            //  sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        "10n" ->{
+            iconValue =     R.raw.rain
+            //  sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+
+        else -> {
+            iconValue = 0
+        //    sharedPreference.edit().putInt(CONST.Background, iconValue).commit()
+        }
+
+    }
+
+    return iconValue
+}
+
 fun getIconImage(icon: String): Int {
     val iconValue: Int
     when (icon) {
