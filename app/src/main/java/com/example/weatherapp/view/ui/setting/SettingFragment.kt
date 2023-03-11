@@ -19,7 +19,7 @@ import java.util.*
 
 
 class SettingFragment : Fragment() {
-    lateinit var navBar: BottomNavigationView
+
     private lateinit var _binding: FragmentSettingBinding
     private lateinit var languageRadioButton: RadioButton
     private lateinit var locationRadioButton: RadioButton
@@ -45,26 +45,17 @@ class SettingFragment : Fragment() {
         return _binding.root
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        navBar.visibility = View.VISIBLE
-    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //hideen bar
         initUI()
-        navBar = requireActivity().findViewById(R.id.nav_view)
-        navBar.visibility = View.GONE
+
 
         val sharedPreference =
             requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
 
-        _binding.closeButton.setOnClickListener {
-            startActivity(Intent(requireContext(), HomeActivity::class.java))
-        }
 
-
-        //todo///////////////////////////////
         _binding.alertRadioGroup
             .setOnCheckedChangeListener { group, checkedId ->
                 alertRadioButton = view.findViewById<View>(checkedId) as RadioButton
@@ -148,13 +139,12 @@ class SettingFragment : Fragment() {
         val configuration = resources.configuration
         configuration.locale = Locale(language)
         Locale.setDefault(Locale(language))
-
         configuration.setLayoutDirection(Locale(language))
         // update configuration
         resources.updateConfiguration(configuration, metric)
         // notify configuration
         onConfigurationChanged(configuration)
-
+        requireActivity().recreate()
     }
 
     fun initUI() {

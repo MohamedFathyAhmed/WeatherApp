@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="100dp"
     android:layout_marginStart="16dp"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="16dp"
@@ -17,7 +17,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingHorizontal="10dp"
+        >
 
 
         <ImageView
@@ -25,23 +27,35 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtTo"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txtTo"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/baseline_delete" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="16dp"
+            android:textColor="@color/black"
+            android:id="@+id/city_name"
+            android:textSize="16sp"
+            android:layout_marginBottom="16dp"
+            android:text="city name"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            />
+
+
+
 
         <TextView
             android:id="@+id/txtFrom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/city_name"
+            app:layout_constraintTop_toBottomOf="@id/city_name"
             tools:text="12:00AM" />
 
         <TextView
@@ -52,9 +66,9 @@
             android:textColor="@color/black"
             android:layout_marginStart="5dp"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/txtTo"
-            app:layout_constraintStart_toEndOf="@+id/txtTo"
-            app:layout_constraintTop_toTopOf="@+id/txtTo" />
+            app:layout_constraintTop_toBottomOf="@id/txtFrom"
+            app:layout_constraintStart_toStartOf="@id/city_name"
+            />
 
         <TextView
             android:id="@+id/txtTo"
@@ -74,7 +88,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/dot"
             app:layout_constraintEnd_toStartOf="@+id/img_delete"
             app:layout_constraintHorizontal_bias="0.093"
             app:layout_constraintStart_toEndOf="@+id/dot"

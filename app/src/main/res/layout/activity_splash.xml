@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dawnBottomGradientColor"
+    android:background="#d8f3f8"
     android:scaleType="centerCrop"
     tools:context=".view.ui.main.SplashActivity">
 
@@ -45,7 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Weather "
-                android:textColor="#ffffff"
+                android:textColor="#325577"
                 android:textSize="32sp" />
 
         </LinearLayout>
@@ -60,14 +60,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="App"
-                android:textColor="#ffffff"
+                android:textColor="#325577"
                 android:textSize="32sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:layout_marginTop="2dp"
-                android:background="#deff00" />
+                android:background="#7eb0c1" />
 
         </LinearLayout>
 

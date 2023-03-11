@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primaryTextColor"
-                android:textSize="48sp"
+                android:textSize="36sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/glLeft"
                 app:layout_constraintTop_toTopOf="@+id/glTop"
@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/secondaryTextColor"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@id/txtDegree"
@@ -131,8 +131,8 @@
 
             <ImageView
                 android:id="@+id/imgIcon"
-                android:layout_width="220dp"
-                android:layout_height="220dp"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:contentDescription="PHOTO"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.9"
@@ -153,7 +153,18 @@
                 app:layout_constraintEnd_toStartOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@+id/imgIcon" />
-
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="50dp"
+                app:layout_constraintEnd_toStartOf="@+id/glRight"
+                app:layout_constraintStart_toStartOf="@+id/glLeft"
+                app:layout_constraintTop_toBottomOf="@+id/rvDays"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recy_view_condition_description"
@@ -161,11 +172,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="10dp"
-                app:layout_constraintEnd_toStartOf="@+id/glRight"
-                app:layout_constraintStart_toStartOf="@+id/glLeft"
-                app:layout_constraintTop_toBottomOf="@+id/rvDays"
+
                 tools:itemCount="2"
                 tools:listitem="@layout/item_des" />
+            </androidx.cardview.widget.CardView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvDays"
@@ -182,21 +192,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/rvTimes"
                 tools:listitem="@layout/item_days" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="1dp"
-                android:src="@drawable/ic_location"
-                app:layout_constraintBottom_toBottomOf="@id/city"
-                app:layout_constraintStart_toEndOf="@+id/city"
-                app:layout_constraintTop_toTopOf="@id/city" />
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:drawableEnd="@drawable/ic_location"
                 android:minHeight="20dp"
                 android:paddingTop="8dp"
                 android:paddingEnd="8dp"

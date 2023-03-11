@@ -69,12 +69,12 @@ class MainActivity : AppCompatActivity() {
         val configuration = resources.configuration
         configuration.locale = Locale(language)
         Locale.setDefault(Locale(language))
-
         configuration.setLayoutDirection(Locale(language))
         // update configuration
         resources.updateConfiguration(configuration, metric)
         // notify configuration
         onConfigurationChanged(configuration)
+
 
     }
 

@@ -36,6 +36,7 @@ import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.math.RoundingMode
 
 const val PERMISSION_ID = 44
 class HomeFragment : Fragment() {
@@ -265,7 +266,7 @@ var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString(
                 Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION
             ), PERMISSION_ID
         )
-
+        requireActivity().recreate()
     }
 
     @Deprecated("Deprecated in Java")
@@ -407,7 +408,9 @@ var lang =sharedPreference.getString(CONST.lang,CONST.Enum_language.en.toString(
             ),
             Condition(
                 R.drawable.ic_windspeed,
-                ("${current.wind_speed} ${R.string.MiliPerHour} "),
+
+
+                ("${current.wind_speed.toBigDecimal().setScale(2, RoundingMode.UP)} ${getCurrentSpeed(requireContext())} "),
                 getString(
                     R.string.WindSpeed
                 )

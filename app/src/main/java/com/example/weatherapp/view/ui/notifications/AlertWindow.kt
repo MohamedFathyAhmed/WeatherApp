@@ -60,7 +60,7 @@ class AlertWindow(
     }
 
     private fun View() {
-        binding.img.setImageResource(R.drawable.ic_broken_cloud)
+       // binding.img.setImageResource(R.drawable.ic_broken_cloud)
         binding.des.text = description
         binding.title.text=title
         binding.btn.setOnClickListener {
