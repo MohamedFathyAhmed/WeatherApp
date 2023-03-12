@@ -47,22 +47,22 @@ data class Alert (
 
 
 data class Current (
-    val dt: Long,
-    val sunrise: Long,
-    val sunset: Long,
-    var temp: Double,
-    val feelsLike: Double,
-    val pressure: Long,
-    val humidity: Long,
-    val dewPoint: Double,
-    val uvi: Double,
-    val clouds: Long,
-    val visibility: Long,
-    val wind_speed: Double,
-    val wind_Deg: Long,
-    val wind_Gust: Double,
-    val weather: List<Weather>,
-    val pop: Double
+    val dt: Long=0,
+    val sunrise: Long=0,
+    val sunset: Long=0,
+    var temp: Double=0.0,
+    val feelsLike: Double=0.0,
+    val pressure: Long=0,
+    val humidity: Long=0,
+    val dewPoint: Double=0.0,
+    val uvi: Double=0.0,
+    val clouds: Long=0,
+    val visibility: Long=0,
+    val wind_speed: Double=0.0,
+    val wind_Deg: Long=0,
+    val wind_Gust: Double=0.0,
+    val weather: List<Weather> = emptyList(),
+    val pop: Double=0.0
 ):java.io.Serializable
 
 

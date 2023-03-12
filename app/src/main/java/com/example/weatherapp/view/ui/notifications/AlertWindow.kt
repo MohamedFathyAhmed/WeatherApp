@@ -13,15 +13,10 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.AlertWindowBinding
 
 
-class AlertWindow(
-    private val context: Context,
-    private val description: String,
-    private val title: String
-) {
+class AlertWindow(private val context: Context, private val description: String, private val title: String) {
     lateinit var binding: AlertWindowBinding
     private lateinit var customDialog: View
     private var mediaPlayer: MediaPlayer =  MediaPlayer.create(context, R.raw.weatheralert)
-
 
 
     fun onCreate() {
@@ -29,7 +24,7 @@ class AlertWindow(
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         customDialog = inflater.inflate(R.layout.alert_window, null)
         binding = AlertWindowBinding.bind(customDialog)
-        View()
+        initView()
         val LAYOUT_FLAG: Int = Flag()
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val layoutParams: WindowManager.LayoutParams = Params(LAYOUT_FLAG)
@@ -59,7 +54,7 @@ class AlertWindow(
         )
     }
 
-    private fun View() {
+    private fun initView() {
        // binding.img.setImageResource(R.drawable.ic_broken_cloud)
         binding.des.text = description
         binding.title.text=title
