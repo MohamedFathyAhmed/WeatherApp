@@ -86,6 +86,14 @@ fun setBackgroundContainer(timeState: String, context: Context) :Int{
             iconValue =    R.drawable.background_evening
             sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
         }
+        "13n" ->{
+            iconValue =    R.drawable.background_evening
+            sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
+        "13d" ->{
+            iconValue =    R.drawable.background_evening
+            sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
+        }
         "10d" ->{
             iconValue =   R.drawable.background_noon
             sharedPreference.edit().putInt(CONST.Background,iconValue).commit()

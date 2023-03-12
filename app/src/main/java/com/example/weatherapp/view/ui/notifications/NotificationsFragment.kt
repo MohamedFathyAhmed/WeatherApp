@@ -54,22 +54,20 @@ class NotificationsFragment : Fragment() {
     }
 
     private fun checkOverlayPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(requireContext())) {
-                val alertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
-                alertDialogBuilder.setTitle(getString(R.string.weatherAlerts))
-                    .setMessage(getString(R.string.features))
-                    .setPositiveButton(getString(R.string.ok)) { dialog: DialogInterface, i: Int ->
-                        var myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
-                        startActivity(myIntent)
-                        dialog.dismiss()
-                    }.setNegativeButton(
-                        getString(R.string.cancel)
-                    ) { dialog: DialogInterface, i: Int ->
-                        dialog.dismiss()
-                        startActivity(Intent(requireContext(),HomeActivity::class.java))
-                    }.show()
-            }
+        if (!Settings.canDrawOverlays(requireContext())) {
+            val alertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+            alertDialogBuilder.setTitle(getString(R.string.weatherAlerts))
+                .setMessage(getString(R.string.features))
+                .setPositiveButton(getString(R.string.ok)) { dialog: DialogInterface, i: Int ->
+                    var myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+                    startActivity(myIntent)
+                    dialog.dismiss()
+                }.setNegativeButton(
+                    getString(R.string.cancel)
+                ) { dialog: DialogInterface, i: Int ->
+                    dialog.dismiss()
+                    startActivity(Intent(requireContext(),HomeActivity::class.java))
+                }.show()
         }
     }
 

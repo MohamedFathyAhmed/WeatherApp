@@ -44,6 +44,12 @@ class AlertAdapter(var myAlerts: List<MyAlert>, val context: Context, private va
         holder.binding.imgDelete.setOnClickListener {
             deleteAlertAction(item)
         }
+       if( isConnected(context)){
+            holder.binding.cityName.text= getAddress(item.lat,item.lon,language ,context)
+        }else{
+           holder.binding.cityName.text=item.AlertCityName
+        }
+
 
     }
 }

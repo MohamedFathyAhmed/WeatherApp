@@ -27,7 +27,7 @@
                         android:drawableStart="@drawable/baseline_settings"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        android:text="Setting"
+                        android:text="@string/app_settings"
                         android:textSize="36sp"
                         android:id="@+id/setting_text"
                         />
