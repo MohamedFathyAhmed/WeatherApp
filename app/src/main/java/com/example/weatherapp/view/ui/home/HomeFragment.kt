@@ -56,10 +56,7 @@ class HomeFragment : Fragment() {
 
   /*============================================================================================================*/
 
-    override fun onDestroy() {
-        super.onDestroy()
-        navBar.setVisibility(View.VISIBLE);
-    }
+
 
     @SuppressLint("SetTextI18n")
     override fun onCreateView(

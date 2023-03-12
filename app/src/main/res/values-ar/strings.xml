@@ -46,7 +46,7 @@
     <string name="no">لا</string>
     <string name="AWTD">هل تريد حذف</string>
     <string name="you_are_offline">إنك بلا إنترنت. قد لا تكون بعض الوظائف  متاحة.</string>
-    <!--<string name="end_after_start">يجب أن يسبق تاريخ البداية تاريخ النهاية</string>-->
+    <string name="end_after_start">يجب أن يسبق تاريخ البداية تاريخ النهاية</string>
         <string name="there_is_no_alarm_yet">لا يوجد تنبيهات اليوم</string>
         <string name="Celsusi">س</string>
         <string name="Ferherhit">ف</string>

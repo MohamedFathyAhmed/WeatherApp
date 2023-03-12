@@ -21,6 +21,7 @@ import com.example.weatherapp.adapter.FavAdapter
 import com.example.weatherapp.databinding.FragmentFavBinding
 import com.example.weatherapp.isConnected
 import com.example.weatherapp.model.*
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -28,6 +29,7 @@ import kotlinx.coroutines.launch
 class FavFragment : Fragment(),FavInterface {
     lateinit var viewModel: FavDataViewModel
     private lateinit var _binding: FragmentFavBinding
+    lateinit var navBar: BottomNavigationView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,6 +52,8 @@ class FavFragment : Fragment(),FavInterface {
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navBar = requireActivity().findViewById(R.id.nav_view)
+        navBar.setVisibility(View.VISIBLE);
 
         if(!isConnected(requireContext())){
             Toast.makeText(requireContext(),R.string.you_are_offline,Toast.LENGTH_SHORT).show()

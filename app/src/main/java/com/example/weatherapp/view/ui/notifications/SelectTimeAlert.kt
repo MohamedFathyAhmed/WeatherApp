@@ -7,6 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.TimePicker
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.*
@@ -119,13 +120,21 @@ class SelectTimeAlert : DialogFragment() {
             datePickerDialog.show()
         }
         _binding.btnSaveAlert.setOnClickListener{
-            val sharedPreference =  requireActivity().getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-            myAlert.lat =sharedPreference.getFloat(CONST.AlertLat, 0.0F).toDouble()
-            myAlert.lon=sharedPreference.getFloat(CONST.AlertLong, 0.0F).toDouble()
-            myAlert.AlertCityName = sharedPreference.getString(CONST.AlertCityName,"default").toString()
-            viewModel.insertAlertDB(myAlert)
-            setWorker(myAlert)
-            dialog!!.dismiss()
+            if(myAlert.startDay<myAlert.endDay) {
+                val sharedPreference = requireActivity().getSharedPreferences(
+                    "getSharedPreferences",
+                    Context.MODE_PRIVATE
+                )
+                myAlert.lat = sharedPreference.getFloat(CONST.AlertLat, 0.0F).toDouble()
+                myAlert.lon = sharedPreference.getFloat(CONST.AlertLong, 0.0F).toDouble()
+                myAlert.AlertCityName =
+                    sharedPreference.getString(CONST.AlertCityName, "default").toString()
+                viewModel.insertAlertDB(myAlert)
+                setWorker(myAlert)
+                dialog!!.dismiss()
+            }else{
+                Toast. makeText ( requireContext(),  " ${getString(R.string.end_after_start)}", Toast.LENGTH_SHORT) .show ()
+            }
         }
     }
 
@@ -145,7 +154,7 @@ class SelectTimeAlert : DialogFragment() {
         val calendar = Calendar.getInstance()
         val currentTime = calendar.timeInMillis.div(1000)
         val targetTime = myAlert.Time
-        val initialDelay = ((currentTime - targetTime)/60/60/60/60)-100
+        val initialDelay = ((currentTime - targetTime)/60/60/60/60)-115
         println( convertToTime(currentTime,"en"))
         println( convertToTime(myAlert.Time,"en"))
         println(initialDelay )

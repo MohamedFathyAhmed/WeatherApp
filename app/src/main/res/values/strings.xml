@@ -50,6 +50,7 @@
     <string name="yes">yes</string>
     <string name="no">no</string>
     <string name="AWTD">Are You Want to delete</string>
+    <string name="end_after_start">end date must come after start date</string>
     <string name="you_are_offline">You are offline. Some functionality may be unavailable.</string>
     <string name="there_is_no_alarm_yet">there is no alarm yet</string>
     <string name="i_need_this_location">i need this location</string>

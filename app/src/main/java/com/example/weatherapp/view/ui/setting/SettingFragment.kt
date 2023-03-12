@@ -172,7 +172,7 @@ class SettingFragment : Fragment() {
             _binding.alertRadioGroup.check(_binding.notificationRadioButton.id)
         }
         if (alert == CONST.Enum_alert.alarm.toString()) {
-            _binding.languageRadioGroup.check(_binding.alertRadioButton.id)
+            _binding.alertRadioGroup.check(_binding.alertRadioButton.id)
         }
 
         if (units == CONST.Enum_units.metric.toString()) {

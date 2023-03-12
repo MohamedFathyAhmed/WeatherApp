@@ -46,9 +46,9 @@ class NotificationsWorker(private var appContext: Context, workerParams: WorkerP
 
         if(currentTime in startDate..endDate) {
             var responseModel = _repo.getCurrentWeatherApiForWorker(lat, lon)
-            var desc:String= responseModel.alerts?.get(0)?.description?:"no alert"
+            var desc:String= responseModel.alerts?.get(0)?.description?:appContext.getString(R.string.there_is_no_alarm_yet)
            // var desc: String = responseModel.current?.weather?.get(0)?.description ?: ""
-            if (desc == "") desc = "no alert"
+            if (desc == "") desc = appContext.getString(R.string.there_is_no_alarm_yet)
             if (sharedPreference.getString(
                     CONST.alert,
                     CONST.Enum_alert.notification.toString()
