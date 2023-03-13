@@ -11,6 +11,7 @@ import com.example.weatherapp.model.WeatherDataBase
 import com.example.weatherapp.model.Welcome
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
@@ -49,7 +50,7 @@ class TasksDaoTest {
     fun closeDb() = database.close()
 
     @Test
-    fun insertTaskAndGetById() = testScope.runBlockingTest {
+    fun insertTaskAndGetById() = runBlocking{
         // GIVEN - insert a task
 
         database.getFavWeatherDao().insertCurrentWeather(task)
@@ -63,7 +64,7 @@ class TasksDaoTest {
     }
 
     @Test
-    fun updateTaskAndGetById() = runBlockingTest {
+    fun updateTaskAndGetById() = runBlocking {
         // When inserting a task
         val originalTask = task
         database.getFavWeatherDao().insertCurrentWeather(originalTask)

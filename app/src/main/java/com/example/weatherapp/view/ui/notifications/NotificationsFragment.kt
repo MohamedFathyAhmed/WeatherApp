@@ -98,7 +98,9 @@ class NotificationsFragment : Fragment() {
                                     .setCancelable(false)
                                     .setPositiveButton(R.string.yes) { dialog, id ->
                                         viewModel.deleteAlertDB(it)
-                                        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(it.id.toString())
+
+
+                                        WorkManager.getInstance(requireContext()).cancelAllWorkByTag(it.startDay.toString()+it.endDay.toString())
                                         Toast.makeText(requireContext(), getString(R.string.succ_deleted), Toast.LENGTH_SHORT).show()
                                     }
                                     .setNegativeButton(R.string.no) { dialog, id ->

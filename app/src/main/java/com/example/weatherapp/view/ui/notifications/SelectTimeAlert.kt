@@ -167,12 +167,10 @@ class SelectTimeAlert : DialogFragment() {
         data.putLong("endDate", myAlert.endDay)
         val workRequest = PeriodicWorkRequestBuilder<NotificationsWorker>(1,TimeUnit.DAYS)
             .setInitialDelay(initialDelay, TimeUnit.SECONDS)
-            .addTag(myAlert.id.toString())
+            .addTag(myAlert.startDay.toString()+myAlert.endDay.toString())
             .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
             .setInputData(data.build())
             .build()
-
-        WorkManager.getInstance(requireContext()).enqueue(workRequest)
-
+        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(myAlert.startDay.toString()+myAlert.endDay.toString(),ExistingPeriodicWorkPolicy.REPLACE,workRequest)
     }
 }
