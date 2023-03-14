@@ -4,7 +4,6 @@ package com.example.weatherapp.data.source
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.example.android.architecture.blueprints.todoapp.data.source.FakeDataSourceDB
 
 import com.example.weatherapp.MainCoroutineRule
 import com.example.weatherapp.model.Repositary
