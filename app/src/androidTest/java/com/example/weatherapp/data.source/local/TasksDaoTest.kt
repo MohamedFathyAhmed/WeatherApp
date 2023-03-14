@@ -11,6 +11,7 @@ import com.example.weatherapp.model.WeatherDataBase
 import com.example.weatherapp.model.Welcome
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
@@ -35,6 +36,7 @@ class TasksDaoTest {
     // Executes each task synchronously using Architecture Components.
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
+
     val task = Welcome(lat = 1.0, hourly = emptyList(), current = Current(), daily = emptyList(), alerts = emptyList(), timezone = "egypt", isFav = 0)
     @Before
     fun initDb() {
@@ -43,24 +45,25 @@ class TasksDaoTest {
         database = Room.inMemoryDatabaseBuilder(
             getApplicationContext(),
             WeatherDataBase::class.java
-        ).build()
+        ).allowMainThreadQueries().build()
+
     }
 
     @After
     fun closeDb() = database.close()
 
     @Test
-    fun insertTaskAndGetById() = runBlocking{
+    fun insertTaskAndGetById() = testScope.runBlockingTest{
         // GIVEN - insert a task
 
         database.getFavWeatherDao().insertCurrentWeather(task)
 
         // WHEN - Get the task by id from the database
-        database.getFavWeatherDao().getCurrentWeather().collect{
-            // THEN - The loaded data contains the expected values
-            assertThat(it , notNullValue())
-            assertThat(it.timezone, `is`(task.timezone))
-        }
+        val result = database.getFavWeatherDao().getCurrentWeather().first()
+        // THEN - The loaded data contains the expected values
+
+        assertThat(result , notNullValue())
+        assertThat(result.timezone, `is`(task.timezone))
     }
 
     @Test
@@ -79,4 +82,6 @@ class TasksDaoTest {
         }
 
     }
+
+
 }

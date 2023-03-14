@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.architecture.blueprints.todoapp.data.source
+package com.example.weatherapp.data.source
 
 import androidx.lifecycle.LiveData
 import com.example.weatherapp.model.SimpleService

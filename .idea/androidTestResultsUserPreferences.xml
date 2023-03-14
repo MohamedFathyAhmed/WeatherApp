@@ -9,8 +9,12 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="OPPO&#10; CPH2113" value="120" />
                   <entry key="Pixel_6_Pro_API_33" value="120" />
+                  <entry key="RZCT505LHMW" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="b26c3043" value="120" />
+                  <entry key="samsung&#10; SM-A336E" value="120" />
                   <entry key="work" value="120" />
                 </map>
               </option>
@@ -23,6 +27,7 @@
               <option name="preferredColumnWidths">
                 <map>
                   <entry key="Duration" value="90" />
+                  <entry key="Pixel_6_Pro_API_33" value="120" />
                   <entry key="Tests" value="360" />
                   <entry key="samsung&#10; SM-A336E" value="120" />
                   <entry key="work" value="120" />
@@ -38,7 +43,9 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Pixel_6_Pro_API_33" value="120" />
+                  <entry key="RZCT505LHMW" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="samsung&#10; SM-A336E" value="120" />
                   <entry key="work" value="120" />
                 </map>
               </option>
