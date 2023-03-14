@@ -11,14 +11,14 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.work.CoroutineWorker
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
-import com.example.weatherapp.model.API
-import com.example.weatherapp.model.LocalDataSource
-import com.example.weatherapp.model.Repositary
-import com.example.weatherapp.model.WeatherDataBase
+import com.example.weatherapp.model.*
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,11 +41,11 @@ class NotificationsWorker(private var appContext: Context, workerParams: WorkerP
         val lat = inputData.getString("lat")
         val lon =  inputData.getString("lon")
         val address=inputData.getString("address")
-
+        val alertString = inputData.getString("alert")
+      var alert=  Gson().fromJson(alertString, MyAlert::class.java)
         val currentTime = System.currentTimeMillis().div(1000)
-
-        if(currentTime in startDate..endDate) {
-            var responseModel = _repo.getCurrentWeatherApiForWorker(lat, lon)
+      if(currentTime >= startDate && currentTime <= endDate) {
+            val responseModel = _repo.getCurrentWeatherApiForWorker(lat, lon)
             var desc:String= responseModel.alerts?.get(0)?.description?:appContext.getString(R.string.there_is_no_alarm_yet)
            // var desc: String = responseModel.current?.weather?.get(0)?.description ?: ""
             if (desc == "") desc = appContext.getString(R.string.there_is_no_alarm_yet)
@@ -61,8 +61,17 @@ class NotificationsWorker(private var appContext: Context, workerParams: WorkerP
                 }
             }
             return Result.success()
+        }else
+            if(currentTime>endDate){
+                var weatherDataBase = WeatherDataBase.getInstance(appContext)
+                var room = LocalDataSource.getInstance(weatherDataBase,appContext)
+                GlobalScope.launch(Dispatchers.Main) {
+                    room.deleteAlertDataBase(alert)
+                }
+                WorkManager.getInstance(appContext).cancelAllWorkByTag(startDate.toString()+endDate.toString())
+            return Result.success()
         }else{
-            return Result.retry()
+            return Result.failure()
         }
     }
 

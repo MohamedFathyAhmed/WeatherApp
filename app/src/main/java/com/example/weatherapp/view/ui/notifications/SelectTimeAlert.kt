@@ -16,6 +16,7 @@ import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentSelectTimeAlertBinding
 import com.example.weatherapp.model.*
 import com.example.weatherapp.view.ui.map.MapsActivity
+import com.google.gson.Gson
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -147,7 +148,7 @@ class SelectTimeAlert : DialogFragment() {
         _binding.btnTo.text = dateAfter
         _binding.btnFrom.text = dateNow
         _binding.btnTime.text=timeNow
-        myAlert = MyAlert(current,current,dateplus,null,0.0,0.0,"")
+        myAlert = MyAlert(current,current,dateplus,0.0,0.0,"")
     }
 
      fun setWorker(myAlert:MyAlert) {
@@ -165,6 +166,8 @@ class SelectTimeAlert : DialogFragment() {
         data.putString("address", myAlert.AlertCityName)
         data.putLong("startDate", myAlert.startDay)
         data.putLong("endDate", myAlert.endDay)
+       var StringAlert = Gson().toJson(myAlert)
+         data.putString("alert", StringAlert)
         val workRequest = PeriodicWorkRequestBuilder<NotificationsWorker>(1,TimeUnit.DAYS)
             .setInitialDelay(initialDelay, TimeUnit.SECONDS)
             .addTag(myAlert.startDay.toString()+myAlert.endDay.toString())
