@@ -99,7 +99,7 @@ fun setBackgroundContainer(timeState: String, context: Context) :Int{
             sharedPreference.edit().putInt(CONST.Background,iconValue).commit()
         }
         else -> {
-            iconValue = R.drawable.background_morning
+            iconValue = R.drawable.background_evening
             sharedPreference.edit().putInt(CONST.Background, iconValue).commit()
         }
 

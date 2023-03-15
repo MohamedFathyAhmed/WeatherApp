@@ -1,14 +1,11 @@
-
 package com.example.weatherapp.data.source
 
-import androidx.lifecycle.LiveData
-import androidx.room.DatabaseConfiguration
-import androidx.room.InvalidationTracker
-import androidx.sqlite.db.SupportSQLiteOpenHelper
-import com.example.weatherapp.model.*
-import kotlinx.coroutines.flow.*
+import com.example.weatherapp.model.MyAlert
+import com.example.weatherapp.model.RepositaryInterface
+import com.example.weatherapp.model.Welcome
+import kotlinx.coroutines.flow.Flow
 
-class FakeDataSourceDB(var data: MutableList<Welcome> = mutableListOf()) :ILocalDataSourceInterface {
+class FakeRepositary(var data: MutableList<Welcome> = mutableListOf()):RepositaryInterface {
     override suspend fun getCheckCurrentsWeatherDataBase(): Welcome {
         TODO("Not yet implemented")
     }
@@ -24,25 +21,28 @@ class FakeDataSourceDB(var data: MutableList<Welcome> = mutableListOf()) :ILocal
     override suspend fun updateCurrentWeatherDataBase(welcome: Welcome) {
         TODO("Not yet implemented")
     }
-    suspend fun <T> Flow<List<T>>.flattenToList() =
-        flatMapConcat { it.asFlow() }.toList()
 
     override fun getFavtsWeatherDataBase(): Flow<List<Welcome>> {
-        val flowOfLists: Flow<List<Welcome>> = flowOf(data)
-        return flowOfLists
-       // TODO("Not yet implemented")
+        TODO("Not yet implemented")
     }
 
     override suspend fun insertFavWeatherDataBase(welcome: Welcome): Long {
-        data.add(welcome)
-        return 1
+        TODO("Not yet implemented")
     }
 
     override suspend fun deleteFavWeatherDataBase(welcome: Welcome) {
-        data.remove(welcome)
+        TODO("Not yet implemented")
     }
 
     override suspend fun updateFavWeatherDataBase(welcome: Welcome) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getCurrentWeatherApi(lat: String?, lon: String?): Flow<Welcome> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getCurrentWeatherApiForWorker(lat: String?, lon: String?): Welcome {
         TODO("Not yet implemented")
     }
 
@@ -57,6 +57,4 @@ class FakeDataSourceDB(var data: MutableList<Welcome> = mutableListOf()) :ILocal
     override suspend fun deleteAlertDataBase(myAlert: MyAlert) {
         TODO("Not yet implemented")
     }
-
-
 }

@@ -11,14 +11,14 @@ import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.work.CoroutineWorker
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import com.example.weatherapp.CONST
 import com.example.weatherapp.R
-import com.example.weatherapp.model.API
-import com.example.weatherapp.model.LocalDataSource
-import com.example.weatherapp.model.Repositary
-import com.example.weatherapp.model.WeatherDataBase
+import com.example.weatherapp.model.*
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -36,17 +36,17 @@ class NotificationsWorker(private var appContext: Context, workerParams: WorkerP
     override suspend fun doWork(): Result {
         val sharedPreference =
             appContext.getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-        val startDate = inputData.getLong("startDate", 0)
-        val endDate = inputData.getLong("endDate", 0)
-        val lat = inputData.getString("lat")
-        val lon =  inputData.getString("lon")
-        val address=inputData.getString("address")
-
+//        val startDate = inputData.getLong("startDate", 0)
+//        val endDate = inputData.getLong("endDate", 0)
+//        val lat = inputData.getString("lat")
+//        val lon =  inputData.getString("lon")
+//        val address=inputData.getString("address")
+        val alertString = inputData.getString("alert")
+      var alert=  Gson().fromJson(alertString, MyAlert::class.java)
         val currentTime = System.currentTimeMillis().div(1000)
-
-        if(currentTime in startDate..endDate) {
-            var responseModel = _repo.getCurrentWeatherApiForWorker(lat, lon)
-            var desc:String= responseModel.alerts?.get(0)?.description?:appContext.getString(R.string.there_is_no_alarm_yet)
+      if(currentTime >= alert.startDay && currentTime <= alert.endDay) {
+            val responseModel = _repo.getCurrentWeatherApiForWorker(alert.lat.toString(), alert.lon.toString())
+            var desc:String= responseModel.alerts?.get(0)?.event ?:appContext.getString(R.string.there_is_no_alarm_yet)
            // var desc: String = responseModel.current?.weather?.get(0)?.description ?: ""
             if (desc == "") desc = appContext.getString(R.string.there_is_no_alarm_yet)
             if (sharedPreference.getString(
@@ -57,12 +57,21 @@ class NotificationsWorker(private var appContext: Context, workerParams: WorkerP
                 Notification(responseModel.timezone, " $desc")
             } else {
                 GlobalScope.launch(Dispatchers.Main) {
-                    AlertWindow(appContext, desc, address.toString()).onCreate()
+                    AlertWindow(appContext, desc, alert.AlertCityName).onCreate()
                 }
             }
             return Result.success()
+        }else
+            if(currentTime>alert.endDay){
+                var weatherDataBase = WeatherDataBase.getInstance(appContext)
+                var room = LocalDataSource.getInstance(weatherDataBase,appContext)
+                GlobalScope.launch(Dispatchers.Main) {
+                    room.deleteAlertDataBase(alert)
+                }
+                WorkManager.getInstance(appContext).cancelAllWorkByTag(alert.startDay.toString()+alert.startDay.toString())
+            return Result.success()
         }else{
-            return Result.retry()
+            return Result.failure()
         }
     }
 

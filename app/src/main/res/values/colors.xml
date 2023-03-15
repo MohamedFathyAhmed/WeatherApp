@@ -30,8 +30,8 @@
     <color name="morningBottomGradientColor">#005CE0</color>
 
     <!-- noon resources -->
-    <color name="noonTopGradientColor">#FC9F32</color>
-    <color name="noonBottomGradientColor">#D33A3A</color>
+    <color name="noonTopGradientColor">#f0c27b</color>
+    <color name="noonBottomGradientColor">#e65c00</color>
 
     <!-- dawn resource -->
     <color name="dawnTopGradientColor">#1C7891</color>

@@ -46,9 +46,11 @@ class FavAdapter(var context: Context,
         }
       var date = item.current?.let { convertToDate(it.dt,language) }
         if(language=="en"){
-            holder.binding.localityText.text ="${item.timezone} : ${date} "
+            holder.binding.localityText.text ="${item.timezone}"
+            holder.binding.timeText.text =" ${date}"
         }else{
-            holder.binding.localityText.text ="${item.timezonear} : ${date} "
+            holder.binding.localityText.text ="${item.timezonear} "
+            holder.binding.timeText.text =" ${date}"
         }
 
     }

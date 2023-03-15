@@ -1,5 +1,5 @@
 
-package com.example.android.architecture.blueprints.todoapp.data.source
+package com.example.weatherapp.data.source
 
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -9,9 +9,7 @@ import com.example.weatherapp.MainCoroutineRule
 import com.example.weatherapp.model.Repositary
 
 import com.example.weatherapp.model.Welcome
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.core.IsEqual
 import org.junit.Assert.*

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.model.ApiState
 import com.example.weatherapp.model.Repositary
+import com.example.weatherapp.model.RepositaryInterface
 import com.example.weatherapp.model.Welcome
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class HomeDataViewModel(var repo: Repositary) : ViewModel() {
+class HomeDataViewModel(var repo: RepositaryInterface) : ViewModel() {
 
 
     private var _data: MutableStateFlow<ApiState>
@@ -20,11 +21,8 @@ class HomeDataViewModel(var repo: Repositary) : ViewModel() {
 
 
     init {
-
         _data = MutableStateFlow(ApiState.Loading)
         data= _data
-
-
     }
 
 

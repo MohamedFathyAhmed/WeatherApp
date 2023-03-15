@@ -5,13 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.model.ApiStateAlert
 import com.example.weatherapp.model.MyAlert
 import com.example.weatherapp.model.Repositary
+import com.example.weatherapp.model.RepositaryInterface
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class NotificationsViewModel(var repo: Repositary) : ViewModel() {
+class NotificationsViewModel(var repo: RepositaryInterface) : ViewModel() {
 
 
     private var _flowData: MutableStateFlow<ApiStateAlert>

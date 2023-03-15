@@ -6,13 +6,11 @@ import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-@Entity
+@Entity(primaryKeys = ["startDay","endDay","Time"])
 data class MyAlert(
     var Time: Long,
     var startDay: Long,
     var endDay: Long,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int?,
     var lat: Double,
     var lon: Double,
     var AlertCityName :String

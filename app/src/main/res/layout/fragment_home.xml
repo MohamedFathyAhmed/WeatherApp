@@ -6,7 +6,7 @@
 <androidx.core.widget.NestedScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
 
@@ -19,8 +19,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/containerloading"
-            android:layout_width="413dp"
-            android:layout_height="738dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -46,8 +46,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/containererror"
-            android:layout_width="407dp"
-            android:layout_height="731dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -74,6 +74,7 @@
             android:id="@+id/containerdata"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="20dp"
             android:fitsSystemWindows="true"
             android:visibility="visible">
 
@@ -83,8 +84,7 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                tools:layout_editor_absoluteY="1437dp" />
+                app:lottie_loop="true" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/glTop"
@@ -136,7 +136,6 @@
                 app:layout_constraintTop_toBottomOf="@id/txtDegree"
                 tools:text="23\u00B0/19\u00B0" />
 
-
             <ImageView
                 android:id="@+id/imgIcon"
                 android:layout_width="150dp"
@@ -164,6 +163,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
                 android:backgroundTint="@color/white"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginBottom="10dp"
@@ -171,7 +171,6 @@
                 app:layout_constraintEnd_toStartOf="@+id/glRight"
                 app:layout_constraintStart_toStartOf="@+id/glLeft"
                 app:layout_constraintTop_toBottomOf="@+id/rvDays"
-                app:layout_constraintBottom_toBottomOf="parent"
                 >
 
             <androidx.recyclerview.widget.RecyclerView
@@ -180,7 +179,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="10dp"
-
                 tools:itemCount="2"
                 tools:listitem="@layout/item_des" />
             </androidx.cardview.widget.CardView>
