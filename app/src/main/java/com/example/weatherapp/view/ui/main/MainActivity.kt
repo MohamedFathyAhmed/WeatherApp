@@ -13,6 +13,7 @@ import com.example.weatherapp.CONST
 
 import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ActivityMainBinding
+import com.example.weatherapp.isConnected
 import com.example.weatherapp.view.HomeActivity
 import java.util.*
 
@@ -35,25 +36,34 @@ class MainActivity : AppCompatActivity() {
                 locationRadioButton = findViewById<View>(checkedId) as RadioButton
                 Toast.makeText(this, locationRadioButton.text, Toast.LENGTH_SHORT).show()
 
-                when (locationRadioButton.text.toString()) {
-                    getString(R.string.map) -> {
+                //connect to network
+if(isConnected(this)) {
+    when (locationRadioButton.text.toString()) {
+        getString(R.string.map) -> {
 
-                        val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-                        sharedPreference.edit().putString(CONST.LOCATION,
-                            CONST.Enum_LOCATION.map.toString()
-                        ).commit()
+            val sharedPreference =
+                getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+            sharedPreference.edit().putString(
+                CONST.LOCATION,
+                CONST.Enum_LOCATION.map.toString()
+            ).commit()
 
-                        binding.cardView.visibility= GONE
-                        binding.fragmentContainerMap.visibility=VISIBLE
-                    }
-                    getString(R.string.gps) -> {
-                        val sharedPreference =  getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
-                        sharedPreference.edit().putString(CONST.LOCATION, CONST.Enum_LOCATION.gps.toString()).commit()
-                        sharedPreference.edit().putBoolean("test",false).commit()
-                        startActivity(Intent(this, HomeActivity::class.java))
-                    }
-                }
-
+            binding.cardView.visibility = GONE
+            binding.fragmentContainerMap.visibility = VISIBLE
+        }
+        getString(R.string.gps) -> {
+            val sharedPreference =
+                getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
+            sharedPreference.edit().putString(CONST.LOCATION, CONST.Enum_LOCATION.gps.toString())
+                .commit()
+            sharedPreference.edit().putBoolean("test", false).commit()
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+    }
+}else{
+    //todo
+    Toast.makeText(this,R.string.you_are_offline,Toast.LENGTH_SHORT).show()
+}
             }
         }else{
             sharedPreference.getString(CONST.lang,Locale.getDefault().language)?.let { setLan(it) }

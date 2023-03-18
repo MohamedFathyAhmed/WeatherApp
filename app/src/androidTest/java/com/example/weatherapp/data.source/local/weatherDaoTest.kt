@@ -13,11 +13,8 @@ import com.example.weatherapp.model.Welcome
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
-import org.hamcrest.MatcherAssert
-import org.hamcrest.core.IsNull
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
