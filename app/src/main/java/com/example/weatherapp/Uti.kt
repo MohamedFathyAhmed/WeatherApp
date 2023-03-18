@@ -141,6 +141,7 @@ fun setLotte(timeState: String, context: Context) :Int{
 
         else -> {
             iconValue = 0
+          //  iconValue =     R.raw.snow
         //    sharedPreference.edit().putInt(CONST.Background, iconValue).commit()
         }
 

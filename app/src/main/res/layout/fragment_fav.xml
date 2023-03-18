@@ -23,7 +23,7 @@
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
-            android:src="@drawable/ic_cloudy"
+            android:src="@drawable/baseline_cloud_download"
             app:backgroundTint="@color/white"
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"

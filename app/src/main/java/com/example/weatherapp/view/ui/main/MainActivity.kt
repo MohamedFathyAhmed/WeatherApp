@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPreference = getSharedPreferences("getSharedPreferences", Context.MODE_PRIVATE)
         if (sharedPreference.getBoolean("firstTimeMain",true)) {
+            sharedPreference.edit().putString(CONST.lang,Locale.getDefault().language).commit()
+            sharedPreference.getString(CONST.lang,"en")?.let { setLan(it) }
             sharedPreference.edit().putBoolean("firstTimeMain",false).commit()
             binding.locationRadioGroup.setOnCheckedChangeListener { group, checkedId ->
                 locationRadioButton = findViewById<View>(checkedId) as RadioButton
@@ -54,7 +56,7 @@ class MainActivity : AppCompatActivity() {
 
             }
         }else{
-            sharedPreference.getString(CONST.lang,"en")?.let { setLan(it) }
+            sharedPreference.getString(CONST.lang,Locale.getDefault().language)?.let { setLan(it) }
             startActivity(Intent(this, HomeActivity::class.java))
         }
 

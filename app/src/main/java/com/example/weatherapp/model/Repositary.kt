@@ -43,6 +43,9 @@ class Repositary private constructor(
     override suspend fun getCheckCurrentsWeatherDataBase()= room.getCheckCurrentsWeatherDataBase()
      override fun getCurrentsWeatherDataBase()=room.getCurrentsWeatherDataBase()
     override suspend fun insertCurrentWeatherDataBase(welcome: Welcome):Long{
+
+
+
         welcome.isFav=0
         welcome.timezonear= getAddress(welcome.lat,welcome.lon,"ar" ,context)
         welcome.timezone= getAddress(welcome.lat,welcome.lon,"en" ,context)

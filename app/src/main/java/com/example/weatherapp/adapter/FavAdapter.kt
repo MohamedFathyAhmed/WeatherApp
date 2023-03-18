@@ -44,13 +44,14 @@ class FavAdapter(var context: Context,
         holder.binding.constraintLayout.setOnClickListener{
             favInterface.selectTask(item)
         }
+        var time =item.current?.let { convertToTime(it.dt,language) }
       var date = item.current?.let { convertToDate(it.dt,language) }
         if(language=="en"){
             holder.binding.localityText.text ="${item.timezone}"
-            holder.binding.timeText.text =" ${date}"
+            holder.binding.timeText.text =" ${date} : ${time}"
         }else{
             holder.binding.localityText.text ="${item.timezonear} "
-            holder.binding.timeText.text =" ${date}"
+            holder.binding.timeText.text =" ${date} : ${time}"
         }
 
     }
